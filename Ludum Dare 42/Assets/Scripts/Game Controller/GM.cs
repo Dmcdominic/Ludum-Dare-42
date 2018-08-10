@@ -23,7 +23,10 @@ public class GM : MonoBehaviour {
 		} else {
 			_instance = this;
 		}
-		DontDestroyOnLoad(this);
+
+		if (transform.parent == null) {
+			DontDestroyOnLoad(this);
+		}
 	}
 	
 	public static void changeScene(Scene scene) {

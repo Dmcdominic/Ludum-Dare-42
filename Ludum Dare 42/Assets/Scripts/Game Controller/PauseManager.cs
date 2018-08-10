@@ -20,20 +20,21 @@ public class PauseManager : MonoBehaviour {
 	public static PauseManager Instance { get { return _instance; } }
 
 
-	void Awake () {
+	private void Awake() {
 		if (_instance != null && _instance != this) {
 			Destroy(this.gameObject);
-			return;
 		} else {
 			_instance = this;
 		}
 
-		/* if (transform.parent == null) {
-			DontDestroyOnLoad (this);
-		} */
+		if (transform.parent == null) {
+			DontDestroyOnLoad(this);
+		}
+	}
 
+	void Start() {
 		previousTimeScale = 1.0f;
-		resume ();
+		resume();
 	}
 
 	void Update () {

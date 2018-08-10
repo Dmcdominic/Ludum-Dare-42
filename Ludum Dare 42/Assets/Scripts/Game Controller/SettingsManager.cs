@@ -15,18 +15,17 @@ public class SettingsManager : MonoBehaviour {
 	public static SettingsManager Instance { get { return _instance; } }
 
 
-	void Awake () {
+	private void Awake() {
 		if (_instance != null && _instance != this) {
 			Destroy(this.gameObject);
-			return;
 		} else {
 			_instance = this;
 		}
 
 		if (transform.parent == null) {
-			DontDestroyOnLoad (this);
+			DontDestroyOnLoad(this);
 		}
-
+		
 		// Load the settings file. If there is none, initialize the settings and save them
 		if (!LoadSettings ()) {
 			gameSettings = new GameSettings ();
@@ -48,9 +47,9 @@ public class SettingsManager : MonoBehaviour {
 
 		SaveSettings ();
 
-		if (music_manager.Instance) {
-			music_manager.Instance.max_music_volume = gameSettings.musicVolume;
-			music_manager.Instance.max_effects_volume = gameSettings.SFXVolume;
+		if (MusicManager.Instance) {
+			MusicManager.Instance.max_music_volume = gameSettings.musicVolume;
+			MusicManager.Instance.max_effects_volume = gameSettings.SFXVolume;
 		}
 	}
 
