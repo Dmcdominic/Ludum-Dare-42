@@ -9,6 +9,7 @@ public enum GameState { Playing, Paused, Inactive };
 public class GM : MonoBehaviour {
 
 	public GameState gameState;
+	public Scene currentScene;
 	public LevelManager currentLevelManager;
 
 	// Singleton management
@@ -33,11 +34,18 @@ public class GM : MonoBehaviour {
 			DontDestroyOnLoad(this);
 		}
 	}
-	
-	public static void changeScene(Scene scene) {
-		switch(scene) {
-			case (Scene.Init):
 
+	private void Start() {
+		if (Instance.currentScene == Scene.Init) {
+			changeScene(Scene.MainMenu);
+		}
+	}
+
+	// Project management utility
+	public static void changeScene(Scene scene) {
+		Instance.currentScene = scene;
+		switch (scene) {
+			case (Scene.Init):
 				SceneManager.LoadScene(0);
 				break;
 			case (Scene.MainMenu):

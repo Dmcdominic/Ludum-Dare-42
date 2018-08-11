@@ -9,19 +9,38 @@ public class LevelManager : MonoBehaviour {
 
 	// References
 	[HideInInspector]
-	public Floor currentFloor;
+	public Floor floor;
 	public Player player;
+	public GameObject tilesParent;
+	public GameObject foregroundParent;
 
 	private void Awake() {
 		if (GM.Instance.currentLevelManager != null) {
 			Debug.LogError("Multiple LevelManagers active. Please destroy the first one before instantiating another.");
 		}
 		GM.Instance.currentLevelManager = this;
+
+		if (tilesParent == null) {
+			Debug.LogError("Please drag the Tiles parent object into the Tiles Parent field of the LevelManager.");
+		} else if (foregroundParent == null) {
+			Debug.LogError("Please drag the ForegroundObjects parent object into the Foreground Parent field of the LevelManager.");
+		} else {
+			currentFloor = new Floor(tilesParent, foregroundParent);
+		}
 	}
 
 	// Use this for initialization
 	void Start () {
 		// TODO - position camera to view the whole floor?
+	}
+
+	// Floor, tile, and foreground utility functions
+	public static Tile getTile(Vector2Int tilePosition) {
+		return GM.Instance.currentLevelManager.floor.tileGrid[tilePosition.x, tilePosition.y];
+	}
+
+	public static ForegroundObject getForegroundObject(Vector2Int objPosition) {
+		return GM.Instance.currentLevelManager.floor.foregroundGrid[objPosition.x, objPosition.y];
 	}
 
 }

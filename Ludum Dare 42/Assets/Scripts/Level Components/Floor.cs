@@ -7,8 +7,12 @@ public class Floor {
 	public Tile[,] tileGrid;
 	public ForegroundObject[,] foregroundGrid;
 
+	public Floor(GameObject tilesParent, GameObject foregroundParent) {
+		populateTileGrid(tilesParent);
+		populateForegroundGrid(foregroundParent);
+	}
 
-	public void populateTileGrid(GameObject parent) {
+	private void populateTileGrid(GameObject parent) {
 		Tile[] tiles = parent.GetComponentsInChildren<Tile>();
 
 		int maxX = 0;
@@ -41,7 +45,7 @@ public class Floor {
 	}
 
 	// Sort all of the ForegroundObject children of "parent" into the grid
-	public void populateForegroundGrid(GameObject parent) {
+	private void populateForegroundGrid(GameObject parent) {
 		ForegroundObject[] fgObjects = parent.GetComponentsInChildren<ForegroundObject>();
 
 		int maxX = 0;
