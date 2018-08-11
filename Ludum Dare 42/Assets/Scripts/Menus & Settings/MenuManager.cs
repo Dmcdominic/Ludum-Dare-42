@@ -120,7 +120,7 @@ public class MenuManager : MonoBehaviour {
 
     // Functions for buttons to call
     public void LoadMainMenu() {
-		GM.changeScene(GM.Scene.MainMenu);
+		GM.changeScene(Scene.MainMenu);
     }
 
     public void Quit() {

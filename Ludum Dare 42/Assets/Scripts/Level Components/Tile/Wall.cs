@@ -4,18 +4,18 @@ using UnityEngine;
 
 public class Wall : Tile {
 
-	override protected bool isSteppable()
+	public override bool isSteppable()
 	{
 		return false;
 	}
 
-	override protected void OnStep()
+	public override void OnStep()
     {
-
+		// Does not apply
     }
 
-    override protected void OnLeave()
+    public override void OnLeave()
     {
-
+		// Does not apply
     }
 }
