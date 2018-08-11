@@ -3,13 +3,16 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public enum Scene { Init, MainMenu };
+public enum Scene { Init, MainMenu, Game };
 public enum GameState { Playing, Paused, Inactive };
 
 public class GM : MonoBehaviour {
 
-	public GameState gameState;
+	[HideInInspector]
 	public Scene currentScene;
+	[HideInInspector]
+	public GameState gameState;
+	[HideInInspector]
 	public LevelManager currentLevelManager;
 
 	// Singleton management
@@ -26,6 +29,7 @@ public class GM : MonoBehaviour {
 	private void Awake() {
 		if (_instance != null && _instance != this) {
 			Destroy(this.gameObject);
+			return;
 		} else {
 			_instance = this;
 		}
@@ -33,10 +37,23 @@ public class GM : MonoBehaviour {
 		if (transform.parent == null) {
 			DontDestroyOnLoad(this);
 		}
+
+		int sceneIndex = SceneManager.GetActiveScene().buildIndex;
+		switch(sceneIndex) {
+			case 0:
+				currentScene = Scene.Init;
+				break;
+			case 1:
+				currentScene = Scene.MainMenu;
+				break;
+			case 2:
+				currentScene = Scene.Game;
+				break;
+		}
 	}
 
 	private void Start() {
-		if (Instance.currentScene == Scene.Init) {
+		if (currentScene == Scene.Init) {
 			changeScene(Scene.MainMenu);
 		}
 	}

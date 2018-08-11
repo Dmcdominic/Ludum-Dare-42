@@ -4,15 +4,18 @@ using UnityEngine;
 
 public class LevelManager : MonoBehaviour {
 
-	// Inspector options
-	public Vector2Int startingPosition;
-
 	// References
 	[HideInInspector]
 	public Floor floor;
 	public Player player;
 	public GameObject tilesParent;
 	public GameObject foregroundParent;
+
+	public static LevelManager Instance {
+		get {
+			return GM.Instance.currentLevelManager;
+		}
+	}
 
 	private void Awake() {
 		if (GM.Instance.currentLevelManager != null) {
@@ -31,9 +34,6 @@ public class LevelManager : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-		// TODO - player animation when he arrives at the starting point?
-		player.placeAtPosition(startingPosition);
-
 		// TODO - position camera to view the whole floor?
 	}
 

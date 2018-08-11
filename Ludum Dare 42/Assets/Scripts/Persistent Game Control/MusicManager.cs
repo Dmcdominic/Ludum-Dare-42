@@ -49,6 +49,7 @@ public class MusicManager : MonoBehaviour {
 	private void Awake() {
 		if (_instance != null && _instance != this) {
 			Destroy(this.gameObject);
+			return;
 		} else {
 			_instance = this;
 		}

@@ -7,7 +7,8 @@ public enum MoveType { normal, jumpTwoTiles };
 public class Player : MonoBehaviour {
 
 	// Settings
-	//private static readonly float moveTime = 0.5f;
+	private static readonly float moveTime = 0.15f;
+	private float timer = 0f;
 
 	// References
 	private Animator animator;
@@ -24,10 +25,19 @@ public class Player : MonoBehaviour {
 	// Initialization
 	private void Awake() {
 		animator = GetComponent<Animator>();
+
+		// Round the player's position to whole numbers
+		Vector3 pos = transform.position;
+		placeAtPosition(new Vector2Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y)));
 	}
 
 	// Player input management
 	void Update () {
+		if (timer > 0) {
+			timer -= Time.deltaTime;
+			return;
+		}
+
 		//if (isAnimating) {
 		//	return;
 		//}
@@ -57,11 +67,16 @@ public class Player : MonoBehaviour {
 	}
 
 	public bool canMove(MoveType moveType, Vector2Int displacement, Vector2Int targetPosition) {
+		if (targetPosition.x < 0 || targetPosition.x >= LevelManager.Instance.floor.gridWidth ||
+			targetPosition.y < 0 || targetPosition.y >= LevelManager.Instance.floor.gridHeight) {
+			return false;
+		}
+
 		switch (moveType) {
 			case (MoveType.normal):
 				Tile tile = LevelManager.getTile(targetPosition);
 				ForegroundObject foregroundObject = LevelManager.getForegroundObject(targetPosition);
-				return (tile.isSteppable() && foregroundObject.IsSteppable(moveType, displacement));
+				return (tile != null && tile.isSteppable() && (foregroundObject == null || foregroundObject.IsSteppable(moveType, displacement)));
 			case (MoveType.jumpTwoTiles):
 				// TODO
 				return false;
@@ -71,6 +86,7 @@ public class Player : MonoBehaviour {
 	}
 
 	public void move(MoveType moveType, Vector2Int displacement, Vector2Int targetPosition) {
+		timer = moveTime;
 		// TODO - Play the desired animation, and update the posOnFloor
 		switch (moveType) {
 			case (MoveType.normal):
@@ -81,11 +97,12 @@ public class Player : MonoBehaviour {
 				nextTile.OnStep();
 
 				ForegroundObject foregroundObject = LevelManager.getForegroundObject(targetPosition);
-				foregroundObject.OnInteraction(moveType, displacement);
+				if (foregroundObject != null) {
+					foregroundObject.OnInteraction(moveType, displacement);
+				}
 
 				// TODO - trigger player animation
-
-				posOnFloor = targetPosition;
+				normalMoveAnim(displacement, targetPosition);
 				break;
 			case (MoveType.jumpTwoTiles):
 				// TODO
@@ -94,15 +111,16 @@ public class Player : MonoBehaviour {
 	}
 
 	public void placeAtPosition(Vector2Int position) {
-		transform.position = new Vector3(position.x, position.y, 0);
+		transform.position = new Vector3(position.x, position.y, transform.position.z);
 		posOnFloor = position;
 	}
 
 
 	// Animation management
-	private void normalMoveAnim(MoveType moveType, Vector2Int displacement, Vector2Int targetPosition) {
+	private void normalMoveAnim(Vector2Int displacement, Vector2Int targetPosition) {
 		// For now:
 		this.transform.position += new Vector3(displacement.x, displacement.y, 0);
+		posOnFloor = targetPosition;
 	}
 
 	public void onAnimationEnd() {
