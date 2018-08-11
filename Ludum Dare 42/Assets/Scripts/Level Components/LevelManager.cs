@@ -13,16 +13,15 @@ public class LevelManager : MonoBehaviour {
 	public Player player;
 
 	private void Awake() {
-		player.levelManager = this;
+		if (GM.Instance.currentLevelManager != null) {
+			Debug.LogError("Multiple LevelManagers active. Please destroy the first one before instantiating another.");
+		}
+		GM.Instance.currentLevelManager = this;
 	}
 
 	// Use this for initialization
 	void Start () {
-		
+		// TODO - position camera to view the whole floor?
 	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
 }

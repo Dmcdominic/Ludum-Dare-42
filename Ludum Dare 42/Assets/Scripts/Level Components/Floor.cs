@@ -4,19 +4,16 @@ using UnityEngine;
 
 public class Floor {
 
-	// TODO - sub those other classes for GameObject here
-	public GameObject[,] tileGrid;
-	public GameObject[,] foregroundGrid;
+	public Tile[,] tileGrid;
+	public ForegroundObject[,] foregroundGrid;
 
 
 	public void populateTileGrid(GameObject parent) {
-		// TODO - sub here
-		GameObject[] tiles = parent.GetComponentsInChildren<GameObject>();
+		Tile[] tiles = parent.GetComponentsInChildren<Tile>();
 
 		int maxX = 0;
 		int maxY = 0;
-
-		// TODO - sub here
+		
 		for (int i = 0; i < tiles.Length; i++) {
 			int x = Mathf.RoundToInt(tiles[i].transform.position.x);
 			int y = Mathf.RoundToInt(tiles[i].transform.position.y);
@@ -29,25 +26,27 @@ public class Floor {
 			}
 		}
 
-		tileGrid = new GameObject[maxX + 1, maxY + 1];
+		tileGrid = new Tile[maxX + 1, maxY + 1];
 
 		for (int i = 0; i < tiles.Length; i++) {
 			int x = Mathf.RoundToInt(tiles[i].transform.position.x);
 			int y = Mathf.RoundToInt(tiles[i].transform.position.y);
 
-			tileGrid[x,y] = tiles[i];
+			if (tileGrid[x, y] != null) {
+				Debug.LogError("Two Tile objects were found at (" + x + ", " + y + "). Please delete one.");
+			} else {
+				tileGrid[x, y] = tiles[i];
+			}
 		}
 	}
 
-
+	// Sort all of the ForegroundObject children of "parent" into the grid
 	public void populateForegroundGrid(GameObject parent) {
-		// TODO - sub here
-		GameObject[] fgObjects = parent.GetComponentsInChildren<GameObject>();
+		ForegroundObject[] fgObjects = parent.GetComponentsInChildren<ForegroundObject>();
 
 		int maxX = 0;
 		int maxY = 0;
-
-		// TODO - sub here
+		
 		for (int i = 0; i < fgObjects.Length; i++) {
 			int x = Mathf.RoundToInt(fgObjects[i].transform.position.x);
 			int y = Mathf.RoundToInt(fgObjects[i].transform.position.y);
@@ -60,13 +59,17 @@ public class Floor {
 			}
 		}
 
-		foregroundGrid = new GameObject[maxX + 1, maxY + 1];
+		foregroundGrid = new ForegroundObject[maxX + 1, maxY + 1];
 
 		for (int i = 0; i < fgObjects.Length; i++) {
 			int x = Mathf.RoundToInt(fgObjects[i].transform.position.x);
 			int y = Mathf.RoundToInt(fgObjects[i].transform.position.y);
 
-			foregroundGrid[x, y] = fgObjects[i];
+			if (foregroundGrid[x, y] != null) {
+				Debug.LogError("Two foregroundObject objects were found at (" + x + ", " + y + "). Please delete one.");
+			} else {
+				foregroundGrid[x, y] = fgObjects[i];
+			}
 		}
 	}
 

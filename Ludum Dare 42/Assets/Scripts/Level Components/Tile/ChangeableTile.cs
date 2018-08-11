@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class ChangeableTile : Tile {
-    bool isSteppable = true;
+
     public int stepsRemaining;
     public Sprite whiteTile;
     public Sprite orangeTile;
@@ -15,25 +15,30 @@ public class ChangeableTile : Tile {
     {
         sr = this.gameObject.GetComponent<SpriteRenderer>();
     }
-    // Use this for initialization
-    void Start () {
-		
+
+	public override bool isSteppable()
+	{
+		if (stepsRemaining == 0)
+		{
+			return false;
+		}
+		return true;
 	}
 
-    override protected void OnStep()
+	public override void OnStep()
     {
         stepsRemaining--;
         if(stepsRemaining == 1)
         {
             sr.sprite = orangeTile;
         }
-        if(stepsRemaining == 0)
+        else if(stepsRemaining == 0)
         {
             sr.sprite = redTile;
         }
-
     }
-    override protected void OnLeave()
+
+    public override void OnLeave()
     {
         if(stepsRemaining == 0)
         {
@@ -41,8 +46,4 @@ public class ChangeableTile : Tile {
         }
     }
 
-    // Update is called once per frame
-    void Update () {
-		
-	}
 }

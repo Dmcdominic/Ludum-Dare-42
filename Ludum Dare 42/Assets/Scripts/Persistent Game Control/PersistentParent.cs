@@ -2,13 +2,13 @@
 using System.Collections.Generic;
 using UnityEngine;
 
-public class ManagersParent : MonoBehaviour {
+public class PersistentParent : MonoBehaviour {
 
-	private static ManagersParent _instance;
-	public static ManagersParent Instance {
+	private static PersistentParent _instance;
+	public static PersistentParent Instance {
 		get {
 			if (_instance == null) {
-				_instance = new ManagersParent();
+				_instance = new PersistentParent();
 			}
 			return _instance;
 		}

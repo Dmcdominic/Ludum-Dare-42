@@ -3,10 +3,15 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
+public enum Scene { Init, MainMenu };
+public enum GameState { Playing, Paused, Inactive };
+
 public class GM : MonoBehaviour {
 
-	public enum Scene { Init, MainMenu };
+	public GameState gameState;
+	public LevelManager currentLevelManager;
 
+	// Singleton management
 	private static GM _instance;
     public static GM Instance {
         get {
@@ -32,6 +37,7 @@ public class GM : MonoBehaviour {
 	public static void changeScene(Scene scene) {
 		switch(scene) {
 			case (Scene.Init):
+
 				SceneManager.LoadScene(0);
 				break;
 			case (Scene.MainMenu):

@@ -7,10 +7,6 @@ public class Player : MonoBehaviour {
 	// Settings
 	private static readonly float moveTime = 0.5f;
 
-	// References
-	[HideInInspector]
-	public LevelManager levelManager;
-
 	// Properties
 	[HideInInspector]
 	public Vector2Int posOnFloor;
