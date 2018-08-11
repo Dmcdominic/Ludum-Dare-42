@@ -38,6 +38,24 @@ TagManager:
   - 
   - 
   m_SortingLayers:
+  - name: Background
+    uniqueID: 3585508447
+    locked: 0
+  - name: Floor
+    uniqueID: 160588997
+    locked: 0
   - name: Default
     uniqueID: 0
+    locked: 0
+  - name: Foreground
+    uniqueID: 317437593
+    locked: 0
+  - name: Player
+    uniqueID: 459077463
+    locked: 0
+  - name: UI
+    uniqueID: 2369508947
+    locked: 0
+  - name: FadeOverlay
+    uniqueID: 2084953409
     locked: 0

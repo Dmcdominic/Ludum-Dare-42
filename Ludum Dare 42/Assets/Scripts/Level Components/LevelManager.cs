@@ -2,6 +2,8 @@
 using System.Collections.Generic;
 using UnityEngine;
 
+public enum KeycardColor { Red, Yellow, Green, Blue };
+
 public class LevelManager : MonoBehaviour {
 
 	// References
@@ -10,6 +12,9 @@ public class LevelManager : MonoBehaviour {
 	public Player player;
 	public GameObject tilesParent;
 	public GameObject foregroundParent;
+
+	[HideInInspector]
+	public Dictionary<KeycardColor, int> obtainedKeycards;
 
 	public static LevelManager Instance {
 		get {
@@ -30,6 +35,11 @@ public class LevelManager : MonoBehaviour {
 		} else {
 			floor = new Floor(tilesParent, foregroundParent);
 		}
+
+		obtainedKeycards = new Dictionary<KeycardColor, int>();
+		foreach (KeycardColor color in System.Enum.GetValues(typeof(KeycardColor))) {
+			obtainedKeycards.Add(color, 0);
+		}
 	}
 
 	// Use this for initialization
@@ -37,13 +47,36 @@ public class LevelManager : MonoBehaviour {
 		// TODO - position camera to view the whole floor?
 	}
 
+	// Called when you reach the exit and beat the level
+	public static void onBeatLevel() {
+
+	}
+
+	// Keycard management
+	public static void obtainKeycard(KeycardColor color) {
+		GM.Instance.currentLevelManager.obtainedKeycards[color]++;
+	}
+
+	public static bool areKeycardsCompleted(List<KeycardColor> colors) {
+		foreach (KeycardColor color in colors) {
+			if (GM.Instance.currentLevelManager.obtainedKeycards[color] < LevelManager.getFloor().keycardTotals[color]) {
+				return false;
+			}
+		}
+		return true;
+	}
+
 	// Floor, tile, and foreground utility functions
+	public static Floor getFloor() {
+		return GM.Instance.currentLevelManager.floor;
+	}
+
 	public static Tile getTile(Vector2Int tilePosition) {
-		return GM.Instance.currentLevelManager.floor.tileGrid[tilePosition.x, tilePosition.y];
+		return GM.Instance.currentLevelManager.floor.getTile(tilePosition);
 	}
 
 	public static ForegroundObject getForegroundObject(Vector2Int objPosition) {
-		return GM.Instance.currentLevelManager.floor.foregroundGrid[objPosition.x, objPosition.y];
+		return GM.Instance.currentLevelManager.floor.getForegroundObj(objPosition);
 	}
 
 }

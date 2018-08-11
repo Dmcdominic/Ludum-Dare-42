@@ -11,7 +11,7 @@ public class ExitDoor : Tile {
 
 	public override void OnStep()
     {
-        //Change scene to next level
+		LevelManager.onBeatLevel();
     }
 
     public override void OnLeave()

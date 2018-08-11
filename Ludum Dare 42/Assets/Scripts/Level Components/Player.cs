@@ -7,7 +7,7 @@ public enum MoveType { normal, jumpTwoTiles };
 public class Player : MonoBehaviour {
 
 	// Settings
-	private static readonly float moveTime = 0.15f;
+	private static readonly float moveTime = 0.25f;
 	private float timer = 0f;
 
 	// References
@@ -67,11 +67,6 @@ public class Player : MonoBehaviour {
 	}
 
 	public bool canMove(MoveType moveType, Vector2Int displacement, Vector2Int targetPosition) {
-		if (targetPosition.x < 0 || targetPosition.x >= LevelManager.Instance.floor.gridWidth ||
-			targetPosition.y < 0 || targetPosition.y >= LevelManager.Instance.floor.gridHeight) {
-			return false;
-		}
-
 		switch (moveType) {
 			case (MoveType.normal):
 				Tile tile = LevelManager.getTile(targetPosition);

@@ -9,60 +9,55 @@ Prefab:
     m_Modifications: []
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 0}
-  m_RootGameObject: {fileID: 1977788844744952}
+  m_RootGameObject: {fileID: 1418868944434928}
   m_IsPrefabAsset: 1
---- !u!1 &1977788844744952
+--- !u!1 &1418868944434928
 GameObject:
   m_ObjectHideFlags: 0
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   serializedVersion: 6
   m_Component:
-  - component: {fileID: 4517905981178190}
-  - component: {fileID: 114728551464537516}
-  - component: {fileID: 212165459297876998}
+  - component: {fileID: 4138295220876836}
+  - component: {fileID: 114572446634110164}
+  - component: {fileID: 212779778621692924}
   m_Layer: 0
-  m_Name: OrangeTile
+  m_Name: Exit Door
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
   m_IsActive: 1
---- !u!4 &4517905981178190
+--- !u!4 &4138295220876836
 Transform:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1977788844744952}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: -1, y: 0, z: 0}
+  m_GameObject: {fileID: 1418868944434928}
+  m_LocalRotation: {x: 0.2588191, y: 0, z: 0, w: 0.9659258}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 12.5, y: 12.5, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
   m_RootOrder: 0
-  m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
---- !u!114 &114728551464537516
+  m_LocalEulerAnglesHint: {x: 30, y: 0, z: 0}
+--- !u!114 &114572446634110164
 MonoBehaviour:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1977788844744952}
+  m_GameObject: {fileID: 1418868944434928}
   m_Enabled: 1
   m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: eb69aa0087b395c44ae957ac05cec614, type: 3}
+  m_Script: {fileID: 11500000, guid: eeb7e1b5f29a4384788de85a0ba44db0, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  stepsRemaining: 1
-  whiteTile: {fileID: 21300000, guid: 04104f02d0bfd004388990fcc4110150, type: 3}
-  orangeTile: {fileID: 21300000, guid: 95f099e6982270741b952ec27c1f10d6, type: 3}
-  redTile: {fileID: 21300000, guid: 9175533bf28ccb74ca5c5d82e0ddc7b7, type: 3}
-  hole: {fileID: 21300000, guid: 49bff9648c392934eb31f7d37f22aff8, type: 3}
---- !u!212 &212165459297876998
+--- !u!212 &212779778621692924
 SpriteRenderer:
   m_ObjectHideFlags: 1
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1977788844744952}
+  m_GameObject: {fileID: 1418868944434928}
   m_Enabled: 1
   m_CastShadows: 0
   m_ReceiveShadows: 0
@@ -92,12 +87,12 @@ SpriteRenderer:
   m_SortingLayerID: 160588997
   m_SortingLayer: -1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 95f099e6982270741b952ec27c1f10d6, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 73c6f3597b27b2747a47810abfc589de, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0
-  m_Size: {x: 0.08, y: 0.08}
+  m_Size: {x: 0.24, y: 0.16}
   m_AdaptiveModeThreshold: 0.5
   m_SpriteTileMode: 0
   m_WasSpriteAssigned: 1

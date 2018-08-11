@@ -4,9 +4,11 @@ using UnityEngine;
 
 public class Floor {
 
-	public Tile[,] tileGrid;
-	public ForegroundObject[,] foregroundGrid;
+	// Tiles and foreground object grids
+	private Tile[,] tileGrid;
+	private ForegroundObject[,] foregroundGrid;
 
+	// Grid dimensions
 	public int gridWidth;
 	public int gridHeight;
 
@@ -15,10 +17,16 @@ public class Floor {
 	private int maxX = int.MinValue;
 	private int maxY = int.MinValue;
 
+	// Obtainable keycards
+	public Dictionary<KeycardColor, int> keycardTotals;
+
+
+	// Constructor
 	public Floor(GameObject tilesParent, GameObject foregroundParent) {
 		initGrids(tilesParent, foregroundParent);
 		populateTileGrid(tilesParent);
 		populateForegroundGrid(foregroundParent);
+		getKeycardTotals(tilesParent);
 	}
 
 	private void initGrids(GameObject tilesParent, GameObject foregroundParent) {
@@ -68,6 +76,7 @@ public class Floor {
 
 		gridWidth = (maxX - minX) + 1;
 		gridHeight = (maxY - minY) + 1;
+
 		tileGrid = new Tile[gridWidth, gridHeight];
 		foregroundGrid = new ForegroundObject[gridWidth, gridHeight];
 	}
@@ -80,7 +89,9 @@ public class Floor {
 			int y = Mathf.RoundToInt(tiles[i].transform.position.y) - minY;
 			
 			if (tileGrid[x, y] != null) {
-				Debug.LogError("Two Tile objects were found at (" + x + ", " + y + "). Please delete one.");
+				int trueX = x + minX;
+				int trueY = y + minY;
+				Debug.LogError("Two Tile objects were found at (" + trueX + ", " + trueY + "). Please delete one.");
 			} else {
 				tileGrid[x, y] = tiles[i];
 			}
@@ -96,11 +107,47 @@ public class Floor {
 			int y = Mathf.RoundToInt(fgObjects[i].transform.position.y) - minY;
 
 			if (foregroundGrid[x, y] != null) {
-				Debug.LogError("Two foregroundObject objects were found at (" + x + ", " + y + "). Please delete one.");
+				int trueX = x + minX;
+				int trueY = y + minY;
+				Debug.LogError("Two foregroundObject objects were found at (" + trueX + ", " + trueY + "). Please delete one.");
 			} else {
 				foregroundGrid[x, y] = fgObjects[i];
 			}
 		}
+	}
+
+	// Find the total number of each keycard color
+	private void getKeycardTotals(GameObject tilesParent) {
+		keycardTotals = new Dictionary<KeycardColor, int>();
+		foreach (KeycardColor color in System.Enum.GetValues(typeof(KeycardColor))) {
+			keycardTotals.Add(color, 0);
+		}
+
+		Keycard[] keycards = tilesParent.GetComponentsInChildren<Keycard>();
+		foreach (Keycard keycard in keycards) {
+			keycardTotals[keycard.color]++;
+		}
+	}
+
+	// Object access methods to account for grid offset
+	public Tile getTile(Vector2Int pos) {
+		int gridX = pos.x - minX;
+		int gridY = pos.y - minY;
+		if (gridX < 0 || gridX >= gridWidth ||
+			gridY < 0 || gridY >= gridHeight) {
+			return null;
+		}
+		return tileGrid[gridX, gridY];
+	}
+
+	public ForegroundObject getForegroundObj(Vector2Int pos) {
+		int gridX = pos.x - minX;
+		int gridY = pos.y - minY;
+		if (gridX < 0 || gridX >= gridWidth ||
+			gridY < 0 || gridY >= gridHeight) {
+			return null;
+		}
+		return foregroundGrid[gridX, gridY];
 	}
 
 }
