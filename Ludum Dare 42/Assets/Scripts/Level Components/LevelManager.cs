@@ -25,12 +25,15 @@ public class LevelManager : MonoBehaviour {
 		} else if (foregroundParent == null) {
 			Debug.LogError("Please drag the ForegroundObjects parent object into the Foreground Parent field of the LevelManager.");
 		} else {
-			currentFloor = new Floor(tilesParent, foregroundParent);
+			floor = new Floor(tilesParent, foregroundParent);
 		}
 	}
 
 	// Use this for initialization
 	void Start () {
+		// TODO - player animation when he arrives at the starting point?
+		player.placeAtPosition(startingPosition);
+
 		// TODO - position camera to view the whole floor?
 	}
 
