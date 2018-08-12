@@ -4,7 +4,14 @@ using UnityEngine;
 
 public abstract class ForegroundObject : MonoBehaviour {
 
-	public abstract bool IsSteppable(MoveType moveType, Vector2Int incomingPlayerDisplacement);
+	public abstract bool IsSteppable(MoveType moveType, Vector2Int incomingDisplacement);
+	public abstract void OnInteraction(MoveType moveType, Vector2Int incomingDisplacement);
 
-	public abstract void OnInteraction(MoveType moveType, Vector2Int incomingPlayerDisplacement);
+	public virtual bool CanBePushedInto(Vector2Int incomingDisplacement) {
+		return false;
+	}
+
+	public virtual bool CanBeJumpedOver() {
+		return false;
+	}
 }

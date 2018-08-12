@@ -7,7 +7,7 @@ public enum MoveType { normal, jumpTwoTiles };
 public class Player : MonoBehaviour {
 
 	// Settings
-	private static readonly float moveTime = 0.25f;
+	private static readonly float moveTime = 0.2f;
 	private float timer = 0f;
 
 	// References
@@ -17,8 +17,9 @@ public class Player : MonoBehaviour {
 
 	// Properties
 	[HideInInspector]
-	public Vector2Int posOnFloor;
+	public Vector2Int posRounded;
 
+	public bool jumpTwoActivated = false;
 	//private bool isAnimating = false;
 
 	
@@ -42,86 +43,115 @@ public class Player : MonoBehaviour {
 		//	return;
 		//}
 
+		MoveType moveType = jumpTwoActivated ? MoveType.jumpTwoTiles : MoveType.normal;
+		int distance = jumpTwoActivated ? 2 : 1;
+
 		float horizontalInput = Input.GetAxis("Horizontal");
 		float verticalInput = Input.GetAxis("Vertical");
 		if (horizontalInput > 0) {
-			tryMove(MoveType.normal, new Vector2Int(1, 0));
+			tryMove(moveType, new Vector2Int(distance, 0));
 		} else if (horizontalInput < 0) {
-			tryMove(MoveType.normal, new Vector2Int(-1, 0));
+			tryMove(moveType, new Vector2Int(-distance, 0));
 		} else if (verticalInput > 0) {
-			tryMove(MoveType.normal, new Vector2Int(0, 1));
+			tryMove(moveType, new Vector2Int(0, distance));
 		} else if (verticalInput < 0) {
-			tryMove(MoveType.normal, new Vector2Int(0, -1));
+			tryMove(moveType, new Vector2Int(0, -distance));
 		}
 	}
 
 
 	// Player movement
 	private bool tryMove(MoveType moveType, Vector2Int displacement) {
-		Vector2Int targetPosition = posOnFloor + displacement;
-		if (canMove(moveType, displacement, targetPosition)) {
-			move(moveType, displacement, targetPosition);
-			return true;
+		Vector2Int targetPos = posRounded + displacement;
+		switch (moveType) {
+			case MoveType.normal:
+				if (canMoveNormal(displacement, targetPos)) {
+					move(moveType, displacement, targetPos);
+					return true;
+				}
+				break;
+			case MoveType.jumpTwoTiles:
+				Vector2Int jumpOverPos = posRounded + new Vector2Int(displacement.x / 2, displacement.y / 2);
+				Debug.Log(jumpOverPos);
+				if (canMoveJumpTwoTiles(displacement, jumpOverPos, targetPos)) {
+					move(moveType, displacement, targetPos);
+					return true;
+				}
+				break;
 		}
+
+		// TODO - play "invalid move" sound effect?
+		
 		return false;
 	}
 
-	public bool canMove(MoveType moveType, Vector2Int displacement, Vector2Int targetPosition) {
-		switch (moveType) {
-			case (MoveType.normal):
-				Tile tile = LevelManager.getTile(targetPosition);
-				ForegroundObject foregroundObject = LevelManager.getForegroundObject(targetPosition);
-				return (tile != null && tile.isSteppable() && (foregroundObject == null || foregroundObject.IsSteppable(moveType, displacement)));
-			case (MoveType.jumpTwoTiles):
-				// TODO
-				return false;
-			default:
-				return false;
+	public bool canMoveNormal(Vector2Int displacement, Vector2Int targetPos) {
+		Tile tile = LevelManager.getTile(targetPos);
+		ForegroundObject foregroundObj = LevelManager.getForegroundObject(targetPos);
+		return ((tile != null && tile.isSteppable()) && (foregroundObj == null || foregroundObj.IsSteppable(MoveType.normal, displacement)));
+	}
+
+	public bool canMoveJumpTwoTiles(Vector2Int displacement, Vector2Int jumpOverPos, Vector2Int targetPos) {
+		Tile tileToJump = LevelManager.getTile(jumpOverPos);
+		ForegroundObject foregroundObjToJump = LevelManager.getForegroundObject(jumpOverPos);
+		if ((tileToJump != null && !tileToJump.CanBeJumpedOver()) || (foregroundObjToJump != null && !foregroundObjToJump.CanBeJumpedOver())) {
+			return false;
 		}
+
+		Tile tile = LevelManager.getTile(targetPos);
+		ForegroundObject foregroundObj = LevelManager.getForegroundObject(targetPos);
+		return ((tile != null && tile.isSteppable()) && (foregroundObj == null || foregroundObj.IsSteppable(MoveType.jumpTwoTiles, displacement)));
 	}
 
 	public void move(MoveType moveType, Vector2Int displacement, Vector2Int targetPosition) {
 		timer = moveTime;
-		// TODO - Play the desired animation, and update the posOnFloor
+
+		Tile prevTile = LevelManager.getTile(posRounded);
+		prevTile.OnLeave();
+		Tile nextTile = LevelManager.getTile(targetPosition);
+		nextTile.OnStep();
+
+		ForegroundObject foregroundObject = LevelManager.getForegroundObject(targetPosition);
+		if (foregroundObject != null) {
+			foregroundObject.OnInteraction(moveType, displacement);
+		}
+
 		switch (moveType) {
 			case (MoveType.normal):
-				Tile prevTile = LevelManager.getTile(posOnFloor);
-				prevTile.OnLeave();
-
-				Tile nextTile = LevelManager.getTile(targetPosition);
-				nextTile.OnStep();
-
-				ForegroundObject foregroundObject = LevelManager.getForegroundObject(targetPosition);
-				if (foregroundObject != null) {
-					foregroundObject.OnInteraction(moveType, displacement);
-				}
-
-				// TODO - trigger player animation
 				normalMoveAnim(displacement, targetPosition);
 				break;
 			case (MoveType.jumpTwoTiles):
 				// TODO
+				jumpTwoTilesAnim(displacement, targetPosition);
 				break;
 		}
 	}
 
 	public void placeAtPosition(Vector2Int position) {
 		transform.position = new Vector3(position.x, position.y, transform.position.z);
-		posOnFloor = position;
+		posRounded = position;
 	}
 
 
 	// Animation management
 	private void normalMoveAnim(Vector2Int displacement, Vector2Int targetPosition) {
+		// TODO - add animation
 		// For now:
 		this.transform.position += new Vector3(displacement.x, displacement.y, 0);
-		posOnFloor = targetPosition;
+		posRounded = targetPosition;
 	}
 
-	public void onAnimationEnd() {
-		Debug.Log(animator.GetCurrentAnimatorStateInfo(0).IsName("TODO"));
-		
-		//isAnimating = false;
+	private void jumpTwoTilesAnim(Vector2Int displacement, Vector2Int targetPosition) {
+		// TODO - add animation
+		// For now:
+		this.transform.position += new Vector3(displacement.x, displacement.y, 0);
+		posRounded = targetPosition;
 	}
+
+	//public void onAnimationEnd() {
+	//	Debug.Log(animator.GetCurrentAnimatorStateInfo(0).IsName("TODO"));
+		
+	//	//isAnimating = false;
+	//}
 
 }

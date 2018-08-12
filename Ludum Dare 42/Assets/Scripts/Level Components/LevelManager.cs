@@ -62,6 +62,15 @@ public class LevelManager : MonoBehaviour {
 		}
 	}
 
+	// Powerup management
+	public static void applyPowerup(PowerupType type) {
+		switch (type) {
+			case PowerupType.Coffee:
+				GM.Instance.currentLevelManager.player.jumpTwoActivated = true;
+				break;
+		}
+	}
+
 	// Floor, tile, and foreground utility functions
 	public static Floor getFloor() {
 		return GM.Instance.currentLevelManager.floor;

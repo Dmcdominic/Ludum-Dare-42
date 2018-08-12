@@ -51,8 +51,8 @@ public class MenuManager : MonoBehaviour {
         }
 
         float vertical = Input.GetAxisRaw("Vertical");
-        if ((vertical == -1 || vertical == 1) && !buttonSelected) {
-            if (vertical == -1) {
+		if ((vertical == -1 || vertical == 1) && !buttonSelected) {
+			if (vertical == -1) {
                 eventSystem.SetSelectedGameObject(defaultSelect);
             }
             else if (vertical == 1) {

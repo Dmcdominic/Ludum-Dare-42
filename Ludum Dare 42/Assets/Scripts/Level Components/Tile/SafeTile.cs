@@ -18,4 +18,8 @@ public class SafeTile : Tile {
     {
 		// Do nothing
     }
+
+	public override bool CanBePushedOnto() {
+		return true;
+	}
 }

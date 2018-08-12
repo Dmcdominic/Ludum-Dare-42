@@ -18,4 +18,12 @@ public class Wall : Tile {
     {
 		// Does not apply
     }
+
+	public override bool CanBePushedOnto() {
+		return false;
+	}
+
+	public override bool CanBeJumpedOver() {
+		return false;
+	}
 }
