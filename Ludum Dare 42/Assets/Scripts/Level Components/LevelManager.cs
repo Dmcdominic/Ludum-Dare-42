@@ -76,6 +76,11 @@ public class LevelManager : MonoBehaviour {
 		return GM.Instance.currentLevelManager.floor;
 	}
 
+    public static Player getPlayer()
+    {
+        return GM.Instance.currentLevelManager.player;
+    }
+
 	public static Tile getTile(Vector2Int tilePosition) {
 		return GM.Instance.currentLevelManager.floor.getTile(tilePosition);
 	}
