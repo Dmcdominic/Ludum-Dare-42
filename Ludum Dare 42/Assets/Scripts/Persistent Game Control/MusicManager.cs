@@ -26,8 +26,8 @@ public struct sx {
 
 public class MusicManager : MonoBehaviour {
 
-	public AudioClip calm_music;
-	public AudioClip danger_music;
+	public AudioClip mainMenuTrack;
+	public List<AudioClip> worldTracks;
 
 	[SerializeField]
 	public sx[] sxs;
@@ -58,13 +58,13 @@ public class MusicManager : MonoBehaviour {
 			DontDestroyOnLoad(this);
 		}
 	
-		a_s = GetComponent<AudioSource>();
-		a_s.clip = danger_music;
-		if (SceneManager.GetActiveScene().buildIndex == 1) {
-			a_s.clip = calm_music;
-		} else {
-			a_s.clip = danger_music;
+		if (SettingsManager.Instance) {
+			SettingsManager.Instance.applyToMusicManager();
 		}
+
+		a_s = GetComponent<AudioSource>();
+		a_s.clip = mainMenuTrack;
+		
 		a_s.volume = max_music_volume;
 		a_s.Play();
 
@@ -96,13 +96,13 @@ public class MusicManager : MonoBehaviour {
 	public static void play_by_name(string name) {
 		for (int i = 0; i < _instance.sxs.Length; i++) {
 			if (_instance.sxs[i].name == name)
-				_instance.play_sound(i);
+				play_sound(i);
 		}
 	}
 
-	public void play_sound(int id) {
-		sxs[id].source.pitch = ((Random.value - .5f) * sxs[id].variation + sxs[id].mid) * global_pitch;
-		sxs[id].source.PlayOneShot(sxs[id].clip, sxs[id].volume * max_effects_volume);
+	public static void play_sound(int id) {
+		_instance.sxs[id].source.pitch = ((Random.value - .5f) * _instance.sxs[id].variation + _instance.sxs[id].mid) * global_pitch;
+		_instance.sxs[id].source.PlayOneShot(_instance.sxs[id].clip, _instance.sxs[id].volume * _instance.max_effects_volume);
 	}
 
 }

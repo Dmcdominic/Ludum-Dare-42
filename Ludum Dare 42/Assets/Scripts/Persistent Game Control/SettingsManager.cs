@@ -8,6 +8,12 @@ using System.IO;
 
 public class SettingsManager : MonoBehaviour {
 
+	// Path settings
+	private static string path() {
+		return SaveManager.generalPath() + "/Settings.dat";
+	}
+
+	// The global GameSettings object
 	public static GameSettings gameSettings;
 
 	// Singleton instance setup
@@ -28,69 +34,70 @@ public class SettingsManager : MonoBehaviour {
 		}
 		
 		// Load the settings file. If there is none, initialize the settings and save them
-		if (!LoadSettings ()) {
-			gameSettings = new GameSettings ();
+		if (!LoadSettings()) {
+			gameSettings = new GameSettings();
 
 			gameSettings.fullscreen = Screen.fullScreen;
-			gameSettings.cameraShake = true;
+			//gameSettings.cameraShake = true;
 
 			gameSettings.masterVolume = 1.0f;
 			gameSettings.localMusicVolume = 1.0f;
 			gameSettings.localSFXVolume = 1.0f;
 		}
 
-		UpdateFinalVolumes ();
+		UpdateFinalVolumes();
 	}
 
 	void UpdateFinalVolumes() {
 		gameSettings.musicVolume = gameSettings.masterVolume * gameSettings.localMusicVolume;
 		gameSettings.SFXVolume = gameSettings.masterVolume * gameSettings.localSFXVolume;
 
-		SaveSettings ();
+		SaveSettings();
+		applyToMusicManager();
+	}
 
+	public void applyToMusicManager() {
 		if (MusicManager.Instance) {
 			MusicManager.Instance.max_music_volume = gameSettings.musicVolume;
 			MusicManager.Instance.max_effects_volume = gameSettings.SFXVolume;
 		}
 	}
 
-	public static void changeMasterVolume (float newVolume) {
+	public static void changeMasterVolume(float newVolume) {
 		gameSettings.masterVolume = newVolume;
-		Instance.UpdateFinalVolumes ();
+		Instance.UpdateFinalVolumes();
 	}
 
-	public static void changeMusicVolume (float newVolume) {
+	public static void changeMusicVolume(float newVolume) {
 		gameSettings.localMusicVolume = newVolume;
-		Instance.UpdateFinalVolumes ();
+		Instance.UpdateFinalVolumes();
 	}
 
-	public static void changeSFXVolume (float newVolume) {
+	public static void changeSFXVolume(float newVolume) {
 		gameSettings.localSFXVolume = newVolume;
-		Instance.UpdateFinalVolumes ();
+		Instance.UpdateFinalVolumes();
 	}
 
-	public static void changeFullscreen (bool newBool) {
+	public static void changeFullscreen(bool newBool) {
 		Screen.fullScreen = newBool;
 		gameSettings.fullscreen = newBool;
-		SaveSettings ();
+		SaveSettings();
 	}
 
-	public static void changeCameraShake (bool newBool) {
-		gameSettings.cameraShake = newBool;
-		SaveSettings ();
-	}
+	//public static void changeCameraShake(bool newBool) {
+	//	gameSettings.cameraShake = newBool;
+	//	SaveSettings();
+	//}
 
 	// Persistence (Saving and loading)
 	private static void SaveSettings() {
-		string path = Application.persistentDataPath + "/Settings.dat";
-
 		BinaryFormatter bf = new BinaryFormatter ();
 		FileStream file;
 
-		if (!File.Exists (path)) {
-			file = File.Create (path);
+		if (!File.Exists(path())) {
+			file = File.Create(path());
 		} else {
-			file = File.Open (path, FileMode.Open);
+			file = File.Open(path(), FileMode.Open);
 		}
 
 		bf.Serialize (file, gameSettings);
@@ -99,18 +106,15 @@ public class SettingsManager : MonoBehaviour {
 
 	// Load level progress
 	private static bool LoadSettings() {
-		string path = Application.persistentDataPath + "/Settings.dat";
-
-		if (File.Exists (path)) {
-			BinaryFormatter bf = new BinaryFormatter ();
-			FileStream file = File.Open (path, FileMode.Open);
+		if (File.Exists(path())) {
+			BinaryFormatter bf = new BinaryFormatter();
+			FileStream file = File.Open(path(), FileMode.Open);
 
 			gameSettings = (GameSettings)bf.Deserialize (file);
 			file.Close ();
 
 			return true;
 		}
-
 		return false;
 	}
 }

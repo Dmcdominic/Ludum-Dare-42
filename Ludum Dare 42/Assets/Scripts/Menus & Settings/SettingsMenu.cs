@@ -10,13 +10,13 @@ public class SettingsMenu : MonoBehaviour {
 	public Slider SFXVolumeSlider;
 
 	public Toggle FullscreenToggle;
-	public Toggle CameraShakeToggle;
+	//public Toggle CameraShakeToggle;
 
 
 	// Initialize listeners
 	void Start() {
 		FullscreenToggle.onValueChanged.AddListener (delegate {OnFullscreenToggle ();} );
-		CameraShakeToggle.onValueChanged.AddListener (delegate {OnCameraShakeToggle ();} );
+		//CameraShakeToggle.onValueChanged.AddListener (delegate {OnCameraShakeToggle ();} );
 
 		MasterVolumeSlider.onValueChanged.AddListener (delegate {OnMasterVolumeChange ();} );
 		MusicVolumeSlider.onValueChanged.AddListener (delegate {OnMusicVolumeChange ();} );
@@ -26,7 +26,7 @@ public class SettingsMenu : MonoBehaviour {
 	// Set each toggle and slider to their current settings values
 	void OnEnable() {
 		FullscreenToggle.isOn = SettingsManager.gameSettings.fullscreen;
-		CameraShakeToggle.isOn = SettingsManager.gameSettings.cameraShake;
+		//CameraShakeToggle.isOn = SettingsManager.gameSettings.cameraShake;
 
 		MasterVolumeSlider.value = SettingsManager.gameSettings.masterVolume;
 		MusicVolumeSlider.value = SettingsManager.gameSettings.localMusicVolume;
@@ -39,9 +39,9 @@ public class SettingsMenu : MonoBehaviour {
 	}
 
 	// Update camera shake setting
-	public void OnCameraShakeToggle() {
-		SettingsManager.changeCameraShake(CameraShakeToggle.isOn);
-	}
+	//public void OnCameraShakeToggle() {
+	//	SettingsManager.changeCameraShake(CameraShakeToggle.isOn);
+	//}
 
 	// Update volume settings
 	public void OnMasterVolumeChange() {
