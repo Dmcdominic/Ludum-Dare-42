@@ -3,7 +3,7 @@ using System.Collections.Generic;
 using UnityEngine;
 
 public class MainMenuClickHandler : MonoBehaviour {
-
+    public Canvas c;
 	// Use this for initialization
 	void Start () {
 		
@@ -13,4 +13,10 @@ public class MainMenuClickHandler : MonoBehaviour {
 	void Update () {
 		
 	}
+
+    void ToLSMenu()
+    {
+        this.gameObject.SetActive(false);
+        
+    }
 }
