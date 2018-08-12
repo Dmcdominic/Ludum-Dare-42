@@ -22,10 +22,9 @@ GameObject:
   - component: {fileID: 212753960281055186}
   - component: {fileID: 198651486031386950}
   - component: {fileID: 199567852193491100}
-  - component: {fileID: 114172712337300792}
   - component: {fileID: 95714960338542826}
   m_Layer: 0
-  m_Name: real-ass keycard
+  m_Name: Animated Component
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
@@ -55,7 +54,7 @@ Transform:
   m_GameObject: {fileID: 1084315332887624}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 12.5, y: 12.5, z: 1}
+  m_LocalScale: {x: 10, y: 10, z: 1}
   m_Children: []
   m_Father: {fileID: 4584417158468050}
   m_RootOrder: 0
@@ -66,8 +65,8 @@ Transform:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1306988385433472}
-  m_LocalRotation: {x: 0, y: 0, z: 0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
+  m_LocalPosition: {x: 5, y: 3, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
   - {fileID: 4505100560093988}
@@ -92,17 +91,6 @@ Animator:
   m_HasTransformHierarchy: 1
   m_AllowConstantClipSamplingOptimization: 1
   m_KeepAnimatorControllerStateOnDisable: 0
---- !u!114 &114172712337300792
-MonoBehaviour:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1084315332887624}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: a5614b3f97d83b74c8bcf98735990a4f, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &114804029490321774
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -114,7 +102,14 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: f127e830709b90742a3e45f0ff7bbba9, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  additionalCoords: []
   color: 0
+  keycardRed: {fileID: 21300000, guid: d45f51ef83e1bad4ebb3479ede3b09fa, type: 3}
+  keycardGreen: {fileID: 21300000, guid: 473c9aff96e0b4445a2f446ce7d475b6, type: 3}
+  keycardBlue: {fileID: 21300000, guid: 04124cbe53112574eaf6077bde7453ca, type: 3}
+  keycardYellow: {fileID: 21300000, guid: 1ab63b5f4e1ea064d9bfbc753dbdc625, type: 3}
+  sr: {fileID: 212753960281055186}
+  ps: {fileID: 198651486031386950}
 --- !u!198 &198651486031386950
 ParticleSystem:
   m_ObjectHideFlags: 1
@@ -363,8 +358,8 @@ ParticleSystem:
     startSize:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 0.01
-      minScalar: 1
+      scalar: 0.02
+      minScalar: 0.005
       maxCurve:
         serializedVersion: 2
         m_Curve:
@@ -379,7 +374,7 @@ ParticleSystem:
           outWeight: 0.33333334
         - serializedVersion: 3
           time: 1
-          value: 1
+          value: 0.2297306
           inSlope: 0
           outSlope: 0
           tangentMode: 0
@@ -742,7 +737,7 @@ ParticleSystem:
     angle: 25
     length: 5
     boxThickness: {x: 0, y: 0, z: 0}
-    radiusThickness: 1
+    radiusThickness: 0.9
     donutRadius: 0.2
     m_Position: {x: 0, y: 0, z: 0}
     m_Rotation: {x: 0, y: 0, z: 0}
@@ -769,7 +764,7 @@ ParticleSystem:
     sphericalDirectionAmount: 0
     randomPositionAmount: 0
     radius:
-      value: 0.59289306
+      value: 0.4
       mode: 0
       spread: 0
       speed:
@@ -888,7 +883,7 @@ ParticleSystem:
     rateOverTime:
       serializedVersion: 2
       minMaxState: 0
-      scalar: 10
+      scalar: 400
       minScalar: 10
       maxCurve:
         serializedVersion: 2
@@ -3838,7 +3833,7 @@ ParticleSystem:
     maxLights: 20
   TrailModule:
     enabled: 0
-    mode: 0
+    mode: 1
     ratio: 1
     lifetime:
       serializedVersion: 2

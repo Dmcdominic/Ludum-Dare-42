@@ -93,11 +93,7 @@ public class GM : MonoBehaviour {
 	}
 
 	public static void changeToLevelScene(int world, int level) {
-		int nextSceneIndex = levelScenesIndexOffset;
-		for (int i = 0; i < world; i++) {
-			nextSceneIndex += Instance.worldLevelTotals[i];
-		}
-		nextSceneIndex += level;
+		int nextSceneIndex = getLvlIndexFromWorld(world, level);
 		
 		if (nextSceneIndex < SceneManager.sceneCountInBuildSettings) {
 			Instance.currentScene = Scene.Other;
@@ -114,6 +110,10 @@ public class GM : MonoBehaviour {
 		// TODO - figure out the next level in the world, or conclude the world if it was the last one.
 		int currentWorld = Instance.currentLevelManager.worldIndex;
 		int currentLevel = Instance.currentLevelManager.levelIndex;
+
+		int absoluteLvlIndex = getLvlIndexFromWorld(currentWorld, currentLevel);
+		SaveManager.Instance.saveLevelProgress(absoluteLvlIndex);
+
 		if (currentLevel == Instance.worldLevelTotals[currentWorld] - 1) {
 			// TODO - Conclude this world. Cutscene?
 			// Temporary:
@@ -122,5 +122,18 @@ public class GM : MonoBehaviour {
 			// TODO - Loading screen?
 			changeToLevelScene(currentWorld, currentLevel + 1);
 		}
+	}
+
+	public static int getLvlIndexFromWorld(int world, int level) {
+		int index = levelScenesIndexOffset;
+		for (int i = 0; i < world; i++) {
+			index += Instance.worldLevelTotals[i];
+		}
+		index += level;
+		return index;
+	}
+
+	public static int getHighestLevel() {
+		return SaveManager.saveData.levelProgress;
 	}
 }

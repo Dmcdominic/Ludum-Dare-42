@@ -16,4 +16,8 @@ public abstract class Tile : MonoBehaviour {
 		return true;
 	}
 
+	public bool isHole() {
+		return (this is ChangeableTile && ((ChangeableTile)this).stepsRemaining == 0);
+	}
+
 }

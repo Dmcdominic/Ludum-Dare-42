@@ -109,22 +109,50 @@ public class Floor {
 		ForegroundObject[] fgObjects = parent.GetComponentsInChildren<ForegroundObject>();
 
 		for (int i = 0; i < fgObjects.Length; i++) {
-			int x = Mathf.RoundToInt(fgObjects[i].transform.position.x) - minX;
-			int y = Mathf.RoundToInt(fgObjects[i].transform.position.y) - minY;
+			Vector2Int truePos = pos3dToVect2Int(fgObjects[i].transform.position);
 
-			if (foregroundGrid[x, y] != null) {
-				int trueX = x + minX;
-				int trueY = y + minY;
-				Debug.LogError("Two foregroundObject objects were found at (" + trueX + ", " + trueY + "). Please delete one.");
-			} else {
-				foregroundGrid[x, y] = fgObjects[i];
-			}
+			updateFgGridForAllPos(fgObjects[i], truePos, fgObjects[i].additionalCoords, true);
 
 			if (fgObjects[i] is LockedDoor) {
 				lockedDoors.Add((LockedDoor)fgObjects[i]);
 			} else if (fgObjects[i] is Keycard) {
 				Keycard keycard = (Keycard)fgObjects[i];
 				keycardTotals[keycard.color]++;
+			}
+		}
+	}
+
+	// Grid utility
+	public void updateTile(Vector2Int pos, Tile newTile) {
+		Vector2Int gridVect = posToGridVect(pos);
+		if (gridVect.x < 0 || gridVect.x >= gridWidth ||
+			gridVect.y < 0 || gridVect.y >= gridHeight) {
+			return;
+		}
+		tileGrid[gridVect.x, gridVect.y] = newTile;
+	}
+
+	// Make private
+	public void updateForegroundObj(Vector2Int truePos, ForegroundObject newObj) {
+		Vector2Int gridVect = posToGridVect(truePos);
+		if (gridVect.x < 0 || gridVect.x >= gridWidth ||
+			gridVect.y < 0 || gridVect.y >= gridHeight) {
+			return;
+		}
+		//Debug.Log("Updating position: " + truePos + " to object: " + newObj);
+		foregroundGrid[gridVect.x, gridVect.y] = newObj;
+	}
+
+	// Update the foregroundGrid for this objects position, and all its additionalCoords
+	public void updateFgGridForAllPos(ForegroundObject obj, Vector2Int truePos, List<Vector2Int> additionalCoords, bool initializing) {
+		updateForegroundObj(truePos, obj);
+		
+		foreach (Vector2Int relativePos in additionalCoords) {
+			Vector2Int pos = truePos + relativePos;
+			if (initializing && getForegroundObj(pos) != null) {
+				Debug.LogError("Two foregroundObject objects were found at (" + pos.x + ", " + pos.y + "). Please delete one.");
+			} else {
+				updateForegroundObj(pos, obj);
 			}
 		}
 	}
@@ -139,8 +167,8 @@ public class Floor {
 		return tileGrid[gridVect.x, gridVect.y];
 	}
 
-	public ForegroundObject getForegroundObj(Vector2Int pos) {
-		Vector2Int gridVect = posToGridVect(pos);
+	public ForegroundObject getForegroundObj(Vector2Int truePos) {
+		Vector2Int gridVect = posToGridVect(truePos);
 		if (gridVect.x < 0 || gridVect.x >= gridWidth ||
 			gridVect.y < 0 || gridVect.y >= gridHeight) {
 			return null;
@@ -148,22 +176,9 @@ public class Floor {
 		return foregroundGrid[gridVect.x, gridVect.y];
 	}
 
-	public void updateTile(Vector2Int pos, Tile newTile) {
-		Vector2Int gridVect = posToGridVect(pos);
-		if (gridVect.x < 0 || gridVect.x >= gridWidth ||
-			gridVect.y < 0 || gridVect.y >= gridHeight) {
-			return;
-		}
-		tileGrid[gridVect.x, gridVect.y] = newTile;
-	}
-
-	public void updateForegroundObj(Vector2Int pos, ForegroundObject newObj) {
-		Vector2Int gridVect = posToGridVect(pos);
-		if (gridVect.x < 0 || gridVect.x >= gridWidth ||
-			gridVect.y < 0 || gridVect.y >= gridHeight) {
-			return;
-		}
-		foregroundGrid[gridVect.x, gridVect.y] = newObj;
+	// Vector utility
+	private Vector2Int pos3dToGridVect(Vector3 pos) {
+		return posToGridVect(pos3dToVect2Int(pos));
 	}
 
 	private Vector2Int posToGridVect(Vector2Int pos) {
