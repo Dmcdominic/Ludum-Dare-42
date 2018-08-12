@@ -651,6 +651,11 @@ MonoBehaviour:
   WalkLeft: {fileID: 0}
   posRounded: {x: 0, y: 0}
   jumpTwoActivated: 0
+  OnSuccessfulStep:
+    m_PersistentCalls:
+      m_Calls: []
+    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
+      Culture=neutral, PublicKeyToken=null
 --- !u!212 &950566141
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -809,6 +814,16 @@ Prefab:
         type: 2}
       propertyPath: startingPosition.y
       value: 2
+      objectReference: {fileID: 0}
+    - target: {fileID: 114497477187500682, guid: 8f21ea60addc272489fcaa41836d850b,
+        type: 2}
+      propertyPath: worldIndex
+      value: 1
+      objectReference: {fileID: 0}
+    - target: {fileID: 114497477187500682, guid: 8f21ea60addc272489fcaa41836d850b,
+        type: 2}
+      propertyPath: levelIndex
+      value: 5
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f21ea60addc272489fcaa41836d850b, type: 2}
