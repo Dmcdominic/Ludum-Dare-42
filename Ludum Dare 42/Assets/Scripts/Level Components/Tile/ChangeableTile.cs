@@ -46,4 +46,8 @@ public class ChangeableTile : Tile {
         }
     }
 
+	public override bool CanBePushedOnto() {
+		return true;
+	}
+
 }

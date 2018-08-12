@@ -6,13 +6,23 @@ public enum PowerupType { Coffee };
 
 public class Powerup : ForegroundObject {
 
-	public override bool IsSteppable(MoveType moveType, Vector2Int incomingPlayerDisplacement) {
+	public PowerupType type;
+
+	public override bool IsSteppable(MoveType moveType, Vector2Int incomingDisplacement) {
 		return true;
 	}
 
-	public override void OnInteraction(MoveType moveType, Vector2Int incomingPlayerDisplacement)
-    {
-        this.gameObject.SetActive(false);
-        //TODO: Add interact / fadeout animation if desired
-    }
+	public override void OnInteraction(MoveType moveType, Vector2Int incomingDisplacement) {
+		LevelManager.applyPowerup(type);
+		this.gameObject.SetActive(false);
+		//TODO: Add interact / fadeout animation if desired
+	}
+
+	public override bool CanBePushedInto(Vector2Int incomingDisplacement) {
+		return false;
+	}
+
+	public override bool CanBeJumpedOver() {
+		return true;
+	}
 }

@@ -4,18 +4,23 @@ using UnityEngine;
 
 public class ExitDoor : Tile {
 
-	public override bool isSteppable()
-	{
+	public override bool isSteppable() {
 		return true;
 	}
 
-	public override void OnStep()
-    {
+	public override void OnStep() {
 		GM.onBeatLevel();
-    }
+	}
 
-    public override void OnLeave()
-	{
+	public override void OnLeave() {
 		// Does not apply
+	}
+
+	public override bool CanBePushedOnto() {
+		return false;
+	}
+
+	public override bool CanBeJumpedOver() {
+		return false;
 	}
 }

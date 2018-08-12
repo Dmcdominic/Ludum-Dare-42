@@ -148,13 +148,22 @@ public class Floor {
 		return foregroundGrid[gridVect.x, gridVect.y];
 	}
 
-	public void nullifyForegroundObj(Vector2Int pos) {
+	public void updateTile(Vector2Int pos, Tile newTile) {
 		Vector2Int gridVect = posToGridVect(pos);
 		if (gridVect.x < 0 || gridVect.x >= gridWidth ||
 			gridVect.y < 0 || gridVect.y >= gridHeight) {
 			return;
 		}
-		foregroundGrid[gridVect.x, gridVect.y] = null;
+		tileGrid[gridVect.x, gridVect.y] = newTile;
+	}
+
+	public void updateForegroundObj(Vector2Int pos, ForegroundObject newObj) {
+		Vector2Int gridVect = posToGridVect(pos);
+		if (gridVect.x < 0 || gridVect.x >= gridWidth ||
+			gridVect.y < 0 || gridVect.y >= gridHeight) {
+			return;
+		}
+		foregroundGrid[gridVect.x, gridVect.y] = newObj;
 	}
 
 	private Vector2Int posToGridVect(Vector2Int pos) {
@@ -165,6 +174,10 @@ public class Floor {
 
 	public static Vector2Int pos3dToVect2Int(Vector3 pos) {
 		return new Vector2Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y));
+	}
+
+	public static Vector3 Vect2IntToPos3d(Vector2Int coords) {
+		return new Vector3(coords.x, coords.y, 0);
 	}
 
 }

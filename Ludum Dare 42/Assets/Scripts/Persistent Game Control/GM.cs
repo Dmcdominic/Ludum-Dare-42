@@ -30,7 +30,10 @@ public class GM : MonoBehaviour {
     public static GM Instance {
         get {
             if (_instance == null) {
-                _instance = new GM();
+                _instance = GameObject.FindObjectOfType<GM>();
+				if (_instance == null) {
+					Debug.Log("No GM found in the scene");
+				}
             }
             return _instance;
         }

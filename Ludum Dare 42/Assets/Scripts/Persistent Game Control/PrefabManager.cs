@@ -5,7 +5,7 @@ using UnityEngine;
 public class PrefabManager : MonoBehaviour {
 
 	// Prefabs go here
-	
+	public SafeTile safeTile;
 
 	// Singleton instance setup
 	private static PrefabManager _instance;
