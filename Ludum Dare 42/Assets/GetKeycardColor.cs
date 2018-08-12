@@ -21,7 +21,6 @@ public class GetKeycardColor : MonoBehaviour {
         switch (kcc)
         {
             case (KeycardColor.Red):
-                Debug.Log("Hey!");
                 ma.startColor = red;
                 break;
             case (KeycardColor.Blue):
