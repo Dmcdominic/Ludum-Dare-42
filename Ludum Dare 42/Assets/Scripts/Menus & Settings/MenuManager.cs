@@ -119,6 +119,15 @@ public class MenuManager : MonoBehaviour {
 
 
     // Functions for buttons to call
+	public void NewGame() {
+		// TODO - Reset level progress
+		LoadLevel(0, 0);
+	}
+
+	public void LoadLevel(int worldIndex, int levelIndex) {
+		GM.changeToLevelScene(worldIndex, levelIndex);
+	}
+
     public void LoadMainMenu() {
 		GM.changeScene(Scene.MainMenu);
     }

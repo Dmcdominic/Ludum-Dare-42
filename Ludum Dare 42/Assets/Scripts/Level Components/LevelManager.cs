@@ -6,6 +6,10 @@ public enum KeycardColor { Red, Yellow, Green, Blue };
 
 public class LevelManager : MonoBehaviour {
 
+	// Properties
+	public int worldIndex;
+	public int levelIndex;
+
 	// References
 	[HideInInspector]
 	public Floor floor;
