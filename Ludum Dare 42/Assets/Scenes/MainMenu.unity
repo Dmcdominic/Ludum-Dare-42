@@ -4432,6 +4432,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: d3da5624c6a6b52478a2eac0313a9dbb, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  c: {fileID: 0}
 --- !u!212 &975207844
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7406,6 +7407,11 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
+    - target: {fileID: 114985169427300090, guid: 003bb3b550133df46806de3f0eca3420,
+        type: 2}
+      propertyPath: worldLevelTotals.Array.size
+      value: 3
+      objectReference: {fileID: 0}
     - target: {fileID: 4326663245442826, guid: 003bb3b550133df46806de3f0eca3420, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -7445,6 +7451,21 @@ Prefab:
     - target: {fileID: 1684920143217746, guid: 003bb3b550133df46806de3f0eca3420, type: 2}
       propertyPath: m_IsActive
       value: 0
+      objectReference: {fileID: 0}
+    - target: {fileID: 114985169427300090, guid: 003bb3b550133df46806de3f0eca3420,
+        type: 2}
+      propertyPath: worldLevelTotals.Array.data[0]
+      value: 5
+      objectReference: {fileID: 0}
+    - target: {fileID: 114985169427300090, guid: 003bb3b550133df46806de3f0eca3420,
+        type: 2}
+      propertyPath: worldLevelTotals.Array.data[1]
+      value: 8
+      objectReference: {fileID: 0}
+    - target: {fileID: 114985169427300090, guid: 003bb3b550133df46806de3f0eca3420,
+        type: 2}
+      propertyPath: worldLevelTotals.Array.data[2]
+      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 003bb3b550133df46806de3f0eca3420, type: 2}
