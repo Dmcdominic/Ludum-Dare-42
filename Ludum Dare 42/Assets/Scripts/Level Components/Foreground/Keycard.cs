@@ -12,7 +12,10 @@ public class Keycard : ForegroundObject {
 
 	public override void OnInteraction(MoveType moveType, Vector2Int incomingPlayerDisplacement) {
 		LevelManager.obtainKeycard(color);
-		this.gameObject.SetActive(false);
+		LevelManager.getFloor().nullifyForegroundObj(Floor.pos3dToVect2Int(transform.position));
+
 		// TODO - Add interact / fadeout animation if desired
+		// For now:
+		gameObject.SetActive(false);
 	}
 }

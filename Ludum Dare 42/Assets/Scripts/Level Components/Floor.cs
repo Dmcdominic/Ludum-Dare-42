@@ -131,23 +131,40 @@ public class Floor {
 
 	// Object access methods to account for grid offset
 	public Tile getTile(Vector2Int pos) {
-		int gridX = pos.x - minX;
-		int gridY = pos.y - minY;
-		if (gridX < 0 || gridX >= gridWidth ||
-			gridY < 0 || gridY >= gridHeight) {
+		Vector2Int gridVect = posToGridVect(pos);
+		if (gridVect.x < 0 || gridVect.x >= gridWidth ||
+			gridVect.y < 0 || gridVect.y >= gridHeight) {
 			return null;
 		}
-		return tileGrid[gridX, gridY];
+		return tileGrid[gridVect.x, gridVect.y];
 	}
 
 	public ForegroundObject getForegroundObj(Vector2Int pos) {
-		int gridX = pos.x - minX;
-		int gridY = pos.y - minY;
-		if (gridX < 0 || gridX >= gridWidth ||
-			gridY < 0 || gridY >= gridHeight) {
+		Vector2Int gridVect = posToGridVect(pos);
+		if (gridVect.x < 0 || gridVect.x >= gridWidth ||
+			gridVect.y < 0 || gridVect.y >= gridHeight) {
 			return null;
 		}
-		return foregroundGrid[gridX, gridY];
+		return foregroundGrid[gridVect.x, gridVect.y];
+	}
+
+	public void nullifyForegroundObj(Vector2Int pos) {
+		Vector2Int gridVect = posToGridVect(pos);
+		if (gridVect.x < 0 || gridVect.x >= gridWidth ||
+			gridVect.y < 0 || gridVect.y >= gridHeight) {
+			return;
+		}
+		foregroundGrid[gridVect.x, gridVect.y] = null;
+	}
+
+	private Vector2Int posToGridVect(Vector2Int pos) {
+		int gridX = pos.x - minX;
+		int gridY = pos.y - minY;
+		return new Vector2Int(gridX, gridY);
+	}
+
+	public static Vector2Int pos3dToVect2Int(Vector3 pos) {
+		return new Vector2Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y));
 	}
 
 }

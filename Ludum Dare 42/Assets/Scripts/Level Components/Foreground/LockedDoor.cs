@@ -17,7 +17,8 @@ public class LockedDoor : ForegroundObject {
 
 	public void tryToUnlock(KeycardColor color) {
 		if (keycardsRequired.Remove(color) && keycardsRequired.Count == 0) {
-			gameObject.SetActive(false);
+			//gameObject.SetActive(false);
+			Destroy(this.gameObject);
 			locked = false;
 			// TODO - Add interact/ fadeout animation if desired
 		}

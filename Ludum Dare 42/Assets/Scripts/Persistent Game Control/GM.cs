@@ -11,6 +11,9 @@ public class GM : MonoBehaviour {
 	// Settings
 	private static readonly int levelScenesIndexOffset = 2;
 
+	// Properties
+	public List<int> worldLevelTotals;
+
 	// References
 	[HideInInspector]
 	public Scene currentScene;
@@ -45,17 +48,18 @@ public class GM : MonoBehaviour {
 			DontDestroyOnLoad(this);
 		}
 
-		int sceneIndex = SceneManager.GetActiveScene().buildIndex;
-		switch(sceneIndex) {
-			case 0:
+		//int sceneIndex = SceneManager.GetActiveScene().buildIndex;
+		string sceneName = SceneManager.GetActiveScene().name;
+		switch(sceneName) {
+			case "Init":
 				currentScene = Scene.Init;
 				gameState = GameState.Inactive;
 				break;
-			case 1:
+			case "MainMenu":
 				currentScene = Scene.MainMenu;
 				gameState = GameState.Inactive;
 				break;
-			case 2:
+			default:
 				currentScene = Scene.Other;
 				gameState = GameState.Playing;
 				break;
@@ -85,9 +89,14 @@ public class GM : MonoBehaviour {
 		}
 	}
 
-	public static void changeToLevelScene(int level) {
-		int nextSceneIndex = level + levelScenesIndexOffset;
-		if (SceneManager.GetSceneByBuildIndex(nextSceneIndex) != null) {
+	public static void changeToLevelScene(int world, int level) {
+		int nextSceneIndex = levelScenesIndexOffset;
+		for (int i = 0; i < world; i++) {
+			nextSceneIndex += Instance.worldLevelTotals[i];
+		}
+		nextSceneIndex += level;
+		
+		if (nextSceneIndex < SceneManager.sceneCountInBuildSettings) {
 			Instance.currentScene = Scene.Other;
 			Instance.gameState = GameState.Playing;
 			SceneManager.LoadScene(level + levelScenesIndexOffset);
@@ -100,5 +109,15 @@ public class GM : MonoBehaviour {
 	public static void onBeatLevel() {
 		Debug.Log("YOU BEAT IT!");
 		// TODO - figure out the next level in the world, or conclude the world if it was the last one.
+		int currentWorld = Instance.currentLevelManager.worldIndex;
+		int currentLevel = Instance.currentLevelManager.levelIndex;
+		if (currentLevel == Instance.worldLevelTotals[currentWorld] - 1) {
+			// TODO - Conclude this world. Cutscene?
+			// Temporary:
+			changeToLevelScene(currentWorld + 1, 0);
+		} else {
+			// TODO - Loading screen?
+			changeToLevelScene(currentWorld, currentLevel + 1);
+		}
 	}
 }
