@@ -3541,7 +3541,7 @@ GameObject:
   - component: {fileID: 773454238}
   - component: {fileID: 773454240}
   - component: {fileID: 773454239}
-  m_Layer: 8
+  m_Layer: 5
   m_Name: Image
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -4516,7 +4516,7 @@ GameObject:
   - component: {fileID: 996070574}
   - component: {fileID: 996070576}
   - component: {fileID: 996070575}
-  m_Layer: 8
+  m_Layer: 5
   m_Name: StartText
   m_TagString: Untagged
   m_Icon: {fileID: 0}
@@ -8207,7 +8207,7 @@ GameObject:
   m_Component:
   - component: {fileID: 1694191899}
   - component: {fileID: 1694191900}
-  m_Layer: 8
+  m_Layer: 5
   m_Name: StartScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
