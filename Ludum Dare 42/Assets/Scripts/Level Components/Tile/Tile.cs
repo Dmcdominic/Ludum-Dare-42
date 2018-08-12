@@ -16,6 +16,9 @@ public abstract class Tile : MonoBehaviour {
 		return true;
 	}
 
+	public virtual void onAboveTileUpdated(Tile aboveTile) {
+	}
+
 	public bool isHole() {
 		return (this is ChangeableTile && ((ChangeableTile)this).stepsRemaining == 0);
 	}

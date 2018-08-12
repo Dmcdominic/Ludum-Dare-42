@@ -57,6 +57,7 @@ MonoBehaviour:
   orangeTile: {fileID: 21300000, guid: 95f099e6982270741b952ec27c1f10d6, type: 3}
   redTile: {fileID: 21300000, guid: 9175533bf28ccb74ca5c5d82e0ddc7b7, type: 3}
   hole: {fileID: 21300000, guid: 49bff9648c392934eb31f7d37f22aff8, type: 3}
+  holeShaded: {fileID: 21300000, guid: b941821c8964c85498d82b8e2cc2dbaf, type: 3}
 --- !u!212 &212367011176007874
 SpriteRenderer:
   m_ObjectHideFlags: 1

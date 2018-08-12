@@ -123,13 +123,18 @@ public class Floor {
 	}
 
 	// Grid utility
-	public void updateTile(Vector2Int pos, Tile newTile) {
-		Vector2Int gridVect = posToGridVect(pos);
+	public void updateTile(Vector2Int truePos, Tile newTile) {
+		Vector2Int gridVect = posToGridVect(truePos);
 		if (gridVect.x < 0 || gridVect.x >= gridWidth ||
 			gridVect.y < 0 || gridVect.y >= gridHeight) {
 			return;
 		}
 		tileGrid[gridVect.x, gridVect.y] = newTile;
+
+		Vector2Int belowTruePos = truePos + new Vector2Int(0, -1);
+		if (gridCoordsValid(belowTruePos)) {
+			getTile(belowTruePos).onAboveTileUpdated(newTile);
+		}
 	}
 
 	// Make private
@@ -160,8 +165,7 @@ public class Floor {
 	// Object access methods to account for grid offset
 	public Tile getTile(Vector2Int pos) {
 		Vector2Int gridVect = posToGridVect(pos);
-		if (gridVect.x < 0 || gridVect.x >= gridWidth ||
-			gridVect.y < 0 || gridVect.y >= gridHeight) {
+		if (!gridCoordsValid(gridVect)) {
 			return null;
 		}
 		return tileGrid[gridVect.x, gridVect.y];
@@ -169,11 +173,14 @@ public class Floor {
 
 	public ForegroundObject getForegroundObj(Vector2Int truePos) {
 		Vector2Int gridVect = posToGridVect(truePos);
-		if (gridVect.x < 0 || gridVect.x >= gridWidth ||
-			gridVect.y < 0 || gridVect.y >= gridHeight) {
+		if (!gridCoordsValid(gridVect)) {
 			return null;
 		}
 		return foregroundGrid[gridVect.x, gridVect.y];
+	}
+
+	private bool gridCoordsValid(Vector2Int gridVect) {
+		return (gridVect.x >= 0 && gridVect.x < gridWidth && gridVect.y >= 0 && gridVect.y < gridHeight);
 	}
 
 	// Vector utility
