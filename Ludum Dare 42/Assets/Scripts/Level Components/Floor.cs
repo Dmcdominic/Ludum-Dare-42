@@ -17,7 +17,8 @@ public class Floor {
 	private int maxX = int.MinValue;
 	private int maxY = int.MinValue;
 
-	// Obtainable keycards
+	// Locked doors list and obtainable keycard total
+	public List<LockedDoor> lockedDoors;
 	public Dictionary<KeycardColor, int> keycardTotals;
 
 
@@ -26,15 +27,20 @@ public class Floor {
 		initGrids(tilesParent, foregroundParent);
 		populateTileGrid(tilesParent);
 		populateForegroundGrid(foregroundParent);
-		getKeycardTotals(tilesParent);
 	}
 
 	private void initGrids(GameObject tilesParent, GameObject foregroundParent) {
 		Tile[] tiles = tilesParent.GetComponentsInChildren<Tile>();
 		ForegroundObject[] fgObjects = foregroundParent.GetComponentsInChildren<ForegroundObject>();
 
+		lockedDoors = new List<LockedDoor>();
+		keycardTotals = new Dictionary<KeycardColor, int>();
+		foreach (KeycardColor color in System.Enum.GetValues(typeof(KeycardColor))) {
+			keycardTotals.Add(color, 0);
+		}
+
 		if (tiles.Length == 0) {
-			Debug.LogError("Please add some tiles to the editor.");
+			Debug.LogError("Please add some tiles to the level, or remove the level management framework.");
 			return;
 		}
 
@@ -113,19 +119,13 @@ public class Floor {
 			} else {
 				foregroundGrid[x, y] = fgObjects[i];
 			}
-		}
-	}
 
-	// Find the total number of each keycard color
-	private void getKeycardTotals(GameObject tilesParent) {
-		keycardTotals = new Dictionary<KeycardColor, int>();
-		foreach (KeycardColor color in System.Enum.GetValues(typeof(KeycardColor))) {
-			keycardTotals.Add(color, 0);
-		}
-
-		Keycard[] keycards = tilesParent.GetComponentsInChildren<Keycard>();
-		foreach (Keycard keycard in keycards) {
-			keycardTotals[keycard.color]++;
+			if (fgObjects[i] is LockedDoor) {
+				lockedDoors.Add((LockedDoor)fgObjects[i]);
+			} else if (fgObjects[i] is Keycard) {
+				Keycard keycard = (Keycard)fgObjects[i];
+				keycardTotals[keycard.color]++;
+			}
 		}
 	}
 

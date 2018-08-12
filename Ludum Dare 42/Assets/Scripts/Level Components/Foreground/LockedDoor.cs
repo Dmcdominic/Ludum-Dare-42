@@ -5,13 +5,21 @@ using UnityEngine;
 public class LockedDoor : ForegroundObject {
 
 	public List<KeycardColor> keycardsRequired;
+	bool locked = true;
 
 	public override bool IsSteppable(MoveType moveType, Vector2Int incomingPlayerDisplacement) {
-		return (LevelManager.areKeycardsCompleted(keycardsRequired));
+		return !locked;
 	}
 
 	public override void OnInteraction(MoveType moveType, Vector2Int incomingPlayerDisplacement) {
-		gameObject.SetActive(false);
-		// TODO - Add interact/ fadeout animation if desired
+		// Does not apply
+	}
+
+	public void tryToUnlock(KeycardColor color) {
+		if (keycardsRequired.Remove(color) && keycardsRequired.Count == 0) {
+			gameObject.SetActive(false);
+			locked = false;
+			// TODO - Add interact/ fadeout animation if desired
+		}
 	}
 }

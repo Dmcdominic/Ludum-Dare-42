@@ -47,23 +47,15 @@ public class LevelManager : MonoBehaviour {
 		// TODO - position camera to view the whole floor?
 	}
 
-	// Called when you reach the exit and beat the level
-	public static void onBeatLevel() {
-
-	}
-
 	// Keycard management
 	public static void obtainKeycard(KeycardColor color) {
 		GM.Instance.currentLevelManager.obtainedKeycards[color]++;
-	}
-
-	public static bool areKeycardsCompleted(List<KeycardColor> colors) {
-		foreach (KeycardColor color in colors) {
-			if (GM.Instance.currentLevelManager.obtainedKeycards[color] < LevelManager.getFloor().keycardTotals[color]) {
-				return false;
+		// TODO - Add the keycard to the GUI
+		if (GM.Instance.currentLevelManager.obtainedKeycards[color] == LevelManager.getFloor().keycardTotals[color]) {
+			foreach (LockedDoor lockedDoor in getFloor().lockedDoors) {
+				lockedDoor.tryToUnlock(color);
 			}
 		}
-		return true;
 	}
 
 	// Floor, tile, and foreground utility functions

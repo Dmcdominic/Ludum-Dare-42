@@ -85,9 +85,20 @@ public class GM : MonoBehaviour {
 		}
 	}
 
-	public static void changeScene(int level) {
-		Instance.currentScene = Scene.Other;
-		Instance.gameState = GameState.Playing;
-		SceneManager.LoadScene(level + levelScenesIndexOffset);
+	public static void changeToLevelScene(int level) {
+		int nextSceneIndex = level + levelScenesIndexOffset;
+		if (SceneManager.GetSceneByBuildIndex(nextSceneIndex) != null) {
+			Instance.currentScene = Scene.Other;
+			Instance.gameState = GameState.Playing;
+			SceneManager.LoadScene(level + levelScenesIndexOffset);
+		} else {
+			Debug.LogError("Scene of build index: " + nextSceneIndex + " not found.");
+		}
+	}
+
+	// Called when you reach the exit and beat the level
+	public static void onBeatLevel() {
+		Debug.Log("YOU BEAT IT!");
+		// TODO - figure out the next level in the world, or conclude the world if it was the last one.
 	}
 }
