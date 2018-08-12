@@ -1170,6 +1170,11 @@ Prefab:
       propertyPath: startingPosition.y
       value: 2
       objectReference: {fileID: 0}
+    - target: {fileID: 114497477187500682, guid: 8f21ea60addc272489fcaa41836d850b,
+        type: 2}
+      propertyPath: levelIndex
+      value: 4
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8f21ea60addc272489fcaa41836d850b, type: 2}
   m_IsPrefabAsset: 0
@@ -2042,6 +2047,11 @@ Prefab:
         type: 2}
       propertyPath: m_Color.b
       value: 0.32156864
+      objectReference: {fileID: 0}
+    - target: {fileID: 114125825872902112, guid: ee12c85fefa9233408b8493130f6592e,
+        type: 2}
+      propertyPath: keycardsRequired.Array.data[0]
+      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: ee12c85fefa9233408b8493130f6592e, type: 2}
