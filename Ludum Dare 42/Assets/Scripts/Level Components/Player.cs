@@ -63,6 +63,7 @@ public class Player : MonoBehaviour {
 	// Player movement
 	private bool tryMove(MoveType moveType, Vector2Int displacement) {
 		Vector2Int targetPos = posRounded + displacement;
+        Debug.Log(posRounded);
 		switch (moveType) {
 			case MoveType.normal:
 				if (canMoveNormal(displacement, targetPos)) {
