@@ -4,6 +4,8 @@ using UnityEngine;
 
 public abstract class ForegroundObject : MonoBehaviour {
 
+	public List<Vector2Int> additionalCoords = new List<Vector2Int>();
+
 	public abstract bool IsSteppable(MoveType moveType, Vector2Int incomingDisplacement);
 	public abstract void OnInteraction(MoveType moveType, Vector2Int incomingDisplacement);
 

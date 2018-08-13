@@ -44,11 +44,12 @@ public class LevelManager : MonoBehaviour {
 		foreach (KeycardColor color in System.Enum.GetValues(typeof(KeycardColor))) {
 			obtainedKeycards.Add(color, 0);
 		}
+		// TODO - Keycard UI/HUD for player, triggered here
 	}
 
 	// Use this for initialization
 	void Start () {
-		// TODO - position camera to view the whole floor?
+		// TODO - position camera to view the whole floor? Or is that just being done level by level
 	}
 
 	// Keycard management

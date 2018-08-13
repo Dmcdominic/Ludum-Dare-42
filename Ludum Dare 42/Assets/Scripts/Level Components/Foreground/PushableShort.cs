@@ -8,44 +8,85 @@ public class PushableShort : ForegroundObject {
 		return CanBePushedInto(incomingDisplacement);
 	}
 
+	// Move the whole pushable
 	public override void OnInteraction(MoveType moveType, Vector2Int incomingDisplacement) {
-		Vector2Int pos = Floor.pos3dToVect2Int(transform.position);
-		Vector2Int targetPos = pos + incomingDisplacement;
-
-		// TODO - movement animation?
-		transform.position = new Vector3(targetPos.x, targetPos.y, transform.position.z);
-		
 		Floor floor = LevelManager.getFloor();
-		floor.updateForegroundObj(pos, null);
-
-		ForegroundObject foregroundObj = floor.getForegroundObj(targetPos);
-		if (foregroundObj != null) {
-			foregroundObj.OnInteraction(moveType, incomingDisplacement);
+		Vector2Int basePos = Floor.pos3dToVect2Int(transform.position);
+		Vector2Int targetPos = basePos + incomingDisplacement;
+		
+		// Push other objects that get affected
+		foreach (Vector2Int relativePos in additionalCoords) {
+			pushNextIfNotThis(floor, moveType, basePos + relativePos, incomingDisplacement);
 		}
 
-		Tile tile = floor.getTile(targetPos);
-		if (tile is ChangeableTile) {
-			ChangeableTile changeableTile = (ChangeableTile)tile;
-			if (changeableTile.stepsRemaining == 0) {
-				// TODO - animation of object falling into hole
-				floor.updateForegroundObj(targetPos, null);
-				gameObject.SetActive(false);
-				return;
+		if (allTilesAreHoles(floor, targetPos)) {
+			// TODO - animation of object falling into hole
+			floor.updateFgGridForAllPos(null, basePos, additionalCoords, false);
+			gameObject.SetActive(false);
+			return;
+		} else {
+			// TODO - movement animation?
+			transform.position = new Vector3(targetPos.x, targetPos.y, transform.position.z);
+			floor.updateFgGridForAllPos(null, basePos, additionalCoords, false);
+			floor.updateFgGridForAllPos(this, targetPos, additionalCoords, false);
+		}
+	}
+
+	private void pushNextIfNotThis(Floor floor, MoveType moveType, Vector2Int truePos, Vector2Int displacement) {
+		Vector2Int targetPos = truePos + displacement;
+		ForegroundObject foregroundObj = floor.getForegroundObj(targetPos);
+		if (foregroundObj != null && foregroundObj != this) {
+			foregroundObj.OnInteraction(moveType, displacement);
+		}
+	}
+
+	// Returns true if all tiles are holes underneath the object, given its truePos
+	private bool allTilesAreHoles(Floor floor, Vector2Int truePos) {
+		Tile tile = floor.getTile(truePos);
+		if (tile == null || !tile.isHole()) {
+			return false;
+		}
+
+		foreach (Vector2Int relativePos in additionalCoords) {
+			tile = floor.getTile(truePos + relativePos);
+			if (tile == null || !tile.isHole()) {
+				return false;
 			}
 		}
-		floor.updateForegroundObj(targetPos, this);
+
+		return true;
 	}
 
 	public override bool CanBePushedInto(Vector2Int incomingDisplacement) {
-		Vector2Int pos = Floor.pos3dToVect2Int(transform.position);
-		Vector2Int targetPos = pos + incomingDisplacement;
+		Vector2Int basePos = Floor.pos3dToVect2Int(transform.position);
+		if (!posCanBePushedInto(basePos, incomingDisplacement)) {
+			return false;
+		}
 
+		foreach (Vector2Int relativePos in additionalCoords) {
+			if (!posCanBePushedInto(basePos + relativePos, incomingDisplacement)) {
+				return false;
+			}
+		}
+
+		return true;
+	}
+
+	private bool posCanBePushedInto(Vector2Int truePos, Vector2Int incomingDisplacement) {
+		Vector2Int targetPos = truePos + incomingDisplacement;
 		Floor floor = LevelManager.getFloor();
-		Tile tile = floor.getTile(targetPos);
-		ForegroundObject foregroundObj = floor.getForegroundObj(targetPos);
 
-		return ((tile != null && tile.CanBePushedOnto()) &&
-				(foregroundObj == null || foregroundObj.CanBePushedInto(incomingDisplacement)));
+		Tile tile = floor.getTile(targetPos);
+		if (tile == null || !tile.CanBePushedOnto()) {
+			return false;
+		}
+
+		ForegroundObject foregroundObj = floor.getForegroundObj(targetPos);
+		if (foregroundObj != null && (foregroundObj != this && !foregroundObj.CanBePushedInto(incomingDisplacement))) {
+			return false;
+		}
+
+		return true;
 	}
 
 	public override bool CanBeJumpedOver() {

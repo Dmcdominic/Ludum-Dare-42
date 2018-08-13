@@ -10,14 +10,22 @@ public class SaveManager : MonoBehaviour {
 
 	// Path settings
 	public static string generalPath() {
-		return Application.persistentDataPath + "/CubiCo";
+		return Application.persistentDataPath;
 	}
 
 	private static string path() {
 		return generalPath() + "/SaveData.dat";
 	}
 
-	public static SaveData saveData;
+	private static SaveData _saveData;
+	public static SaveData saveData {
+		get {
+			if (_saveData == null) {
+				_saveData = new SaveData(-1);
+			}
+			return _saveData;
+		}
+	}
 
 	// Singleton instance setup
 	private static SaveManager _instance;
@@ -71,10 +79,10 @@ public class SaveManager : MonoBehaviour {
 			BinaryFormatter bf = new BinaryFormatter();
 			FileStream file = File.Open(path(), FileMode.Open);
 
-			saveData = (SaveData)bf.Deserialize(file);
+			_saveData = (SaveData)bf.Deserialize(file);
 			file.Close();
 		} else {
-			saveData = new SaveData(-1);
+			_saveData = new SaveData(-1);
 		}
 	}
 

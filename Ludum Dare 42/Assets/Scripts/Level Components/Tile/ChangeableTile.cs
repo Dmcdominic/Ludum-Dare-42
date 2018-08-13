@@ -9,12 +9,17 @@ public class ChangeableTile : Tile {
     public Sprite orangeTile;
     public Sprite redTile;
     public Sprite hole;
+	public Sprite holeShaded;
     private SpriteRenderer sr;
 
     private void Awake()
     {
         sr = this.gameObject.GetComponent<SpriteRenderer>();
     }
+
+	private void Start() {
+		checkForSpriteUpdate();
+	}
 
 	public override bool isSteppable()
 	{
@@ -43,11 +48,37 @@ public class ChangeableTile : Tile {
         if(stepsRemaining == 0)
         {
             sr.sprite = hole;
+			checkForSpriteUpdate();
+			Vector2Int truePos = Floor.pos3dToVect2Int(this.transform.position);
+			LevelManager.getFloor().updateTile(truePos, this);
         }
     }
 
 	public override bool CanBePushedOnto() {
 		return true;
+	}
+
+	// Methods to keep the hole sprites correct between shaded/unshaded
+	public override void onAboveTileUpdated(Tile aboveTile) {
+		checkForSpriteUpdate(aboveTile);
+	}
+
+	private void checkForSpriteUpdate() {
+		if (this.isHole()) {
+			Vector2Int truePos = Floor.pos3dToVect2Int(this.transform.position);
+			Vector2Int aboveTruePos = truePos + new Vector2Int(0, 1);
+			this.checkForSpriteUpdate(LevelManager.getFloor().getTile(aboveTruePos));
+		}
+	}
+
+	private void checkForSpriteUpdate(Tile aboveTile) {
+		if (this.isHole()) {
+			if (aboveTile != null && aboveTile.isHole()) {
+				sr.sprite = hole;
+			} else {
+				sr.sprite = holeShaded;
+			}
+		}
 	}
 
 }

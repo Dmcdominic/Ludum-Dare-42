@@ -27,7 +27,7 @@ public class PauseManager : MonoBehaviour {
 		} else {
 			_instance = this;
 		}
-
+		
 		if (transform.parent == null) {
 			DontDestroyOnLoad(this);
 		}
@@ -35,6 +35,7 @@ public class PauseManager : MonoBehaviour {
 
 	void Start() {
 		previousTimeScale = 1.0f;
+		paused = true;
 		resume();
 	}
 
@@ -43,7 +44,7 @@ public class PauseManager : MonoBehaviour {
 		if (Input.GetAxisRaw("Pause") > 0) {
 			if (paused && !pressed) {
 				pressed = true;
-				resume ();
+				resume (false);
 			} else if (!paused && !pressed) {
 				pressed = true;
 				pause ();
@@ -55,6 +56,9 @@ public class PauseManager : MonoBehaviour {
 
 	// Pause the game
 	public void pause() {
+		if (paused) {
+			return;
+		}
 		paused = true;
 		previousTimeScale = Time.timeScale;
 		Time.timeScale = 0f;
@@ -62,10 +66,15 @@ public class PauseManager : MonoBehaviour {
 		HUD.SetActive (false);
 		PauseMenu.SetActive (true);
 		OptionsMenu.SetActive (false);
+
+		GM.Instance.setGamestate(GameState.Paused);
 	}
 
 	// Resume the game. If resetTimeScale, Time.timeScale is set back to 1
 	public void resume(bool resetTimeScale = true) {
+		if (!paused) {
+			return;
+		}
 		paused = false;
 		if (resetTimeScale) {
 			//SlowMo.resetTimeScale();
@@ -77,6 +86,8 @@ public class PauseManager : MonoBehaviour {
 		HUD.SetActive (true);
 		PauseMenu.SetActive (false);
 		OptionsMenu.SetActive (false);
+
+		GM.Instance.setGamestate(GameState.Paused);
 	}
 	
 }
