@@ -40,11 +40,15 @@ public class LevelManager : MonoBehaviour {
 			floor = new Floor(tilesParent, foregroundParent);
 		}
 
+		IngameCanvas.Instance.resetAll();
+
 		obtainedKeycards = new Dictionary<KeycardColor, int>();
 		foreach (KeycardColor color in System.Enum.GetValues(typeof(KeycardColor))) {
 			obtainedKeycards.Add(color, 0);
+			if (floor.keycardTotals[color] > 0) {
+				IngameCanvas.Instance.initKeycard(color);
+			}
 		}
-		// TODO - Keycard UI/HUD for player, triggered here
 	}
 
 	// Use this for initialization
@@ -55,12 +59,14 @@ public class LevelManager : MonoBehaviour {
 	// Keycard management
 	public static void obtainKeycard(KeycardColor color) {
 		GM.Instance.currentLevelManager.obtainedKeycards[color]++;
-		// TODO - Add the keycard to the GUI
-		if (GM.Instance.currentLevelManager.obtainedKeycards[color] == LevelManager.getFloor().keycardTotals[color]) {
+		int newTotal = GM.Instance.currentLevelManager.obtainedKeycards[color];
+		if (newTotal == LevelManager.getFloor().keycardTotals[color]) {
 			foreach (LockedDoor lockedDoor in getFloor().lockedDoors) {
 				lockedDoor.tryToUnlock(color);
 			}
 		}
+
+		IngameCanvas.Instance.updateKeycard(color, newTotal);
 	}
 
 	// Powerup management
@@ -70,6 +76,7 @@ public class LevelManager : MonoBehaviour {
 				GM.Instance.currentLevelManager.player.jumpTwoActivated = true;
 				break;
 		}
+		IngameCanvas.Instance.displayPowerup(type);
 	}
 
 	// Floor, tile, and foreground utility functions

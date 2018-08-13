@@ -20,6 +20,7 @@ public class Player : MonoBehaviour {
 	[HideInInspector]
 	public Vector2Int posRounded;
 
+	[HideInInspector]
 	public bool jumpTwoActivated = false;
     //private bool isAnimating = false;
 
