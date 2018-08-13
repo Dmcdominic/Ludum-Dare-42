@@ -15,19 +15,21 @@ public class ChangeableTile : Tile {
    
     private void Awake()
     {
+        if (stepsRemaining == 0)
+        {
+            sr = this.gameObject.GetComponent<SpriteRenderer>();
+            sr.sprite = hole;
+            checkForSpriteUpdate();
+            Vector2Int truePos = Floor.pos3dToVect2Int(this.transform.position);
+            trueHoleStatus = true;
+            Debug.Log(trueHoleStatus);
+            LevelManager.getFloor().updateTile(truePos, this);
+        }
         sr = this.gameObject.GetComponent<SpriteRenderer>();
     }
 
 	private void Start() {
 		checkForSpriteUpdate();
-        if (stepsRemaining == 0)
-        {
-            sr.sprite = hole;
-            checkForSpriteUpdate();
-            Vector2Int truePos = Floor.pos3dToVect2Int(this.transform.position);
-            trueHoleStatus = true;
-            LevelManager.getFloor().updateTile(truePos, this);
-        }
     }
 
 	public override bool isSteppable()

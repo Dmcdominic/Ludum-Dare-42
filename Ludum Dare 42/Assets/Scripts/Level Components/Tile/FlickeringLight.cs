@@ -56,7 +56,7 @@ public class FlickeringLight : Tile {
     }
     public override bool CanBePushedOnto()
     {
-        return false;
+        return true;
     }
 
     public override bool CanBeJumpedOver()
