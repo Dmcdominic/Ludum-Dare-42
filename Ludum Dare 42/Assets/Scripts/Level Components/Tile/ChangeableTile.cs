@@ -48,12 +48,12 @@ public class ChangeableTile : Tile {
     {
         if(stepsRemaining == 0)
         {
-            sr.sprite = hole;
-			checkForSpriteUpdate();
+			trueHoleStatus = true;
+			sr.sprite = hole;
 			Vector2Int truePos = Floor.pos3dToVect2Int(this.transform.position);
-            trueHoleStatus = true;
-            LevelManager.getFloor().updateTile(truePos, this);
-        }
+			checkForSpriteUpdate();
+			LevelManager.getFloor().updateTile(truePos, this);
+		}
     }
 
 	public override bool CanBePushedOnto() {
