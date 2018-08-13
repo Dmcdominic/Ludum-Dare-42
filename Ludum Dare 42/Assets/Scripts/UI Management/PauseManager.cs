@@ -40,6 +40,10 @@ public class PauseManager : MonoBehaviour {
 	}
 
 	void Update () {
+		if (GM.Instance.getGameState() != GameState.Playing && GM.Instance.getGameState() != GameState.Paused) {
+			return;
+		}
+
 		// Pause keys
 		if (Input.GetAxisRaw("Pause") > 0) {
 			if (paused && !pressed) {

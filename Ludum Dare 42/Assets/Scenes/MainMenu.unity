@@ -2926,6 +2926,7 @@ GameObject:
   - component: {fileID: 623691478}
   - component: {fileID: 623691477}
   - component: {fileID: 623691476}
+  - component: {fileID: 623691480}
   m_Layer: 5
   m_Name: Canvas
   m_TagString: Untagged
@@ -3014,6 +3015,17 @@ RectTransform:
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0, y: 0}
+--- !u!225 &623691480
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 623691475}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1 &661615737
 GameObject:
   m_ObjectHideFlags: 0
@@ -4380,7 +4392,6 @@ GameObject:
   m_Component:
   - component: {fileID: 975207841}
   - component: {fileID: 975207844}
-  - component: {fileID: 975207843}
   - component: {fileID: 975207842}
   m_Layer: 0
   m_Name: MainMenuScreen
@@ -4421,18 +4432,6 @@ MonoBehaviour:
   defaultSelect: {fileID: 828832967}
   defaultUpSelect: {fileID: 162271195}
   backButton: {fileID: 0}
---- !u!114 &975207843
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 975207840}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: d3da5624c6a6b52478a2eac0313a9dbb, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
-  c: {fileID: 0}
 --- !u!212 &975207844
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -7407,11 +7406,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114985169427300090, guid: 003bb3b550133df46806de3f0eca3420,
-        type: 2}
-      propertyPath: worldLevelTotals.Array.size
-      value: 3
-      objectReference: {fileID: 0}
     - target: {fileID: 4326663245442826, guid: 003bb3b550133df46806de3f0eca3420, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -7443,29 +7437,6 @@ Prefab:
     - target: {fileID: 4326663245442826, guid: 003bb3b550133df46806de3f0eca3420, type: 2}
       propertyPath: m_RootOrder
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 1252388163226532, guid: 003bb3b550133df46806de3f0eca3420, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 1684920143217746, guid: 003bb3b550133df46806de3f0eca3420, type: 2}
-      propertyPath: m_IsActive
-      value: 0
-      objectReference: {fileID: 0}
-    - target: {fileID: 114985169427300090, guid: 003bb3b550133df46806de3f0eca3420,
-        type: 2}
-      propertyPath: worldLevelTotals.Array.data[0]
-      value: 5
-      objectReference: {fileID: 0}
-    - target: {fileID: 114985169427300090, guid: 003bb3b550133df46806de3f0eca3420,
-        type: 2}
-      propertyPath: worldLevelTotals.Array.data[1]
-      value: 8
-      objectReference: {fileID: 0}
-    - target: {fileID: 114985169427300090, guid: 003bb3b550133df46806de3f0eca3420,
-        type: 2}
-      propertyPath: worldLevelTotals.Array.data[2]
-      value: 8
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 003bb3b550133df46806de3f0eca3420, type: 2}
@@ -9281,7 +9252,6 @@ GameObject:
   - component: {fileID: 1919591331}
   - component: {fileID: 1919591330}
   - component: {fileID: 1919591329}
-  - component: {fileID: 1919591328}
   m_Layer: 0
   m_Name: LevelSelectButton
   m_TagString: Untagged
@@ -9307,17 +9277,6 @@ RectTransform:
   m_AnchoredPosition: {x: 394, y: 230}
   m_SizeDelta: {x: 650, y: 143}
   m_Pivot: {x: 0.5, y: 0.5}
---- !u!114 &1919591328
-MonoBehaviour:
-  m_ObjectHideFlags: 0
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 0}
-  m_GameObject: {fileID: 1919591326}
-  m_Enabled: 1
-  m_EditorHideFlags: 0
-  m_Script: {fileID: 11500000, guid: 20d0b86af21459c469bcffee3d365092, type: 3}
-  m_Name: 
-  m_EditorClassIdentifier: 
 --- !u!114 &1919591329
 MonoBehaviour:
   m_ObjectHideFlags: 0
