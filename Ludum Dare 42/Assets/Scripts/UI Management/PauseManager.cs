@@ -87,7 +87,7 @@ public class PauseManager : MonoBehaviour {
 		PauseMenu.SetActive (false);
 		OptionsMenu.SetActive (false);
 
-		GM.Instance.setGamestate(GameState.Paused);
+		GM.Instance.setGamestate(GameState.Playing);
 	}
 	
 }

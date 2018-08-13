@@ -41,6 +41,8 @@ public class Player : MonoBehaviour {
 		if (timer > 0) {
 			timer -= Time.deltaTime;
 			return;
+		} else if (GM.Instance.getGameState() != GameState.Playing) {
+			return;
 		}
 
 		//if (isAnimating) {

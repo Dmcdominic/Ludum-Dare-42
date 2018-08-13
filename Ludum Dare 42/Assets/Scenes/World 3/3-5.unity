@@ -201,6 +201,22 @@ Prefab:
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 2511499665742f644a05df41646efac6, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &54911543 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1414872729913604, guid: 8a036f5612c32154aa3b9470e6de1b7e,
+    type: 2}
+  m_PrefabInternal: {fileID: 176606814}
+--- !u!225 &54911549
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 54911543}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 0
+  m_IgnoreParentGroups: 0
 --- !u!1001 &87746124
 Prefab:
   m_ObjectHideFlags: 0
@@ -404,9 +420,30 @@ Prefab:
       propertyPath: m_AnchoredPosition.y
       value: -0.2487793
       objectReference: {fileID: 0}
+    - target: {fileID: 222170248527189968, guid: 8a036f5612c32154aa3b9470e6de1b7e,
+        type: 2}
+      propertyPath: m_CullTransparentMesh
+      value: 0
+      objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 8a036f5612c32154aa3b9470e6de1b7e, type: 2}
   m_IsPrefabAsset: 0
+--- !u!1 &213285755 stripped
+GameObject:
+  m_CorrespondingSourceObject: {fileID: 1123091744709192, guid: 003bb3b550133df46806de3f0eca3420,
+    type: 2}
+  m_PrefabInternal: {fileID: 1186808458}
+--- !u!225 &213285762
+CanvasGroup:
+  m_ObjectHideFlags: 0
+  m_CorrespondingSourceObject: {fileID: 0}
+  m_PrefabInternal: {fileID: 0}
+  m_GameObject: {fileID: 213285755}
+  m_Enabled: 1
+  m_Alpha: 1
+  m_Interactable: 1
+  m_BlocksRaycasts: 1
+  m_IgnoreParentGroups: 0
 --- !u!1001 &220616111
 Prefab:
   m_ObjectHideFlags: 0
@@ -1669,12 +1706,16 @@ Prefab:
     - target: {fileID: 224876650132966444, guid: 003bb3b550133df46806de3f0eca3420,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.24875621
+      value: -0.2487793
       objectReference: {fileID: 0}
     - target: {fileID: 224610633094315686, guid: 003bb3b550133df46806de3f0eca3420,
         type: 2}
       propertyPath: m_AnchoredPosition.y
-      value: -0.24875621
+      value: -0.2487793
+      objectReference: {fileID: 0}
+    - target: {fileID: 1123091744709192, guid: 003bb3b550133df46806de3f0eca3420, type: 2}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 003bb3b550133df46806de3f0eca3420, type: 2}

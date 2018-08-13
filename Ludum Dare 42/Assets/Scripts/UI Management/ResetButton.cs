@@ -12,6 +12,8 @@ public class ResetButton : MonoBehaviour {
 	}
 
 	private void Update() {
+		//Debug.Log(GM.Instance.getGameState());
+
 		if (GM.Instance.getGameState() != GameState.Playing) {
 			return;
 		}

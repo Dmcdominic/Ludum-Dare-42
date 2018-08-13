@@ -35,7 +35,7 @@ public class GM : MonoBehaviour {
             if (_instance == null) {
                 _instance = GameObject.FindObjectOfType<GM>();
 				if (_instance == null) {
-					Debug.Log("No GM found in the scene");
+					Debug.LogError("No GM found in the scene");
 				}
             }
             return _instance;
@@ -62,10 +62,15 @@ public class GM : MonoBehaviour {
 	}
 
 	private void Start() {
+		refreshGamestate();
+	}
+
+	public void refreshGamestate() {
 		switch (SceneManager.GetActiveScene().name) {
 			case "Init":
 				currentScene = SceneType.Init;
 				setGamestate(GameState.Inactive);
+				loadSceneWithTransition(1);
 				break;
 			case "MainMenu":
 				currentScene = SceneType.MainMenu;
@@ -80,7 +85,7 @@ public class GM : MonoBehaviour {
 
 	// Project management utility
 	void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-		if (mode != LoadSceneMode.Single) {
+		if (mode != LoadSceneMode.Single || getGameState() == GameState.Transitioning) {
 			return;
 		}
 
@@ -122,14 +127,15 @@ public class GM : MonoBehaviour {
 		if (nextSceneIndex < SceneManager.sceneCountInBuildSettings) {
 			Instance.currentScene = SceneType.Other;
 			Instance.setGamestate(GameState.Transitioning);
-			SceneManager.LoadScene(nextSceneIndex);
+			loadSceneWithTransition(nextSceneIndex);
 		} else {
 			Debug.LogError("Scene of build index: " + nextSceneIndex + " not found.");
 		}
 	}
 
 	public static void resetCurrentLevel() {
-		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
+		Instance.setGamestate(GameState.Transitioning);
+		loadSceneWithTransition(SceneManager.GetActiveScene().buildIndex);
 	}
 
 	// Called when you reach the exit and beat the level
@@ -166,6 +172,7 @@ public class GM : MonoBehaviour {
 
 	// Ingame canvas and UI management
 	public void setGamestate(GameState newGameState) {
+		//Debug.Log("Setting to gameState: " + newGameState);
 		if (ingameCanvas) {
 			if (newGameState == GameState.Inactive) {
 				ingameCanvas.gameObject.SetActive(false);
@@ -182,8 +189,9 @@ public class GM : MonoBehaviour {
 	}
 
 	// Load scene with transition
-	private void loadSceneWithTransition(int sceneIndex) {
-
-		SceneManager.LoadScene(sceneIndex);
+	private static void loadSceneWithTransition(int sceneIndex) {
+		FadeOverlayManager.Instance.fadeToBlack(sceneIndex);
+		//SceneManager.LoadScene(sceneIndex);
 	}
+
 }

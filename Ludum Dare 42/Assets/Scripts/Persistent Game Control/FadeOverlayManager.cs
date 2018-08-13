@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class FadeOverlayManager : MonoBehaviour {
 
@@ -13,6 +14,9 @@ public class FadeOverlayManager : MonoBehaviour {
 	private AnimationClip Loading;
 	[SerializeField]
 	private AnimationClip FadeFromBlack;
+
+	[HideInInspector]
+	public int nextSceneIndex = 1;
 
 	// Singleton management
 	private static FadeOverlayManager _instance;
@@ -31,19 +35,25 @@ public class FadeOverlayManager : MonoBehaviour {
 		}
 
 		animator = GetComponent<Animator>();
+		SceneManager.sceneLoaded += OnSceneLoaded;
 	}
 
-	public void fadeToBlack() {
+	public void fadeToBlack(int sceneIndex) {
+		nextSceneIndex = sceneIndex;
+		animator.SetBool("DoneLoading", false);
 		animator.Play("FadeToBlack");
-		
 	}
 
-	public void loading() {
-		animator.Play("Loading");
+	public void onFadeToBlackFinished() {
+		SceneManager.LoadScene(nextSceneIndex);
 	}
 
-	public void fadeFromBlack() {
-		animator.Play("FadeFromBlack");
+	public void onFadeFromBlackFinished() {
+		GM.Instance.refreshGamestate();
+	}
+
+	void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+		animator.SetBool("DoneLoading", true);
 	}
 
 }
