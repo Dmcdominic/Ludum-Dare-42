@@ -28,7 +28,6 @@ public class FlickeringLight : Tile {
                 spr.sprite = half;
                 break;
         }
-        Debug.Log(step);
     }
     public override bool isSteppable()
     {
@@ -42,6 +41,10 @@ public class FlickeringLight : Tile {
                 return true;
         }
         return false;
+    }
+    public override bool isSteppableForNPC()
+    {
+        return true;
     }
     public override void OnStep()
     {

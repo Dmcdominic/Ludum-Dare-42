@@ -77,7 +77,6 @@ public class Player : MonoBehaviour {
 				break;
 			case MoveType.jumpTwoTiles:
 				Vector2Int jumpOverPos = posRounded + new Vector2Int(displacement.x / 2, displacement.y / 2);
-				Debug.Log(jumpOverPos);
 				if (canMoveJumpTwoTiles(displacement, jumpOverPos, targetPos)) {
 					move(moveType, displacement, targetPos);
                     OnSuccessfulStep.Invoke();

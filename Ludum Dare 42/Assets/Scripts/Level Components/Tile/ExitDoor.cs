@@ -8,7 +8,12 @@ public class ExitDoor : Tile {
 		return true;
 	}
 
-	public override void OnStep() {
+    public override bool isSteppableForNPC()
+    {
+        return false;
+    }
+
+    public override void OnStep() {
 		GM.onBeatLevel();
 	}
 

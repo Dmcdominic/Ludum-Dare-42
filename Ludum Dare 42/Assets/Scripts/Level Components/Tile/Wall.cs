@@ -8,8 +8,12 @@ public class Wall : Tile {
 	{
 		return false;
 	}
+    public override bool isSteppableForNPC()
+    {
+        return false;
+    }
 
-	public override void OnStep()
+    public override void OnStep()
     {
 		// Does not apply
     }
