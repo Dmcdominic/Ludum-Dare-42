@@ -14,7 +14,7 @@ public class Powerup : ForegroundObject {
 
 	public override void OnInteraction(MoveType moveType, Vector2Int incomingDisplacement) {
 		LevelManager.applyPowerup(type);
-		this.gameObject.SetActive(false);
+        Destroy(this.gameObject);
 		//TODO: Add interact / fadeout animation if desired
 	}
 

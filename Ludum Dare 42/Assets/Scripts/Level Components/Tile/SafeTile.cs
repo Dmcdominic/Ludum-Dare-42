@@ -8,6 +8,10 @@ public class SafeTile : Tile {
 	{
 		return true;
 	}
+    public override bool isSteppableForNPC()
+    {
+        return true;
+    }
 
     public override void OnStep()
     {

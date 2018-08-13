@@ -20,25 +20,12 @@ public class Employee : MonoBehaviour {
 
 	// Use this for initialization
 	void Start () {
-        if (GM.Instance)
-        {
-            Debug.Log("Found GM!");
-        }
-        if (GM.Instance.currentLevelManager)
-        {
-            Debug.Log("Found CLM!");
-        }
         player = GM.Instance.currentLevelManager.player;
         // Round the player's position to whole numbers
         Vector3 pos = transform.position;
         placeAtPosition(new Vector2Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y)));
         ue = player.OnSuccessfulStep;
-        if (player)
-        {
-            Debug.Log("Found player!");
-        }
         spr = this.gameObject.GetComponent<SpriteRenderer>();
-        Debug.Log(dir);
         ue.AddListener(MoveDir);
     }
 
@@ -67,12 +54,10 @@ public class Employee : MonoBehaviour {
             case Direction.Down:
                 dir = Direction.Up;
                 spr.sprite = up;
-                Debug.Log("direction switched!");
                 break;
             case Direction.Up:
                 dir = Direction.Down;
                 spr.sprite = down;
-                Debug.Log("direction switched!");
                 break;
             case Direction.Left:
                 dir = Direction.Right;
@@ -104,7 +89,6 @@ public class Employee : MonoBehaviour {
                 tryMove(new Vector2Int(distance, 0));
                 break;
         }
-        Debug.Log("I should be moving " + dir + "!");
     }
     // Player input management
     void Update()
@@ -117,7 +101,6 @@ public class Employee : MonoBehaviour {
     private bool tryMove(Vector2Int displacement)
     {
         Vector2Int targetPos = posRounded + displacement;
-        Debug.Log(posRounded);
         
         if (canMoveNormal(displacement, targetPos))
         {
@@ -139,7 +122,7 @@ public class Employee : MonoBehaviour {
         {
             return false;
         }
-        return (tile != null && (tile.isSteppable() || tile.isHole()));
+        return (tile != null && (tile.isSteppableForNPC() || tile.isHole()));
     }
 
     public void move(Vector2Int displacement, Vector2Int targetPosition)

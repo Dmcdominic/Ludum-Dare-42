@@ -5,6 +5,7 @@ using UnityEngine;
 public abstract class Tile : MonoBehaviour {
 
     public abstract bool isSteppable();
+    public abstract bool isSteppableForNPC();
     public abstract void OnStep();
     public abstract void OnLeave();
 
