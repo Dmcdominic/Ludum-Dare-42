@@ -140,6 +140,7 @@ public class MenuManager : MonoBehaviour {
 	}
 
     public void LoadMainMenu() {
+		PauseManager.Instance.resume();
 		GM.changeScene(SceneType.MainMenu);
     }
 

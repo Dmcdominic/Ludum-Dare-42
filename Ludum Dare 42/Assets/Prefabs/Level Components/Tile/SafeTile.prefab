@@ -53,10 +53,10 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   worldSprites:
-  - {fileID: 21300000, guid: 887a43befa53d3b4697e64f364f47cd1, type: 3}
-  - {fileID: 21300000, guid: 061aa40c45657c24991d0d2f9e99de98, type: 3}
-  - {fileID: 21300000, guid: 62105593d07cbf5429015d1c70701a3c, type: 3}
-  - {fileID: 21300000, guid: 3b03ef9aed961854a9f8ae77cf12f34a, type: 3}
+  - {fileID: 21300000, guid: 62773b2550d157443875d7dfb457cff0, type: 3}
+  - {fileID: 21300000, guid: 62773b2550d157443875d7dfb457cff0, type: 3}
+  - {fileID: 21300000, guid: 62773b2550d157443875d7dfb457cff0, type: 3}
+  - {fileID: 21300000, guid: f2b578d90b057324bbad373411e3a4c8, type: 3}
 --- !u!212 &212015731615619710
 SpriteRenderer:
   m_ObjectHideFlags: 1
@@ -92,7 +92,7 @@ SpriteRenderer:
   m_SortingLayerID: 160588997
   m_SortingLayer: -1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 887a43befa53d3b4697e64f364f47cd1, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 812a61a67b669e84d823b7bbe15edfc7, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0

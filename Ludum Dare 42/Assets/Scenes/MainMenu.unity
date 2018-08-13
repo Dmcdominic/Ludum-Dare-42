@@ -418,7 +418,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 941d2800e9913c6438b62201d3dba707, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  MainMenuScreen: {fileID: 0}
+  MainMenuScreen: {fileID: 1198911617}
 --- !u!114 &93789809
 MonoBehaviour:
   m_ObjectHideFlags: 0
@@ -815,8 +815,8 @@ RectTransform:
   m_Father: {fileID: 1198911618}
   m_RootOrder: 4
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.4, y: 0.27}
-  m_AnchorMax: {x: 0.6, y: 0.34}
+  m_AnchorMin: {x: 0.04, y: 0.3}
+  m_AnchorMax: {x: 0.42, y: 0.4}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -855,11 +855,11 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 162271198}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1198911619}
         m_MethodName: Quit
         m_Mode: 1
         m_Arguments:
@@ -895,7 +895,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 4597c012db9381b4c9a68735f47831ec, type: 3}
     m_FontSize: 50
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 5
     m_MaxSize: 50
     m_Alignment: 4
@@ -998,7 +998,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 219437776}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -2612,7 +2612,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1198911617}
         m_MethodName: SetActive
         m_Mode: 6
         m_Arguments:
@@ -3404,10 +3404,10 @@ RectTransform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1198911618}
-  m_RootOrder: 0
+  m_RootOrder: 2
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.42, y: 0.44}
-  m_AnchorMax: {x: 0.58, y: 0.5}
+  m_AnchorMin: {x: 0.04, y: 0.5}
+  m_AnchorMax: {x: 0.42, y: 0.6}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -3446,11 +3446,11 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 771671840}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1198911617}
         m_MethodName: SetActive
         m_Mode: 6
         m_Arguments:
@@ -3818,15 +3818,15 @@ RectTransform:
   m_GameObject: {fileID: 828832967}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
   m_LocalPosition: {x: 0, y: 0, z: 0}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1198911618}
-  m_RootOrder: 1
+  m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.4, y: 0.585}
-  m_AnchorMax: {x: 0.6, y: 0.65}
-  m_AnchoredPosition: {x: -6, y: 5.5}
-  m_SizeDelta: {x: 267, y: 109}
+  m_AnchorMin: {x: 0.04, y: 0.7}
+  m_AnchorMax: {x: 0.42, y: 0.8}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &828832969
 MonoBehaviour:
@@ -3863,11 +3863,11 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 828832970}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1198911619}
         m_MethodName: NewGame
         m_Mode: 1
         m_Arguments:
@@ -3903,10 +3903,10 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 4597c012db9381b4c9a68735f47831ec, type: 3}
     m_FontSize: 100
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 0
     m_MaxSize: 120
-    m_Alignment: 0
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -4170,15 +4170,15 @@ MonoBehaviour:
     m_LineSpacing: 1
   m_Text: 'CREDITS:
 
-    Dominic - most of the code
+    Dominic
 
-    Jack - art
+    Jack
 
-    Aug - music
+    Aug
 
-    Christo - level design & some of the code
+    Christo
 
-    Drew - jack shit Kappa'
+    Drew'
 --- !u!222 &928759968
 CanvasRenderer:
   m_ObjectHideFlags: 0
@@ -4662,7 +4662,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 1010670214}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -5078,7 +5078,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1036386392
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5092,10 +5092,10 @@ RectTransform:
   m_Father: {fileID: 623691479}
   m_RootOrder: 0
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.5, y: 0.5}
-  m_AnchorMax: {x: 0.5, y: 0.5}
-  m_AnchoredPosition: {x: 6, y: -10.5}
-  m_SizeDelta: {x: 1195, y: 717}
+  m_AnchorMin: {x: 0.4, y: 0}
+  m_AnchorMax: {x: 1, y: 1}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1036386393
 MonoBehaviour:
@@ -5116,9 +5116,9 @@ MonoBehaviour:
       m_Calls: []
     m_TypeName: UnityEngine.UI.MaskableGraphic+CullStateChangedEvent, UnityEngine.UI,
       Version=1.0.0.0, Culture=neutral, PublicKeyToken=null
-  m_Sprite: {fileID: 21300000, guid: db3ae2956a0f09c41827d54229b6acaa, type: 3}
+  m_Sprite: {fileID: 21300000, guid: 825efb4492a23464baeae5ea9eaee0b3, type: 3}
   m_Type: 0
-  m_PreserveAspect: 0
+  m_PreserveAspect: 1
   m_FillCenter: 1
   m_FillMethod: 4
   m_FillAmount: 1
@@ -5667,12 +5667,12 @@ GameObject:
   - component: {fileID: 1198911620}
   - component: {fileID: 1198911619}
   m_Layer: 5
-  m_Name: Panel
+  m_Name: MainMenuScreen
   m_TagString: Untagged
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 0
+  m_IsActive: 1
 --- !u!224 &1198911618
 RectTransform:
   m_ObjectHideFlags: 0
@@ -5683,9 +5683,9 @@ RectTransform:
   m_LocalPosition: {x: 0, y: 0, z: 0}
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children:
-  - {fileID: 771671838}
   - {fileID: 828832968}
   - {fileID: 1919591327}
+  - {fileID: 771671838}
   - {fileID: 1419445995}
   - {fileID: 162271196}
   m_Father: {fileID: 623691479}
@@ -5708,7 +5708,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   defaultSelect: {fileID: 828832967}
-  defaultUpSelect: {fileID: 0}
+  defaultUpSelect: {fileID: 162271195}
   backButton: {fileID: 0}
   mm: {fileID: 0}
 --- !u!114 &1198911620
@@ -5717,7 +5717,7 @@ MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1198911617}
-  m_Enabled: 1
+  m_Enabled: 0
   m_EditorHideFlags: 0
   m_Script: {fileID: -765806418, guid: f70555f144d8491a825f0804e09c671c, type: 3}
   m_Name: 
@@ -6243,7 +6243,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1198911617}
         m_MethodName: SetActive
         m_Mode: 6
         m_Arguments:
@@ -7075,8 +7075,8 @@ RectTransform:
   m_Father: {fileID: 1198911618}
   m_RootOrder: 3
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.4, y: 0.35}
-  m_AnchorMax: {x: 0.6, y: 0.42}
+  m_AnchorMin: {x: 0.04, y: 0.4}
+  m_AnchorMax: {x: 0.42, y: 0.5}
   m_AnchoredPosition: {x: 0, y: 0}
   m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
@@ -7115,11 +7115,11 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 1419445997}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1198911617}
         m_MethodName: SetActive
         m_Mode: 6
         m_Arguments:
@@ -7188,7 +7188,7 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 4597c012db9381b4c9a68735f47831ec, type: 3}
     m_FontSize: 50
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 0
     m_MaxSize: 100
     m_Alignment: 4
@@ -7892,7 +7892,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 1654583621}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -9306,16 +9306,16 @@ RectTransform:
   m_PrefabInternal: {fileID: 0}
   m_GameObject: {fileID: 1919591326}
   m_LocalRotation: {x: -0, y: -0, z: -0, w: 1}
-  m_LocalPosition: {x: 0, y: 0, z: -0.07623967}
-  m_LocalScale: {x: 0.5, y: 0.5, z: 1}
+  m_LocalPosition: {x: 0, y: 0, z: 0}
+  m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 1198911618}
-  m_RootOrder: 2
+  m_RootOrder: 1
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
-  m_AnchorMin: {x: 0.36, y: 0.525}
-  m_AnchorMax: {x: 0.64, y: 0.6}
-  m_AnchoredPosition: {x: 7.5, y: -24.5}
-  m_SizeDelta: {x: 476.19995, y: 57.099976}
+  m_AnchorMin: {x: 0.04, y: 0.6}
+  m_AnchorMax: {x: 0.42, y: 0.7}
+  m_AnchoredPosition: {x: 0, y: 0}
+  m_SizeDelta: {x: 0, y: 0}
   m_Pivot: {x: 0.5, y: 0.5}
 --- !u!114 &1919591328
 MonoBehaviour:
@@ -9340,10 +9340,10 @@ MonoBehaviour:
     m_Font: {fileID: 12800000, guid: 4597c012db9381b4c9a68735f47831ec, type: 3}
     m_FontSize: 100
     m_FontStyle: 0
-    m_BestFit: 0
+    m_BestFit: 1
     m_MinSize: 1
     m_MaxSize: 100
-    m_Alignment: 0
+    m_Alignment: 4
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
@@ -9385,11 +9385,11 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 1919591328}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1198911617}
         m_MethodName: SetActive
         m_Mode: 6
         m_Arguments:
@@ -10257,7 +10257,7 @@ MonoBehaviour:
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
-      - m_Target: {fileID: 0}
+      - m_Target: {fileID: 1198911617}
         m_MethodName: SetActive
         m_Mode: 6
         m_Arguments:
@@ -10526,7 +10526,7 @@ MonoBehaviour:
     m_PressedTrigger: Pressed
     m_DisabledTrigger: Disabled
   m_Interactable: 1
-  m_TargetGraphic: {fileID: 0}
+  m_TargetGraphic: {fileID: 2094253539}
   m_OnClick:
     m_PersistentCalls:
       m_Calls:
@@ -10757,7 +10757,7 @@ Camera:
   m_Enabled: 1
   serializedVersion: 2
   m_ClearFlags: 1
-  m_BackGroundColor: {r: 0.19215687, g: 0.3019608, b: 0.4745098, a: 0}
+  m_BackGroundColor: {r: 0, g: 0, b: 0, a: 0}
   m_projectionMatrixMode: 1
   m_SensorSize: {x: 36, y: 24}
   m_LensShift: {x: 0, y: 0}
