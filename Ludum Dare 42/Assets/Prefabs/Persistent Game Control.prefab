@@ -809,7 +809,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59297b8d6aedd474289c7619bceab049, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainMenuTrack: {fileID: 0}
+  mainMenuTrack: {fileID: 8300000, guid: c1517ee3a52524348947d2281c3fb333, type: 3}
   worldTracks: []
   sxs: []
   a_s: {fileID: 82286400812247938}
@@ -853,7 +853,7 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   worldLevelTotals: 050000000800000008000000
   currentScene: 0
-  currentLevelManager: {fileID: 0}
+  _currentLevelManager: {fileID: 0}
   ingameCanvas: {fileID: 0}
 --- !u!222 &222055298605307370
 CanvasRenderer:
