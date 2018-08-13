@@ -124,17 +124,17 @@ public class Floor {
 
 	// Grid utility
 	public void updateTile(Vector2Int truePos, Tile newTile) {
-		Vector2Int gridVect = posToGridVect(truePos);
-		if (gridVect.x < 0 || gridVect.x >= gridWidth ||
-			gridVect.y < 0 || gridVect.y >= gridHeight) {
+		Vector2Int gridVect = truePosToGridVect(truePos);
+		if (!gridCoordsValid(gridVect)) {
 			return;
 		}
 		tileGrid[gridVect.x, gridVect.y] = newTile;
 
 		Vector2Int belowTruePos = truePos + new Vector2Int(0, -1);
-		if (gridCoordsValid(belowTruePos)) {
+		if (trueCoordsValid(belowTruePos)) {
             Tile tileBelow = getTile(belowTruePos);
-            if (tileBelow) {
+			
+			if (tileBelow) {
                 tileBelow.onAboveTileUpdated(newTile);
             }
 		}
@@ -142,7 +142,7 @@ public class Floor {
 
 	// Make private
 	public void updateForegroundObj(Vector2Int truePos, ForegroundObject newObj) {
-		Vector2Int gridVect = posToGridVect(truePos);
+		Vector2Int gridVect = truePosToGridVect(truePos);
 		if (gridVect.x < 0 || gridVect.x >= gridWidth ||
 			gridVect.y < 0 || gridVect.y >= gridHeight) {
 			return;
@@ -167,7 +167,7 @@ public class Floor {
 
 	// Object access methods to account for grid offset
 	public Tile getTile(Vector2Int pos) {
-		Vector2Int gridVect = posToGridVect(pos);
+		Vector2Int gridVect = truePosToGridVect(pos);
 		if (!gridCoordsValid(gridVect)) {
 			return null;
 		}
@@ -175,7 +175,7 @@ public class Floor {
 	}
 
 	public ForegroundObject getForegroundObj(Vector2Int truePos) {
-		Vector2Int gridVect = posToGridVect(truePos);
+		Vector2Int gridVect = truePosToGridVect(truePos);
 		if (!gridCoordsValid(gridVect)) {
 			return null;
 		}
@@ -186,12 +186,16 @@ public class Floor {
 		return (gridVect.x >= 0 && gridVect.x < gridWidth && gridVect.y >= 0 && gridVect.y < gridHeight);
 	}
 
-	// Vector utility
-	private Vector2Int pos3dToGridVect(Vector3 pos) {
-		return posToGridVect(pos3dToVect2Int(pos));
+	private bool trueCoordsValid(Vector2Int truePos) {
+		return gridCoordsValid(truePosToGridVect(truePos));
 	}
 
-	private Vector2Int posToGridVect(Vector2Int pos) {
+	// Vector utility
+	private Vector2Int pos3dToGridVect(Vector3 pos) {
+		return truePosToGridVect(pos3dToVect2Int(pos));
+	}
+
+	private Vector2Int truePosToGridVect(Vector2Int pos) {
 		int gridX = pos.x - minX;
 		int gridY = pos.y - minY;
 		return new Vector2Int(gridX, gridY);

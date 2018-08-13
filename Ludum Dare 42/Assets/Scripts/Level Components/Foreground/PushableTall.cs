@@ -14,6 +14,7 @@ public class PushableTall : ForegroundObject {
 		Vector2Int basePos = Floor.pos3dToVect2Int(transform.position);
 		Vector2Int targetPos = basePos + incomingDisplacement;
 
+		pushNextIfNotThis(floor, moveType, basePos, incomingDisplacement);
 		// Push other objects that get affected
 		foreach (Vector2Int relativePos in additionalCoords) {
 			pushNextIfNotThis(floor, moveType, basePos + relativePos, incomingDisplacement);
