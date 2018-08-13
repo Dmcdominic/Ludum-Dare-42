@@ -35,6 +35,7 @@ public class FadeOverlayManager : MonoBehaviour {
 
 	public void fadeToBlack() {
 		animator.Play("FadeToBlack");
+		
 	}
 
 	public void loading() {
