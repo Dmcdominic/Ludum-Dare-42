@@ -97,41 +97,8 @@ public class MusicManager : MonoBehaviour {
 
     private void Start()
     {
-        /*to1 = GM.toWorldOne;
-        to2 = GM.toWorldTwo;
-        to3 = GM.toWorldThree;
-        toLast = GM.toFinalCutscene;
-        to1.AddListener(ChangeToMusicOne);
-        to2.AddListener(ChangeToMusicTwo);
-        to3.AddListener(ChangeToMusicThree);
-        toLast.AddListener(ChangeToFinalMusic);*/
+        
     }
-
-    /*public int WorldIndexProperty
-    {
-        get { return _worldindexproperty; }
-        set
-        {
-            _worldindexproperty = worldIndex;
-            if (worldIndex == 1)
-            {
-                this.ChangeToMusicOne();
-            }
-            if (worldIndex == 2)
-            {
-                this.ChangeToMusicTwo();
-            }
-            if (worldIndex == 1)
-            {
-                this.ChangeToMusicThree();
-            }
-            if (worldIndex == 1)
-            {
-                this.ChangeToFinalMusic();
-            }
-        }
-    }
-    private int _worldindexproperty; */
 
     void Update() {
 		a_s.volume = max_music_volume;
@@ -139,23 +106,43 @@ public class MusicManager : MonoBehaviour {
 		if (!a_s.isPlaying) a_s.Play();
 	}
 
+    public void ChangeToTutorialMusic()
+    {
+        a_s.clip = world0track;
+        if (!a_s.isPlaying)
+        {
+            a_s.Play();
+        }
+    }
     public void ChangeToMusicOne()
     {
         //world0track.Stop();
         //world1track.Play();
         a_s.clip = world1track;
+        if(!a_s.isPlaying)
+        {
+            a_s.Play();
+        }
     }
     public void ChangeToMusicTwo()
     {
         // world1track.Stop();
         //world2track.Play();
         a_s.clip = world2track;
+        if (!a_s.isPlaying)
+        {
+            a_s.Play();
+        }
     }
     public void ChangeToMusicThree()
     {
         //world2track.Stop();
         //world3track.Play();
         a_s.clip = world3track;
+        if (!a_s.isPlaying)
+        {
+            a_s.Play();
+        }
     }
     public void ChangeToFinalMusic()
     {

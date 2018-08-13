@@ -28,9 +28,19 @@ public class MenuManager : MonoBehaviour {
 
     private EventSystem eventSystem;
 
+    public MusicManager mm;
+
 
     void OnEnable() {
         resetDelay();
+    }
+
+    private void Awake()
+    {
+        if (mm == null)
+        {
+            mm = GameObject.FindObjectOfType<MusicManager>();
+        }
     }
 
     void Update(){
@@ -122,6 +132,7 @@ public class MenuManager : MonoBehaviour {
 	public void NewGame() {
 		// TODO - Reset level progress
 		LoadLevel(0, 0);
+        mm.ChangeToTutorialMusic();
 	}
 
 	public void LoadLevel(int worldIndex, int levelIndex) {

@@ -25,6 +25,10 @@ public class Player : MonoBehaviour {
 	[HideInInspector]
 	public bool jumpTwoActivated = false;
 
+    public AudioClip coffeeJumpSound;
+    public AudioClip footstepSound;
+    public AudioSource player_as;
+
     //Event fires when a successful step (one or two) is taken
     public UnityEvent OnSuccessfulStep = new UnityEvent();
     
@@ -33,6 +37,8 @@ public class Player : MonoBehaviour {
 		// Round the player's position to whole numbers
 		Vector3 pos = transform.position;
 		placeAtPosition(new Vector2Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y)));
+        player_as = this.GetComponent<AudioSource>();
+        player_as.clip = footstepSound;
 	}
 
 	// Player input management
@@ -77,6 +83,7 @@ public class Player : MonoBehaviour {
 			case MoveType.jumpTwoTiles:
 				Vector2Int jumpOverPos = posRounded + new Vector2Int(displacement.x / 2, displacement.y / 2);
 				if (canMoveJumpTwoTiles(displacement, jumpOverPos, targetPos)) {
+                    player_as.clip = coffeeJumpSound;
 					move(moveType, displacement, targetPos);
                     OnSuccessfulStep.Invoke();
 					return true;
@@ -110,6 +117,7 @@ public class Player : MonoBehaviour {
 	public void move(MoveType moveType, Vector2Int displacement, Vector2Int targetPosition) {
 		timer = moveTime;
 
+        player_as.Play();
 		Tile prevTile = LevelManager.getTile(posRounded);
 		prevTile.OnLeave();
 		Tile nextTile = LevelManager.getTile(targetPosition);

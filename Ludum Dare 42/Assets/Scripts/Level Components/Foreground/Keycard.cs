@@ -11,12 +11,19 @@ public class Keycard : ForegroundObject {
 	public Sprite keycardBlue;
 	public Sprite keycardYellow;
 
+    public AudioSource a_s;
+
 	[SerializeField]
 	private ParticleSystem ps;
 
 
 	private new void Start() {
 		updateVisualColors(color);
+        a_s = this.gameObject.GetComponent<AudioSource>();
+        if (a_s.isPlaying)
+        {
+            a_s.Pause();
+        }
 	}
 
 	private void updateVisualColors(KeycardColor color) {
@@ -53,7 +60,8 @@ public class Keycard : ForegroundObject {
 		LevelManager.obtainKeycard(color);
 		Vector2Int truePos = (Floor.pos3dToVect2Int(transform.position));
 		LevelManager.getFloor().updateFgGridForAllPos(null, truePos, additionalCoords, false);
-
+        a_s.Play();
+        Debug.Log("Interaction w/ keycard!");
 		// TODO - Add interact / fadeout animation if desired
 		// For now:
 		gameObject.SetActive(false);
