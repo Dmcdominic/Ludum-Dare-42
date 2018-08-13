@@ -1,10 +1,16 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ExitDoor : Tile {
+    
+    private void Awake()
+    {
+       
+    }
 
-	public override bool isSteppable() {
+    public override bool isSteppable() {
 		return true;
 	}
 
@@ -14,7 +20,7 @@ public class ExitDoor : Tile {
     }
 
     public override void OnStep() {
-		GM.onBeatLevel();
+        GM.onBeatLevel();
 	}
 
 	public override void OnLeave() {
