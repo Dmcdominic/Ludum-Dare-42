@@ -104,10 +104,10 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   additionalCoords: []
   color: 0
-  keycardRed: {fileID: 21300000, guid: d45f51ef83e1bad4ebb3479ede3b09fa, type: 3}
-  keycardGreen: {fileID: 21300000, guid: 473c9aff96e0b4445a2f446ce7d475b6, type: 3}
-  keycardBlue: {fileID: 21300000, guid: 04124cbe53112574eaf6077bde7453ca, type: 3}
-  keycardYellow: {fileID: 21300000, guid: 1ab63b5f4e1ea064d9bfbc753dbdc625, type: 3}
+  keycardRed: {fileID: 21300000, guid: 5656da02cf95ca64599e2eb68ec38e91, type: 3}
+  keycardGreen: {fileID: 21300000, guid: dc726e13e79860f43be21def83f186cb, type: 3}
+  keycardBlue: {fileID: 21300000, guid: 660b42b3d63e56841a6710720654ac0f, type: 3}
+  keycardYellow: {fileID: 21300000, guid: 54e56ee4906f0954f82969531d1a6261, type: 3}
   sr: {fileID: 212753960281055186}
   ps: {fileID: 198651486031386950}
 --- !u!198 &198651486031386950
