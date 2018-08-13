@@ -129,7 +129,7 @@ public class MenuManager : MonoBehaviour {
 	}
 
     public void LoadMainMenu() {
-		GM.changeScene(Scene.MainMenu);
+		GM.changeScene(SceneType.MainMenu);
     }
 
     public void Quit() {

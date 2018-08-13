@@ -55,19 +55,19 @@ public class IngameCanvas : MonoBehaviour {
 		switch (color) {
 			case KeycardColor.Red:
 				redKeycard.SetActive(true);
-				redCounter.text = newCount + " / " + total;
+				redCounter.text = newCount + "/" + total;
 				break;
 			case KeycardColor.Green:
 				greenKeycard.SetActive(true);
-				greenCounter.text = newCount + " / " + total;
+				greenCounter.text = newCount + "/" + total;
 				break;
 			case KeycardColor.Blue:
 				blueKeycard.SetActive(true);
-				blueCounter.text = newCount + " / " + total;
+				blueCounter.text = newCount + "/" + total;
 				break;
 			case KeycardColor.Yellow:
 				yellowKeycard.SetActive(true);
-				yellowCounter.text = newCount + " / " + total;
+				yellowCounter.text = newCount + "/" + total;
 				break;
 		}
 	}

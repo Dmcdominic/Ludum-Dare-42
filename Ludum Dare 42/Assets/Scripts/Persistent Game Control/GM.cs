@@ -3,8 +3,8 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
 
-public enum Scene { Init, MainMenu, Other };
-public enum GameState { Playing, Paused, Inactive };
+public enum SceneType { Init, MainMenu, Other };
+public enum GameState { Playing, Paused, Inactive, Transitioning };
 
 public class GM : MonoBehaviour {
 
@@ -16,7 +16,7 @@ public class GM : MonoBehaviour {
 
 	// References
 	[HideInInspector]
-	public Scene currentScene;
+	public SceneType currentScene;
 
 	[HideInInspector]
 	private GameState gameState;
@@ -54,45 +54,63 @@ public class GM : MonoBehaviour {
 			DontDestroyOnLoad(this);
 		}
 
+		SceneManager.sceneLoaded += OnSceneLoaded;
+
 		if (ingameCanvas == null) {
 			ingameCanvas = GameObject.FindObjectOfType<IngameCanvas>();
 		}
+	}
 
-		string sceneName = SceneManager.GetActiveScene().name;
-		switch(sceneName) {
+	private void Start() {
+		switch (SceneManager.GetActiveScene().name) {
 			case "Init":
-				currentScene = Scene.Init;
+				currentScene = SceneType.Init;
 				setGamestate(GameState.Inactive);
 				break;
 			case "MainMenu":
-				currentScene = Scene.MainMenu;
+				currentScene = SceneType.MainMenu;
 				setGamestate(GameState.Inactive);
 				break;
 			default:
-				currentScene = Scene.Other;
+				currentScene = SceneType.Other;
 				setGamestate(GameState.Playing);
 				break;
 		}
 	}
 
-	private void Start() {
-		if (currentScene == Scene.Init) {
-			changeScene(Scene.MainMenu);
+	// Project management utility
+	void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+		if (mode != LoadSceneMode.Single) {
+			return;
+		}
+
+		switch (scene.name) {
+			case "Init":
+				currentScene = SceneType.Init;
+				setGamestate(GameState.Inactive);
+				break;
+			case "MainMenu":
+				currentScene = SceneType.MainMenu;
+				setGamestate(GameState.Inactive);
+				break;
+			default:
+				currentScene = SceneType.Other;
+				setGamestate(GameState.Playing);
+				break;
 		}
 	}
 
-	// Project management utility
-	public static void changeScene(Scene scene) {
+	public static void changeScene(SceneType scene) {
 		Instance.currentScene = scene;
 		switch (scene) {
-			case (Scene.Init):
-				Instance.currentScene = Scene.Init;
-				Instance.setGamestate(GameState.Inactive);
+			case (SceneType.Init):
+				Instance.currentScene = SceneType.Init;
+				Instance.setGamestate(GameState.Transitioning);
 				SceneManager.LoadScene(0);
 				break;
-			case (Scene.MainMenu):
-				Instance.currentScene = Scene.MainMenu;
-				Instance.setGamestate(GameState.Inactive);
+			case (SceneType.MainMenu):
+				Instance.currentScene = SceneType.MainMenu;
+				Instance.setGamestate(GameState.Transitioning);
 				SceneManager.LoadScene(1);
 				break;
 		}
@@ -102,12 +120,16 @@ public class GM : MonoBehaviour {
 		int nextSceneIndex = getLvlIndexFromWorld(world, level);
 		
 		if (nextSceneIndex < SceneManager.sceneCountInBuildSettings) {
-			Instance.currentScene = Scene.Other;
-			Instance.setGamestate(GameState.Playing);
+			Instance.currentScene = SceneType.Other;
+			Instance.setGamestate(GameState.Transitioning);
 			SceneManager.LoadScene(nextSceneIndex);
 		} else {
 			Debug.LogError("Scene of build index: " + nextSceneIndex + " not found.");
 		}
+	}
+
+	public static void resetCurrentLevel() {
+		SceneManager.LoadScene(SceneManager.GetActiveScene().buildIndex);
 	}
 
 	// Called when you reach the exit and beat the level
@@ -151,11 +173,17 @@ public class GM : MonoBehaviour {
 				ingameCanvas.gameObject.SetActive(true);
 			}
 		}
-
+		
 		gameState = newGameState;
 	}
 
 	public GameState getGameState() {
 		return gameState;
+	}
+
+	// Load scene with transition
+	private void loadSceneWithTransition(int sceneIndex) {
+
+		SceneManager.LoadScene(sceneIndex);
 	}
 }
