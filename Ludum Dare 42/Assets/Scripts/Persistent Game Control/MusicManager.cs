@@ -52,7 +52,7 @@ public class MusicManager : MonoBehaviour {
     public UnityEvent to3;
     public UnityEvent toLast;
 
-    public int worldIndex;
+    //public int worldIndex;
 
     // Singleton instance setup
     private static MusicManager _instance;
@@ -80,7 +80,7 @@ public class MusicManager : MonoBehaviour {
 		a_s.volume = max_music_volume;
 		a_s.Play();
 
-        worldIndex = GM.Instance.currentLevelManager.worldIndex;
+        //worldIndex = GM.Instance.currentLevelManager.worldIndex;
 
         /*for (int i = 0; i < sxs.Length; i++) {
 			GameObject g = Instantiate(source, transform);
