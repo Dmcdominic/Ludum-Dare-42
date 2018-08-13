@@ -994,11 +994,11 @@ Prefab:
     m_Modifications:
     - target: {fileID: 4654466907628432, guid: 4408170d54a1e0c47baa74fdb7cf3b53, type: 2}
       propertyPath: m_LocalPosition.x
-      value: 1
+      value: 5
       objectReference: {fileID: 0}
     - target: {fileID: 4654466907628432, guid: 4408170d54a1e0c47baa74fdb7cf3b53, type: 2}
       propertyPath: m_LocalPosition.y
-      value: 2
+      value: 3
       objectReference: {fileID: 0}
     - target: {fileID: 4654466907628432, guid: 4408170d54a1e0c47baa74fdb7cf3b53, type: 2}
       propertyPath: m_LocalPosition.z

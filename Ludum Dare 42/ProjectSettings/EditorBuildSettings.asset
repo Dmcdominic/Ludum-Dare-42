@@ -36,17 +36,17 @@ EditorBuildSettings:
     path: Assets/Scenes/World 1/1-3.unity
     guid: 98c483e1682c4504bb0d2b96a9723691
   - enabled: 1
-    path: Assets/Scenes/World 1/1-4.unity
-    guid: d95e534e5e0a6c0469824120b40631bb
-  - enabled: 1
-    path: Assets/Scenes/World 1/1-5.unity
-    guid: 8d440f65850812a43ac0a0c316c3a5b2
-  - enabled: 1
     path: Assets/Scenes/World 1/1-6.unity
     guid: 943d25211b0445244820261e94d58110
   - enabled: 1
     path: Assets/Scenes/World 1/1-7.unity
     guid: bca3c61a9d7430c4094a4628b188a1dd
+  - enabled: 1
+    path: Assets/Scenes/World 1/1-4.unity
+    guid: d95e534e5e0a6c0469824120b40631bb
+  - enabled: 1
+    path: Assets/Scenes/World 1/1-5.unity
+    guid: 8d440f65850812a43ac0a0c316c3a5b2
   - enabled: 1
     path: Assets/Scenes/World 1/1-8.unity
     guid: 55653e1b0da774141b865513206c5928
@@ -66,11 +66,11 @@ EditorBuildSettings:
     path: Assets/Scenes/World 2/2-5.unity
     guid: 3be25f7eafcce7b4ab4975aae0020da0
   - enabled: 1
-    path: Assets/Scenes/World 2/2-6.unity
-    guid: 4b00774108d8ec949a7abaaf4a32bead
-  - enabled: 1
     path: Assets/Scenes/World 2/2-7.unity
     guid: 3893d213516ced44a9814cc31e3eb4d7
+  - enabled: 1
+    path: Assets/Scenes/World 2/2-6.unity
+    guid: 4b00774108d8ec949a7abaaf4a32bead
   - enabled: 1
     path: Assets/Scenes/World 2/2-8.unity
     guid: 50754582303f34e428b5550ba3b8f444

@@ -7,14 +7,40 @@ public class Employee : MonoBehaviour {
     [HideInInspector]
     public UnityEvent ue;
     public Direction dir;
+    private SpriteRenderer spr;
+    private Player player;
+
+    public Sprite up;
+    public Sprite down;
+    public Sprite left;
+    public Sprite right;
 
     [HideInInspector]
     public enum Direction {Up, Down, Left, Right};
 
 	// Use this for initialization
 	void Start () {
-        ue = GM.Instance.currentLevelManager.player.OnSuccessfulStep;
-	}
+        if (GM.Instance)
+        {
+            Debug.Log("Found GM!");
+        }
+        if (GM.Instance.currentLevelManager)
+        {
+            Debug.Log("Found CLM!");
+        }
+        player = GM.Instance.currentLevelManager.player;
+        // Round the player's position to whole numbers
+        Vector3 pos = transform.position;
+        placeAtPosition(new Vector2Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y)));
+        ue = player.OnSuccessfulStep;
+        if (player)
+        {
+            Debug.Log("Found player!");
+        }
+        spr = this.gameObject.GetComponent<SpriteRenderer>();
+        Debug.Log(dir);
+        ue.AddListener(MoveDir);
+    }
 
     // References
     private Animator animator;
@@ -30,11 +56,8 @@ public class Employee : MonoBehaviour {
     // Initialization
     private void Awake()
     {
-        // Round the player's position to whole numbers
-        Vector3 pos = transform.position;
-        placeAtPosition(new Vector2Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y)));
-
-        ue.AddListener(MoveDir);
+        
+        
     }
 
     void SwitchDir(Direction d)
@@ -42,22 +65,25 @@ public class Employee : MonoBehaviour {
         switch (d)
         {
             case Direction.Down:
-                d = Direction.Up;
-                //TODO: change sprite
+                dir = Direction.Up;
+                spr.sprite = up;
+                Debug.Log("direction switched!");
                 break;
             case Direction.Up:
-                d = Direction.Down;
-                //TODO: change sprite
+                dir = Direction.Down;
+                spr.sprite = down;
+                Debug.Log("direction switched!");
                 break;
             case Direction.Left:
-                d = Direction.Right;
-                //TODO: change sprite
+                dir = Direction.Right;
+                spr.sprite = right;
                 break;
             case Direction.Right:
-                d = Direction.Left;
-                //TODO: change sprite
+                dir = Direction.Left;
+                spr.sprite = left;
                 break;
         }
+        
     }
 
     void MoveDir()
@@ -78,6 +104,7 @@ public class Employee : MonoBehaviour {
                 tryMove(new Vector2Int(distance, 0));
                 break;
         }
+        Debug.Log("I should be moving " + dir + "!");
     }
     // Player input management
     void Update()
@@ -108,7 +135,11 @@ public class Employee : MonoBehaviour {
     {
         Tile tile = LevelManager.getTile(targetPos);
         ForegroundObject foregroundObj = LevelManager.getForegroundObject(targetPos);
-        return ((tile != null && (tile.isSteppable() || false)) && (foregroundObj == null || foregroundObj.IsSteppable(MoveType.normal, displacement)));
+        if (foregroundObj)
+        {
+            return false;
+        }
+        return (tile != null && (tile.isSteppable() || tile.isHole()));
     }
 
     public void move(Vector2Int displacement, Vector2Int targetPosition)
@@ -117,11 +148,9 @@ public class Employee : MonoBehaviour {
         prevTile.OnLeave();
         Tile nextTile = LevelManager.getTile(targetPosition);
         nextTile.OnStep();
-
-        ForegroundObject foregroundObject = LevelManager.getForegroundObject(targetPosition);
-        if (foregroundObject != null)
+        if (nextTile.isHole())
         {
-            foregroundObject.OnInteraction(MoveType.normal, displacement);
+            Destroy(this.gameObject);
         }
         normalMoveAnim(displacement, targetPosition);      
     }

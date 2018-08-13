@@ -11,7 +11,8 @@ public class ChangeableTile : Tile {
     public Sprite hole;
 	public Sprite holeShaded;
     private SpriteRenderer sr;
-
+    private bool trueHoleStatus = false;
+   
     private void Awake()
     {
         sr = this.gameObject.GetComponent<SpriteRenderer>();
@@ -50,7 +51,8 @@ public class ChangeableTile : Tile {
             sr.sprite = hole;
 			checkForSpriteUpdate();
 			Vector2Int truePos = Floor.pos3dToVect2Int(this.transform.position);
-			LevelManager.getFloor().updateTile(truePos, this);
+            trueHoleStatus = true;
+            LevelManager.getFloor().updateTile(truePos, this);
         }
     }
 
@@ -80,5 +82,9 @@ public class ChangeableTile : Tile {
 			}
 		}
 	}
+    public override bool isHole()
+    {
+        return trueHoleStatus;
+    }
 
 }
