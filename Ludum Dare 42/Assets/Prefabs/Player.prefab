@@ -104,6 +104,9 @@ MonoBehaviour:
   walkingRight: {fileID: 7400000, guid: 5bf251a2eb6b5d14f94513c4dafe30d0, type: 2}
   posRounded: {x: 0, y: 0}
   jumpTwoActivated: 0
+  coffeeJumpSound: {fileID: 0}
+  footstepSound: {fileID: 0}
+  player_as: {fileID: 0}
   OnSuccessfulStep:
     m_PersistentCalls:
       m_Calls: []

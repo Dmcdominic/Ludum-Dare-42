@@ -4,11 +4,6 @@ using UnityEngine;
 using UnityEngine.Events;
 
 public class ExitDoor : Tile {
-    
-    private void Awake()
-    {
-       
-    }
 
     public override bool isSteppable() {
 		return true;

@@ -6,14 +6,31 @@ public class LockedDoor : ForegroundObject {
 
 	public List<KeycardColor> keycardsRequired;
 
+	[SerializeField]
+	private List<Sprite> keycardsByColor;
 
-	private void Start() {
+	private new void Start() {
 		updateVisualColors(keycardsRequired[0]);
 	}
 
 	private void updateVisualColors(KeycardColor color) {
 		if (sr != null) {
-			sr.color = PrefabManager.Instance.getColorHex(color);
+			//sr.color = PrefabManager.Instance.getColorHex(color);
+			switch (color) {
+				case KeycardColor.Red:
+					sr.sprite = keycardsByColor[0];
+					break;
+				case KeycardColor.Green:
+					sr.sprite = keycardsByColor[1];
+					break;
+				case KeycardColor.Blue:
+					sr.sprite = keycardsByColor[2];
+					break;
+				case KeycardColor.Yellow:
+					sr.sprite = keycardsByColor[3];
+					break;
+			}
+			
 		}
 	}
 

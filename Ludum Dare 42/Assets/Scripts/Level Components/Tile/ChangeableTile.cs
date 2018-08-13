@@ -11,7 +11,13 @@ public class ChangeableTile : Tile {
     public Sprite hole;
 	public List<Sprite> holeShaded;
     private bool trueHoleStatus = false;
-   
+
+	//[SerializeField]
+	//private Animator animator;
+	//[SerializeField]
+	//private AnimationClip fallingAnim;
+
+
     private new void Awake() {
 		base.Awake();
 		if (stepsRemaining == 0) {
@@ -62,6 +68,7 @@ public class ChangeableTile : Tile {
 			Vector2Int truePos = Floor.pos3dToVect2Int(this.transform.position);
 			checkForSpriteUpdate();
 			LevelManager.getFloor().updateTile(truePos, this);
+			//playTileFallAnim();
 		}
     }
 
@@ -114,5 +121,10 @@ public class ChangeableTile : Tile {
     {
         return trueHoleStatus;
     }
+
+	private void playTileFallAnim() {
+		//animator.Play("HoleFall");
+		// Try to make the hole below dissapear
+	}
 
 }

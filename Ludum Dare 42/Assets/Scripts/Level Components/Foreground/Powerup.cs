@@ -8,6 +8,10 @@ public class Powerup : ForegroundObject {
 
 	public PowerupType type;
 
+	private new void Start() {
+		// Do nothing
+	}
+
 	public override bool IsSteppable(MoveType moveType, Vector2Int incomingDisplacement) {
 		return true;
 	}
