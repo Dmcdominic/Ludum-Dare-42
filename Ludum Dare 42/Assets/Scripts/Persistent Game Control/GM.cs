@@ -104,7 +104,7 @@ public class GM : MonoBehaviour {
 		if (nextSceneIndex < SceneManager.sceneCountInBuildSettings) {
 			Instance.currentScene = Scene.Other;
 			Instance.setGamestate(GameState.Playing);
-			SceneManager.LoadScene(level + levelScenesIndexOffset);
+			SceneManager.LoadScene(nextSceneIndex);
 		} else {
 			Debug.LogError("Scene of build index: " + nextSceneIndex + " not found.");
 		}
@@ -113,7 +113,6 @@ public class GM : MonoBehaviour {
 	// Called when you reach the exit and beat the level
 	public static void onBeatLevel() {
 		Debug.Log("YOU BEAT IT!");
-		// TODO - figure out the next level in the world, or conclude the world if it was the last one.
 		int currentWorld = Instance.currentLevelManager.worldIndex;
 		int currentLevel = Instance.currentLevelManager.levelIndex;
 

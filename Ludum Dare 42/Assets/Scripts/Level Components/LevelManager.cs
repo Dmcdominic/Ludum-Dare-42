@@ -40,19 +40,21 @@ public class LevelManager : MonoBehaviour {
 			floor = new Floor(tilesParent, foregroundParent);
 		}
 
-		IngameCanvas.Instance.resetAll();
-
 		obtainedKeycards = new Dictionary<KeycardColor, int>();
 		foreach (KeycardColor color in System.Enum.GetValues(typeof(KeycardColor))) {
 			obtainedKeycards.Add(color, 0);
-			if (floor.keycardTotals[color] > 0) {
-				IngameCanvas.Instance.initKeycard(color);
-			}
 		}
 	}
 
 	// Use this for initialization
 	void Start () {
+		IngameCanvas.Instance.resetAll();
+		foreach (KeycardColor color in System.Enum.GetValues(typeof(KeycardColor))) {
+			if (floor.keycardTotals[color] > 0) {
+				IngameCanvas.Instance.initKeycard(color);
+			}
+		}
+
 		// TODO - position camera to view the whole floor? Or is that just being done level by level
 	}
 
