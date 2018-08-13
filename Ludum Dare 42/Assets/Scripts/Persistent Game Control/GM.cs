@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 public enum SceneType { Init, MainMenu, Other };
 public enum GameState { Playing, Paused, Inactive, Transitioning };
@@ -21,15 +22,32 @@ public class GM : MonoBehaviour {
 	[HideInInspector]
 	private GameState gameState;
 
-	[HideInInspector]
-	public LevelManager currentLevelManager;
+    [HideInInspector]
+    public LevelManager _currentLevelManager;
+    public LevelManager currentLevelManager {
+        get
+        {
+            if (!_currentLevelManager)
+            {
+                _currentLevelManager = GameObject.FindObjectOfType<LevelManager>();
+            }
+            return _currentLevelManager;
+        }
+    }
 
 	[HideInInspector]
 	public IngameCanvas ingameCanvas;
 
+    //World change trigger
+    public static UnityEvent toWorldOne = new UnityEvent();
+    public static UnityEvent toWorldTwo = new UnityEvent();
+    public static UnityEvent toWorldThree = new UnityEvent();
+    public static UnityEvent toFinalCutscene = new UnityEvent();
 
-	// Singleton management
-	private static GM _instance;
+    public static MusicManager mm;
+
+    // Singleton management
+    private static GM _instance;
     public static GM Instance {
         get {
             if (_instance == null) {
@@ -59,10 +77,19 @@ public class GM : MonoBehaviour {
 		if (ingameCanvas == null) {
 			ingameCanvas = GameObject.FindObjectOfType<IngameCanvas>();
 		}
+        if (mm == null)
+        {
+            mm = GameObject.FindObjectOfType<MusicManager>();
+        }
 	}
 
 	private void Start() {
 		refreshGamestate();
+        //mm = GetComponentInParent<MusicManager>();
+        if (mm)
+        {
+            Debug.Log("MM exists!");
+        }
 	}
 
 	public void refreshGamestate() {
@@ -79,6 +106,7 @@ public class GM : MonoBehaviour {
 			default:
 				currentScene = SceneType.Other;
 				setGamestate(GameState.Playing);
+
 				break;
 		}
 	}
@@ -101,7 +129,7 @@ public class GM : MonoBehaviour {
 			default:
 				currentScene = SceneType.Other;
 				setGamestate(GameState.Playing);
-				break;
+                break;
 		}
 	}
 
@@ -140,7 +168,7 @@ public class GM : MonoBehaviour {
 
 	// Called when you reach the exit and beat the level
 	public static void onBeatLevel() {
-		Debug.Log("YOU BEAT IT!");
+		
 		int currentWorld = Instance.currentLevelManager.worldIndex;
 		int currentLevel = Instance.currentLevelManager.levelIndex;
 
@@ -148,10 +176,43 @@ public class GM : MonoBehaviour {
 		SaveManager.Instance.saveLevelProgress(absoluteLvlIndex);
 
 		if (currentLevel == Instance.worldLevelTotals[currentWorld] - 1) {
-			// TODO - Conclude this world. Cutscene?
-			// Temporary:
 			changeToLevelScene(currentWorld + 1, 0);
-		} else {
+            switch (Instance.currentLevelManager.worldIndex)
+            {
+                case 0:
+                    if (Instance.currentLevelManager.levelIndex == 4)
+                    {
+                        toWorldOne.Invoke();
+                        Debug.Log("Switching to world " + Instance.currentLevelManager.worldIndex + "!");
+                        mm.ChangeToMusicOne();
+                    }
+                    break;
+                case 1:
+                    if (Instance.currentLevelManager.levelIndex == 7)
+                    {
+                        toWorldTwo.Invoke();
+                        Debug.Log("Switching to world " + Instance.currentLevelManager.worldIndex + "!");
+                        mm.ChangeToMusicTwo();
+                    }
+                    break;
+                case 2:
+                    if (Instance.currentLevelManager.levelIndex == 7)
+                    {
+                        toWorldThree.Invoke();
+                        Debug.Log("Switching to world " + Instance.currentLevelManager.worldIndex + "!");
+                        mm.ChangeToMusicThree();
+                    }
+                    break;
+                case 3:
+                    if (Instance.currentLevelManager.levelIndex == 7)
+                    {
+                        toFinalCutscene.Invoke();
+                        Debug.Log("Switching to final cutscene!");
+                        mm.ChangeToFinalMusic();
+                    }
+                    break;
+            }
+        } else {
 			// TODO - Loading screen?
 			changeToLevelScene(currentWorld, currentLevel + 1);
 		}

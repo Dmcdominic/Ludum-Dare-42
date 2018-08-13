@@ -2,6 +2,7 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.SceneManagement;
+using UnityEngine.Events;
 
 [System.Serializable]
 public struct sx {
@@ -32,18 +33,29 @@ public class MusicManager : MonoBehaviour {
 	[SerializeField]
 	public sx[] sxs;
 
-	[HideInInspector]
+	
 	public AudioSource a_s;
 
-	private float pitch;
-	public GameObject source;
+    public AudioClip world0track;
+    public AudioClip world1track;
+    public AudioClip world2track;
+    public AudioClip world3track;
+
+    private float pitch;
+	//public GameObject source;
 	public float max_music_volume;
 	public float max_effects_volume;
 	public static float global_pitch = 1;
 
+    public UnityEvent to1;
+    public UnityEvent to2;
+    public UnityEvent to3;
+    public UnityEvent toLast;
 
-	// Singleton instance setup
-	private static MusicManager _instance;
+    public int worldIndex;
+
+    // Singleton instance setup
+    private static MusicManager _instance;
 	public static MusicManager Instance { get { return _instance; } }
 
 	private void Awake() {
@@ -68,32 +80,100 @@ public class MusicManager : MonoBehaviour {
 		a_s.volume = max_music_volume;
 		a_s.Play();
 
+        worldIndex = GM.Instance.currentLevelManager.worldIndex;
 
-		for (int i = 0; i < sxs.Length; i++) {
+        /*for (int i = 0; i < sxs.Length; i++) {
 			GameObject g = Instantiate(source, transform);
 			g.name = sxs[i].name;
 			sxs[i].source = g.GetComponent<AudioSource>();
-		}
+		}*/
 
+        //a_s = this.GetComponent<AudioSource>();
+        if (a_s)
+        {
+            Debug.Log("Found audiosource!");
+        }
 	}
 
-	void Update() {
+    private void Start()
+    {
+        /*to1 = GM.toWorldOne;
+        to2 = GM.toWorldTwo;
+        to3 = GM.toWorldThree;
+        toLast = GM.toFinalCutscene;
+        to1.AddListener(ChangeToMusicOne);
+        to2.AddListener(ChangeToMusicTwo);
+        to3.AddListener(ChangeToMusicThree);
+        toLast.AddListener(ChangeToFinalMusic);*/
+    }
+
+    /*public int WorldIndexProperty
+    {
+        get { return _worldindexproperty; }
+        set
+        {
+            _worldindexproperty = worldIndex;
+            if (worldIndex == 1)
+            {
+                this.ChangeToMusicOne();
+            }
+            if (worldIndex == 2)
+            {
+                this.ChangeToMusicTwo();
+            }
+            if (worldIndex == 1)
+            {
+                this.ChangeToMusicThree();
+            }
+            if (worldIndex == 1)
+            {
+                this.ChangeToFinalMusic();
+            }
+        }
+    }
+    private int _worldindexproperty; */
+
+    void Update() {
 		a_s.volume = max_music_volume;
 		a_s.pitch = global_pitch;
 		if (!a_s.isPlaying) a_s.Play();
 	}
 
+    public void ChangeToMusicOne()
+    {
+        //world0track.Stop();
+        //world1track.Play();
+        a_s.clip = world1track;
+    }
+    public void ChangeToMusicTwo()
+    {
+        // world1track.Stop();
+        //world2track.Play();
+        a_s.clip = world2track;
+    }
+    public void ChangeToMusicThree()
+    {
+        //world2track.Stop();
+        //world3track.Play();
+        a_s.clip = world3track;
+    }
+    public void ChangeToFinalMusic()
+    {
+        // world3track.Stop();
+        a_s.Stop();
+    }
 
-	public void shot() {
+
+    /*public void shot() {
 		play_sound(0);
 	}
 
 	public void die() {
 		play_sound(1);
 	}
+    */
 
-
-	public static void play_by_name(string name) {
+    public static void play_by_name(string name) {
 		for (int i = 0; i < _instance.sxs.Length; i++) {
 			if (_instance.sxs[i].name == name)
 				play_sound(i);

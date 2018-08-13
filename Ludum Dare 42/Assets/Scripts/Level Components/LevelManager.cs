@@ -27,10 +27,7 @@ public class LevelManager : MonoBehaviour {
 	}
 
 	private void Awake() {
-		if (GM.Instance.currentLevelManager != null) {
-			Debug.LogError("Multiple LevelManagers active. Please destroy the first one before instantiating another.");
-		}
-		GM.Instance.currentLevelManager = this;
+		GM.Instance._currentLevelManager = this;
 
 		if (tilesParent == null) {
 			Debug.LogError("Please drag the Tiles parent object into the Tiles Parent field of the LevelManager.");
