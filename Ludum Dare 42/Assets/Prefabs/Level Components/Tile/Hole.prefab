@@ -52,12 +52,21 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: eb69aa0087b395c44ae957ac05cec614, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  worldSprites: []
   stepsRemaining: 0
-  whiteTile: {fileID: 21300000, guid: 04104f02d0bfd004388990fcc4110150, type: 3}
-  orangeTile: {fileID: 21300000, guid: 95f099e6982270741b952ec27c1f10d6, type: 3}
-  redTile: {fileID: 21300000, guid: 9175533bf28ccb74ca5c5d82e0ddc7b7, type: 3}
+  whiteTile: []
+  orangeTile: []
+  redTile:
+  - {fileID: 21300000, guid: 9175533bf28ccb74ca5c5d82e0ddc7b7, type: 3}
+  - {fileID: 21300000, guid: bcc4dba17aad32247a16b769b2118545, type: 3}
+  - {fileID: 21300000, guid: 197e83d1b32f89c4294127f9786759e5, type: 3}
+  - {fileID: 21300000, guid: 7e2c4d66b6d05834398571e76a4cf514, type: 3}
   hole: {fileID: 21300000, guid: 49bff9648c392934eb31f7d37f22aff8, type: 3}
-  holeShaded: {fileID: 21300000, guid: b941821c8964c85498d82b8e2cc2dbaf, type: 3}
+  holeShaded:
+  - {fileID: 21300000, guid: b941821c8964c85498d82b8e2cc2dbaf, type: 3}
+  - {fileID: 21300000, guid: aa32b9d5d2868f946bf8e5f5c82bdd83, type: 3}
+  - {fileID: 21300000, guid: 9326a20951c717d43bf708f510859bf6, type: 3}
+  - {fileID: 21300000, guid: bccc6d8732a5c0c46969af2691e63bef, type: 3}
 --- !u!212 &212367011176007874
 SpriteRenderer:
   m_ObjectHideFlags: 1

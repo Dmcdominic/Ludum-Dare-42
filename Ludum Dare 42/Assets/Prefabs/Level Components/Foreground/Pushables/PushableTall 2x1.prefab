@@ -52,6 +52,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 64d6e592e3795b44681b6acb8920b4bc, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  worldSprites:
+  - {fileID: 21300000, guid: 80e93055e0dd4344885688b02c5bad02, type: 3}
+  - {fileID: 21300000, guid: 80e93055e0dd4344885688b02c5bad02, type: 3}
+  - {fileID: 21300000, guid: 80e93055e0dd4344885688b02c5bad02, type: 3}
+  - {fileID: 21300000, guid: 8c503e4b245119b43aff250d61ccf575, type: 3}
   additionalCoords:
   - {x: 1, y: 0}
 --- !u!212 &212615469904189976
@@ -89,8 +94,8 @@ SpriteRenderer:
   m_SortingLayerID: 317437593
   m_SortingLayer: 1
   m_SortingOrder: 0
-  m_Sprite: {fileID: 21300000, guid: 59e755f9c6419db4fbb24d1dc77c040f, type: 3}
-  m_Color: {r: 0.8196079, g: 0.8196079, b: 0.85098046, a: 1}
+  m_Sprite: {fileID: 21300000, guid: 80e93055e0dd4344885688b02c5bad02, type: 3}
+  m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
   m_FlipY: 0
   m_DrawMode: 0

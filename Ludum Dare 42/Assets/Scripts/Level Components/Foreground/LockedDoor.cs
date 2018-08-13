@@ -6,8 +6,6 @@ public class LockedDoor : ForegroundObject {
 
 	public List<KeycardColor> keycardsRequired;
 
-	[SerializeField]
-	private SpriteRenderer sr;
 
 	private void Start() {
 		updateVisualColors(keycardsRequired[0]);

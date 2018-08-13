@@ -9,6 +9,24 @@ public abstract class Tile : MonoBehaviour {
     public abstract void OnStep();
     public abstract void OnLeave();
 
+	public List<Sprite> worldSprites;
+
+	protected SpriteRenderer sr;
+
+
+	protected void Awake() {
+		sr = GetComponentInChildren<SpriteRenderer>();
+	}
+
+	protected void Start() {
+		int worldIndex = GM.Instance.currentLevelManager.worldIndex;
+		if (worldIndex >= worldSprites.Count) {
+			Debug.LogError("Missing some worldsprites on: " + this.GetType());
+		} else {
+			sr.sprite = worldSprites[GM.Instance.currentLevelManager.worldIndex];
+		}
+	}
+
 	public virtual bool CanBePushedOnto() {
 		return false;
 	}

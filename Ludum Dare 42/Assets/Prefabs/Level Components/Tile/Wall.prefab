@@ -52,6 +52,11 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 9363315b9b067dd42955100f2852c839, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  worldSprites:
+  - {fileID: 21300000, guid: 991b5e804a6450d4dab805828a3a6c28, type: 3}
+  - {fileID: 21300000, guid: 684fc78a1fdad4f4ab4e0dbb0fad4951, type: 3}
+  - {fileID: 21300000, guid: 13f86f7a665fe1b428e0cb083b1a3d64, type: 3}
+  - {fileID: 21300000, guid: 2ab4f392a41693142bf4762415e508f7, type: 3}
 --- !u!212 &212987898023655306
 SpriteRenderer:
   m_ObjectHideFlags: 1

@@ -5,25 +5,22 @@ using UnityEngine;
 public class ChangeableTile : Tile {
 
     public int stepsRemaining;
-    public Sprite whiteTile;
-    public Sprite orangeTile;
-    public Sprite redTile;
+    public List<Sprite> whiteTile;
+    public List<Sprite> orangeTile;
+    public List<Sprite> redTile;
     public Sprite hole;
-	public Sprite holeShaded;
-    private SpriteRenderer sr;
+	public List<Sprite> holeShaded;
     private bool trueHoleStatus = false;
    
-    private void Awake() {
-		sr = this.gameObject.GetComponent<SpriteRenderer>();
+    private new void Awake() {
+		base.Awake();
 		if (stepsRemaining == 0) {
-            sr.sprite = hole;
-            checkForSpriteUpdate();
             Vector2Int truePos = Floor.pos3dToVect2Int(this.transform.position);
             trueHoleStatus = true;
         }
     }
 
-	private void Start() {
+	private new void Start() {
 		checkForSpriteUpdate();
 		Vector2Int truePos = Floor.pos3dToVect2Int(this.transform.position);
 		LevelManager.getFloor().updateTile(truePos, this);
@@ -31,7 +28,7 @@ public class ChangeableTile : Tile {
 
 	public override bool isSteppable()
 	{
-		if (stepsRemaining == 0)
+		if (stepsRemaining == 0 || trueHoleStatus)
 		{
 			return false;
 		}
@@ -48,11 +45,11 @@ public class ChangeableTile : Tile {
         stepsRemaining--;
         if(stepsRemaining == 1)
         {
-            sr.sprite = orangeTile;
+            sr.sprite = orangeTile[GM.Instance.currentLevelManager.worldIndex];
         }
         else if(stepsRemaining == 0)
         {
-            sr.sprite = redTile;
+            sr.sprite = redTile[GM.Instance.currentLevelManager.worldIndex];
         }
     }
 
@@ -78,6 +75,8 @@ public class ChangeableTile : Tile {
 	}
 
 	private void checkForSpriteUpdate() {
+		normalSpriteCheck();
+
 		if (this.isHole()) {
 			Vector2Int truePos = Floor.pos3dToVect2Int(this.transform.position);
 			Vector2Int aboveTruePos = truePos + new Vector2Int(0, 1);
@@ -86,14 +85,31 @@ public class ChangeableTile : Tile {
 	}
 
 	private void checkForSpriteUpdate(Tile aboveTile) {
+		normalSpriteCheck();
+
 		if (this.isHole()) {
 			if (aboveTile != null && aboveTile.isHole()) {
 				sr.sprite = hole;
 			} else {
-				sr.sprite = holeShaded;
+				sr.sprite = holeShaded[GM.Instance.currentLevelManager.worldIndex];
 			}
 		}
 	}
+
+	private void normalSpriteCheck() {
+		switch (stepsRemaining) {
+			case 2:
+				sr.sprite = whiteTile[GM.Instance.currentLevelManager.worldIndex];
+				break;
+			case 1:
+				sr.sprite = orangeTile[GM.Instance.currentLevelManager.worldIndex];
+				break;
+			case 0:
+				sr.sprite = redTile[GM.Instance.currentLevelManager.worldIndex];
+				break;
+		}
+	}
+
     public override bool isHole()
     {
         return trueHoleStatus;

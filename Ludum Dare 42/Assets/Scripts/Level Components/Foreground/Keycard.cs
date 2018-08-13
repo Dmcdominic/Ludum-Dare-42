@@ -12,11 +12,10 @@ public class Keycard : ForegroundObject {
 	public Sprite keycardYellow;
 
 	[SerializeField]
-	private SpriteRenderer sr;
-	[SerializeField]
 	private ParticleSystem ps;
 
-	private void Start() {
+
+	private new void Start() {
 		updateVisualColors(color);
 	}
 
