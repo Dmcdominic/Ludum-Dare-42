@@ -133,7 +133,10 @@ public class Floor {
 
 		Vector2Int belowTruePos = truePos + new Vector2Int(0, -1);
 		if (gridCoordsValid(belowTruePos)) {
-			getTile(belowTruePos).onAboveTileUpdated(newTile);
+            Tile tileBelow = getTile(belowTruePos);
+            if (tileBelow) {
+                tileBelow.onAboveTileUpdated(newTile);
+            }
 		}
 	}
 

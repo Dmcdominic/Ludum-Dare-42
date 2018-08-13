@@ -64,7 +64,11 @@ public class FlickeringLight : Tile {
     void Start () {
         spr = this.gameObject.GetComponent<SpriteRenderer>();
         player = GM.Instance.currentLevelManager.player;
-        ue = player.OnSuccessfulStep;
+        if (player)
+        {
+            Debug.Log("Player found!");
+        }
+        ue = GM.Instance.currentLevelManager.player.OnSuccessfulStep;
         ue.AddListener(incr);
 	}
 	

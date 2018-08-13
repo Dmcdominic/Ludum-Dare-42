@@ -364,7 +364,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50141cc30b37e37489824fdb6cfc0535, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worldLevelTotals: 00000000
+  worldLevelTotals: 05000000080000000800000008000000
   currentScene: 0
-  gameState: 0
   currentLevelManager: {fileID: 0}
+  ingameCanvas: {fileID: 0}
