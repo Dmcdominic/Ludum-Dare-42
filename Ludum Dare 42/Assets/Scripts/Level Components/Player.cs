@@ -8,7 +8,7 @@ public enum MoveType { normal, jumpTwoTiles };
 public class Player : MonoBehaviour {
 
 	// Settings
-	private static readonly float moveTime = 0.2f;
+	private static readonly float moveTime = 0.35f;
 	private float timer = 0f;
 
 	// References
