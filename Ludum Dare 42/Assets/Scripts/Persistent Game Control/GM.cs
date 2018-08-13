@@ -19,10 +19,13 @@ public class GM : MonoBehaviour {
 	public Scene currentScene;
 
 	[HideInInspector]
-	public GameState gameState;
+	private GameState gameState;
 
 	[HideInInspector]
 	public LevelManager currentLevelManager;
+
+	[HideInInspector]
+	public IngameCanvas ingameCanvas;
 
 
 	// Singleton management
@@ -51,20 +54,23 @@ public class GM : MonoBehaviour {
 			DontDestroyOnLoad(this);
 		}
 
-		//int sceneIndex = SceneManager.GetActiveScene().buildIndex;
+		if (ingameCanvas == null) {
+			ingameCanvas = GameObject.FindObjectOfType<IngameCanvas>();
+		}
+
 		string sceneName = SceneManager.GetActiveScene().name;
 		switch(sceneName) {
 			case "Init":
 				currentScene = Scene.Init;
-				gameState = GameState.Inactive;
+				setGamestate(GameState.Inactive);
 				break;
 			case "MainMenu":
 				currentScene = Scene.MainMenu;
-				gameState = GameState.Inactive;
+				setGamestate(GameState.Inactive);
 				break;
 			default:
 				currentScene = Scene.Other;
-				gameState = GameState.Playing;
+				setGamestate(GameState.Playing);
 				break;
 		}
 	}
@@ -81,12 +87,12 @@ public class GM : MonoBehaviour {
 		switch (scene) {
 			case (Scene.Init):
 				Instance.currentScene = Scene.Init;
-				Instance.gameState = GameState.Inactive;
+				Instance.setGamestate(GameState.Inactive);
 				SceneManager.LoadScene(0);
 				break;
 			case (Scene.MainMenu):
 				Instance.currentScene = Scene.MainMenu;
-				Instance.gameState = GameState.Inactive;
+				Instance.setGamestate(GameState.Inactive);
 				SceneManager.LoadScene(1);
 				break;
 		}
@@ -97,7 +103,7 @@ public class GM : MonoBehaviour {
 		
 		if (nextSceneIndex < SceneManager.sceneCountInBuildSettings) {
 			Instance.currentScene = Scene.Other;
-			Instance.gameState = GameState.Playing;
+			Instance.setGamestate(GameState.Playing);
 			SceneManager.LoadScene(level + levelScenesIndexOffset);
 		} else {
 			Debug.LogError("Scene of build index: " + nextSceneIndex + " not found.");
@@ -135,5 +141,22 @@ public class GM : MonoBehaviour {
 
 	public static int getHighestLevel() {
 		return SaveManager.saveData.levelProgress;
+	}
+
+	// Ingame canvas and UI management
+	public void setGamestate(GameState newGameState) {
+		if (ingameCanvas) {
+			if (newGameState == GameState.Inactive) {
+				ingameCanvas.gameObject.SetActive(false);
+			} else {
+				ingameCanvas.gameObject.SetActive(true);
+			}
+		}
+
+		gameState = newGameState;
+	}
+
+	public GameState getGameState() {
+		return gameState;
 	}
 }
