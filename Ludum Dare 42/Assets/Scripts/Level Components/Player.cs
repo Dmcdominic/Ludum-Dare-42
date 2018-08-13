@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public enum MoveType { normal, jumpTwoTiles };
 
@@ -20,9 +21,11 @@ public class Player : MonoBehaviour {
 	public Vector2Int posRounded;
 
 	public bool jumpTwoActivated = false;
-	//private bool isAnimating = false;
+    //private bool isAnimating = false;
 
-	
+    //Event fires when a successful step (one or two) is taken
+    public UnityEvent OnSuccessfulStep = new UnityEvent();
+    
 	// Initialization
 	private void Awake() {
 		animator = GetComponent<Animator>();
@@ -67,6 +70,7 @@ public class Player : MonoBehaviour {
 			case MoveType.normal:
 				if (canMoveNormal(displacement, targetPos)) {
 					move(moveType, displacement, targetPos);
+                    OnSuccessfulStep.Invoke();
 					return true;
 				}
 				break;
@@ -75,6 +79,7 @@ public class Player : MonoBehaviour {
 				Debug.Log(jumpOverPos);
 				if (canMoveJumpTwoTiles(displacement, jumpOverPos, targetPos)) {
 					move(moveType, displacement, targetPos);
+                    OnSuccessfulStep.Invoke();
 					return true;
 				}
 				break;
