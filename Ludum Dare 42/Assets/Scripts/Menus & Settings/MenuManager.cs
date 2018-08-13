@@ -144,7 +144,20 @@ public class MenuManager : MonoBehaviour {
 		GM.changeScene(SceneType.MainMenu);
     }
 
-    public void Quit() {
+	public void LoadLevelWorld0(int level) {
+		GM.changeToLevelScene(0, level);
+	}
+	public void LoadLevelWorld1(int level) {
+		GM.changeToLevelScene(1, level);
+	}
+	public void LoadLevelWorld2(int level) {
+		GM.changeToLevelScene(2, level);
+	}
+	public void LoadLevelWorld3(int level) {
+		GM.changeToLevelScene(3, level);
+	}
+
+	public void Quit() {
 		#if UNITY_EDITOR
 				UnityEditor.EditorApplication.isPlaying = false;
 		#else

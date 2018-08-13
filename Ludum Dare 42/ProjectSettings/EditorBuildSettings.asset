@@ -95,4 +95,7 @@ EditorBuildSettings:
   - enabled: 1
     path: Assets/Scenes/World 3/3-8.unity
     guid: 2206487bf96c6e4428f47a462d745205
+  - enabled: 1
+    path: Assets/Scenes/YouWinScene.unity
+    guid: 95b68bcd7933d334184b914892e34fdc
   m_configObjects: {}
