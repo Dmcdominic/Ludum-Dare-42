@@ -10,11 +10,13 @@ public class Player : MonoBehaviour {
 	// Settings
 	private static readonly float moveTime = 0.35f;
 	private float timer = 0f;
+	private bool controlEnabled = true;
 
 	// References
+	[SerializeField]
 	private Animator animator;
 	[SerializeField]
-	private AnimationClip WalkLeft;
+	private AnimationClip walkingRight;
 
 	// Properties
 	[HideInInspector]
@@ -22,15 +24,12 @@ public class Player : MonoBehaviour {
 
 	[HideInInspector]
 	public bool jumpTwoActivated = false;
-    //private bool isAnimating = false;
 
     //Event fires when a successful step (one or two) is taken
     public UnityEvent OnSuccessfulStep = new UnityEvent();
     
 	// Initialization
 	private void Awake() {
-		animator = GetComponent<Animator>();
-
 		// Round the player's position to whole numbers
 		Vector3 pos = transform.position;
 		placeAtPosition(new Vector2Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y)));
@@ -43,11 +42,9 @@ public class Player : MonoBehaviour {
 			return;
 		} else if (GM.Instance.getGameState() != GameState.Playing) {
 			return;
+		} else if (!controlEnabled) {
+			return;
 		}
-
-		//if (isAnimating) {
-		//	return;
-		//}
 
 		MoveType moveType = jumpTwoActivated ? MoveType.jumpTwoTiles : MoveType.normal;
 		int distance = jumpTwoActivated ? 2 : 1;
@@ -128,7 +125,6 @@ public class Player : MonoBehaviour {
 				normalMoveAnim(displacement, targetPosition);
 				break;
 			case (MoveType.jumpTwoTiles):
-				// TODO
 				jumpTwoTilesAnim(displacement, targetPosition);
 				break;
 		}
@@ -142,8 +138,19 @@ public class Player : MonoBehaviour {
 
 	// Animation management
 	private void normalMoveAnim(Vector2Int displacement, Vector2Int targetPosition) {
-		// TODO - add animation
-		// For now:
+		controlEnabled = false;
+		StartCoroutine(enableControlDelayed());
+
+		if (displacement.y > 0) {
+			animator.Play("Walking Up");
+		} else if (displacement.x > 0) {
+			animator.Play("Walking Right");
+		} else if (displacement.y < 0) {
+			animator.Play("Walking Down");
+		} else if (displacement.x < 0) {
+			animator.Play("Walking Left");
+		}
+
 		this.transform.position += new Vector3(displacement.x, displacement.y, 0);
 		posRounded = targetPosition;
 	}
@@ -154,11 +161,11 @@ public class Player : MonoBehaviour {
 		this.transform.position += new Vector3(displacement.x, displacement.y, 0);
 		posRounded = targetPosition;
 	}
-
-	//public void onAnimationEnd() {
-	//	Debug.Log(animator.GetCurrentAnimatorStateInfo(0).IsName("TODO"));
-		
-	//	//isAnimating = false;
-	//}
+	
+	IEnumerator enableControlDelayed() {
+		yield return new WaitForSeconds(walkingRight.length);
+		controlEnabled = true;
+		yield return null;
+	}
 
 }
