@@ -82,6 +82,7 @@ public class PauseManager : MonoBehaviour {
 		paused = false;
 		if (resetTimeScale) {
 			//SlowMo.resetTimeScale();
+			Time.timeScale = 1;
 			previousTimeScale = 1;
 		} else {
 			Time.timeScale = previousTimeScale;
@@ -92,6 +93,13 @@ public class PauseManager : MonoBehaviour {
 		OptionsMenu.SetActive (false);
 
 		GM.Instance.setGamestate(GameState.Playing);
+	}
+
+	// Hide all ingame related UI
+	public void hideAllIngame() {
+		HUD.SetActive(false);
+		PauseMenu.SetActive(false);
+		OptionsMenu.SetActive(false);
 	}
 	
 }

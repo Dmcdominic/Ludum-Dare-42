@@ -54,6 +54,7 @@ public class FadeOverlayManager : MonoBehaviour {
 
 	void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
 		animator.SetBool("DoneLoading", true);
+		GM.Instance.refreshGamestate();
 	}
 
 }
