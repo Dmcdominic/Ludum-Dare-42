@@ -21,7 +21,6 @@ public class ChangeableTile : Tile {
     private new void Awake() {
 		base.Awake();
 		if (stepsRemaining == 0) {
-            Vector2Int truePos = Floor.pos3dToVect2Int(this.transform.position);
             trueHoleStatus = true;
         }
     }

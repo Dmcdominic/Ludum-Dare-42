@@ -155,7 +155,6 @@ GameObject:
   m_Component:
   - component: {fileID: 4332224972574026}
   - component: {fileID: 114854193348212260}
-  - component: {fileID: 82588501791763670}
   m_Layer: 0
   m_Name: MusicManager
   m_TagString: Untagged
@@ -313,101 +312,6 @@ AudioSource:
   m_CorrespondingSourceObject: {fileID: 0}
   m_PrefabInternal: {fileID: 100100000}
   m_GameObject: {fileID: 1589830174909754}
-  m_Enabled: 1
-  serializedVersion: 4
-  OutputAudioMixerGroup: {fileID: 0}
-  m_audioClip: {fileID: 0}
-  m_PlayOnAwake: 1
-  m_Volume: 1
-  m_Pitch: 1
-  Loop: 0
-  Mute: 0
-  Spatialize: 0
-  SpatializePostEffects: 0
-  Priority: 128
-  DopplerLevel: 1
-  MinDistance: 1
-  MaxDistance: 500
-  Pan2D: 0
-  rolloffMode: 0
-  BypassEffects: 0
-  BypassListenerEffects: 0
-  BypassReverbZones: 0
-  rolloffCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    - serializedVersion: 3
-      time: 1
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  panLevelCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  spreadCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 0
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
-  reverbZoneMixCustomCurve:
-    serializedVersion: 2
-    m_Curve:
-    - serializedVersion: 3
-      time: 0
-      value: 1
-      inSlope: 0
-      outSlope: 0
-      tangentMode: 0
-      weightedMode: 0
-      inWeight: 0.33333334
-      outWeight: 0.33333334
-    m_PreInfinity: 2
-    m_PostInfinity: 2
-    m_RotationOrder: 4
---- !u!82 &82588501791763670
-AudioSource:
-  m_ObjectHideFlags: 1
-  m_CorrespondingSourceObject: {fileID: 0}
-  m_PrefabInternal: {fileID: 100100000}
-  m_GameObject: {fileID: 1684920143217746}
   m_Enabled: 1
   serializedVersion: 4
   OutputAudioMixerGroup: {fileID: 0}
@@ -713,36 +617,28 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 59297b8d6aedd474289c7619bceab049, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  mainMenuTrack: {fileID: 8300000, guid: c1517ee3a52524348947d2281c3fb333, type: 3}
-  worldTracks: []
-  sxs: []
+  mainMenuTrack:
+    clip: {fileID: 8300000, guid: c1517ee3a52524348947d2281c3fb333, type: 3}
+    volume: 1
+  worldTracks:
+  - clip: {fileID: 8300000, guid: 4a8a1e4e0c70a0a4c89ce669b34f858a, type: 3}
+    volume: 1
+  - clip: {fileID: 8300000, guid: 2eecfeff535c0c444933a1182e301ddb, type: 3}
+    volume: 1
+  - clip: {fileID: 8300000, guid: 74b38453cb457144b8087c6ef1544ace, type: 3}
+    volume: 1
+  - clip: {fileID: 8300000, guid: af87a5e50123bc34998bac3b81292031, type: 3}
+    volume: 1
+  sxs:
+  - name: 
+    variation: 0
+    mid: 0
+    clip: {fileID: 0}
+    volume: 0
+    source: {fileID: 0}
   a_s: {fileID: 82286400812247938}
-  world0track: {fileID: 8300000, guid: 95957d0375df53e4da12e27ec1e5e75b, type: 3}
-  world1track: {fileID: 8300000, guid: 95957d0375df53e4da12e27ec1e5e75b, type: 3}
-  world2track: {fileID: 8300000, guid: 74b38453cb457144b8087c6ef1544ace, type: 3}
-  world3track: {fileID: 8300000, guid: af87a5e50123bc34998bac3b81292031, type: 3}
-  max_music_volume: 0
-  max_effects_volume: 0
-  to1:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  to2:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  to3:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
-  toLast:
-    m_PersistentCalls:
-      m_Calls: []
-    m_TypeName: UnityEngine.Events.UnityEvent, UnityEngine.CoreModule, Version=0.0.0.0,
-      Culture=neutral, PublicKeyToken=null
+  global_music_volume: 0
+  global_effects_volume: 0
 --- !u!114 &114985169427300090
 MonoBehaviour:
   m_ObjectHideFlags: 1
@@ -758,6 +654,7 @@ MonoBehaviour:
   currentScene: 0
   _currentLevelManager: {fileID: 0}
   ingameCanvas: {fileID: 0}
+  mm: {fileID: 114854193348212260}
 --- !u!222 &222055298605307370
 CanvasRenderer:
   m_ObjectHideFlags: 1

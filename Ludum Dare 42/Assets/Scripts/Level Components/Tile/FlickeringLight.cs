@@ -4,35 +4,39 @@ using UnityEngine;
 using UnityEngine.Events;
 
 public class FlickeringLight : Tile {
+
     public int step;
-    static Player player;
-    UnityEvent ue;
-    private SpriteRenderer spr;
     public Sprite full;
     public Sprite half;
     public Sprite off;
 
-    void incr()
-    {
+	// Use this for initialization
+	private new void Start() {
+		base.Start();
+		sr = this.gameObject.GetComponent<SpriteRenderer>();
+
+		UnityEvent ue = GM.Instance.currentLevelManager.player.OnSuccessfulStep;
+		ue.AddListener(incr);
+	}
+
+	private void incr() {
         step++;
         step %= 3;
-        switch (step)
-        {
+        switch (step) {
             case 0:
-                spr.sprite = full;
+                sr.sprite = full;
                 break;
             case 1:
-                spr.sprite = off;
+                sr.sprite = off;
                 break;
             case 2:
-                spr.sprite = half;
+                sr.sprite = half;
                 break;
         }
     }
-    public override bool isSteppable()
-    {
-        switch (step%3)
-        {
+
+    public override bool isSteppable() {
+        switch (step % 3) {
             case 0:
                 return false;
             case 1:
@@ -42,37 +46,23 @@ public class FlickeringLight : Tile {
         }
         return false;
     }
-    public override bool isSteppableForNPC()
-    {
-        return true;
-    }
-    public override void OnStep()
-    {
-        
-    }
-    public override void OnLeave()
-    {
-        
-    }
-    public override bool CanBePushedOnto()
-    {
+
+    public override bool isSteppableForNPC() {
         return true;
     }
 
-    public override bool CanBeJumpedOver()
-    {
+    public override void OnStep() {
+    }
+
+    public override void OnLeave() {
+    }
+
+    public override bool CanBePushedOnto() {
         return true;
     }
-    // Use this for initialization
-    void Start () {
-        spr = this.gameObject.GetComponent<SpriteRenderer>();
-        player = GM.Instance.currentLevelManager.player;
-        ue = GM.Instance.currentLevelManager.player.OnSuccessfulStep;
-        ue.AddListener(incr);
-	}
-	
-	// Update is called once per frame
-	void Update () {
-		
-	}
+
+    public override bool CanBeJumpedOver() {
+        return true;
+    }
+    
 }

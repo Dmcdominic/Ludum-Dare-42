@@ -7967,11 +7967,6 @@ Prefab:
   m_Modification:
     m_TransformParent: {fileID: 0}
     m_Modifications:
-    - target: {fileID: 114854193348212260, guid: 003bb3b550133df46806de3f0eca3420,
-        type: 2}
-      propertyPath: to1.m_PersistentCalls.m_Calls.Array.size
-      value: 0
-      objectReference: {fileID: 0}
     - target: {fileID: 4326663245442826, guid: 003bb3b550133df46806de3f0eca3420, type: 2}
       propertyPath: m_LocalPosition.x
       value: 0
@@ -8003,16 +7998,6 @@ Prefab:
     - target: {fileID: 4326663245442826, guid: 003bb3b550133df46806de3f0eca3420, type: 2}
       propertyPath: m_RootOrder
       value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114854193348212260, guid: 003bb3b550133df46806de3f0eca3420,
-        type: 2}
-      propertyPath: to1.m_PersistentCalls.m_Calls.Array.data[0].m_Mode
-      value: 1
-      objectReference: {fileID: 0}
-    - target: {fileID: 114854193348212260, guid: 003bb3b550133df46806de3f0eca3420,
-        type: 2}
-      propertyPath: to1.m_PersistentCalls.m_Calls.Array.data[0].m_CallState
-      value: 2
       objectReference: {fileID: 0}
     m_RemovedComponents: []
   m_SourcePrefab: {fileID: 100100000, guid: 003bb3b550133df46806de3f0eca3420, type: 2}
