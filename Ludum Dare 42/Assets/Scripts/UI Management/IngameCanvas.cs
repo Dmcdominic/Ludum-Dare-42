@@ -2,8 +2,11 @@
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
+using UnityEngine.SceneManagement;
 
 public class IngameCanvas : MonoBehaviour {
+
+	public GameObject HUD;
 
 	// Keycards
 	public GameObject redKeycard;
@@ -39,9 +42,18 @@ public class IngameCanvas : MonoBehaviour {
 		this.gameObject.SetActive(false);
 	}
 
+	// TEMPORARY - DO NOT ENABLE INGAME CANVAS FOR FINAL SCENE: "YOU'RE HIRED!"
+	private void OnEnable() {
+		// TODO - Remove this
+		if (SceneManager.GetActiveScene().buildIndex == SceneManager.sceneCountInBuildSettings - 1) {
+			this.gameObject.SetActive(false);
+		}
+	}
+
 	public void resetAll() {
 		hideAllKeycards();
 		resetPowerupDisplays();
+		HUD.SetActive(true);
 	}
 
 	// Keycard displays

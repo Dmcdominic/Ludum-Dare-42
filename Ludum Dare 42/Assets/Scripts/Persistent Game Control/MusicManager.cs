@@ -18,7 +18,7 @@ public class MusicManager : MonoBehaviour {
 	public AudioSource a_s;
 
 	// Properties
-    private float pitch;
+	private float pitch;
 	[HideInInspector]
 	public float global_music_volume = 1;
 	[HideInInspector]
@@ -26,8 +26,8 @@ public class MusicManager : MonoBehaviour {
 	public static float global_pitch = 1;
 
 
-    // Singleton instance setup
-    private static MusicManager _instance;
+	// Singleton instance setup
+	private static MusicManager _instance;
 	public static MusicManager Instance { get { return _instance; } }
 
 	private void Awake() {
@@ -41,26 +41,34 @@ public class MusicManager : MonoBehaviour {
 		if (transform.parent == null) {
 			DontDestroyOnLoad(this);
 		}
-	
-		//if (SettingsManager.Instance) {
-		//	SettingsManager.Instance.applyToMusicManager();
-		//}
-		
-		changeMusicTrack(mainMenuTrack);
 
-        /*for (int i = 0; i < sxs.Length; i++) {
+		SceneManager.sceneLoaded += OnSceneLoaded;
+
+		if (SettingsManager.Instance) {
+			SettingsManager.Instance.applyToMusicManager();
+		}
+
+		/*for (int i = 0; i < sxs.Length; i++) {
 			GameObject g = Instantiate(source, transform);
 			g.name = sxs[i].name;
 			sxs[i].source = g.GetComponent<AudioSource>();
 		}*/
 	}
 
+	// When each scene is loaded, the correct track should be played
+	void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+		int nextTrackIndex = GM.getWorldFromScene(scene);
+		if (nextTrackIndex < 0) {
+			changeMusicTrack(mainMenuTrack);
+		} else {
+			changeToWorldTrack(nextTrackIndex);
+		}
+	}
+
 	// You should go through this method in order to change the track at any time
 	public void changeMusicTrack(musicTrack track) {
-		if (!a_s.clip == track.clip) {
-			a_s.clip = track.clip;
-		}
-
+		a_s.clip = track.clip;
+		
 		a_s.volume = global_music_volume * track.volume;
 
 		if (!a_s.isPlaying) {
@@ -75,7 +83,7 @@ public class MusicManager : MonoBehaviour {
 	}
 
 	// Play SFX
-    public static void play_by_name(string name) {
+	public static void play_by_name(string name) {
 		for (int i = 0; i < _instance.sxs.Length; i++) {
 			if (_instance.sxs[i].name == name)
 				play_sound(i);
@@ -89,11 +97,12 @@ public class MusicManager : MonoBehaviour {
 
 	// Update music volume
 	public static void updateMusicVolume(float newGlobalVolume) {
-		// TODO - update the volume from the SettingsManager
+		// TODO - update the volume from the SettingsManager 
 	}
 
 }
 
+// Struct for music AudioClips
 [System.Serializable]
 public struct musicTrack {
 	[SerializeField]
@@ -103,6 +112,7 @@ public struct musicTrack {
 	public float volume;
 }
 
+// Struct for SoundFX AudioClips
 [System.Serializable]
 public struct sx {
 	[SerializeField]

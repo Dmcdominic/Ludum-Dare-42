@@ -164,21 +164,6 @@ public class GM : MonoBehaviour {
 		if (currentLevel == Instance.worldLevelTotals[currentWorld] - 1) {
 			// TODO - special loading screen between worlds?
 			changeToLevelScene(currentWorld + 1, 0);
-			//Instance.mm.
-			//switch (Instance.currentLevelManager.worldIndex) {
-			//	case 0:
-			//		Instance.mm.ChangeToMusicOne();
-			//		break;
-			//	case 1:
-			//		Instance.mm.ChangeToMusicTwo();
-			//		break;
-			//	case 2:
-			//		Instance.mm.ChangeToMusicThree();
-			//		break;
-			//	case 3:
-			//		Instance.mm.ChangeToFinalMusic();
-			//		break;
-			//}
 		} else {
 			changeToLevelScene(currentWorld, currentLevel + 1);
 		}

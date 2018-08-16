@@ -84,6 +84,9 @@ EditorBuildSettings:
     path: Assets/Scenes/World 3/3-3.unity
     guid: 20de8cf45dfc8da438087741b59f74cd
   - enabled: 1
+    path: Assets/Scenes/World 3/3-4.unity
+    guid: 872e51bba8c3d244bbc7c7f9123bccf2
+  - enabled: 1
     path: Assets/Scenes/World 3/3-5.unity
     guid: ed8f7433c6aab4545a0bd3c3b8a3c35b
   - enabled: 1

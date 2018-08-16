@@ -619,16 +619,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   mainMenuTrack:
     clip: {fileID: 8300000, guid: c1517ee3a52524348947d2281c3fb333, type: 3}
-    volume: 1
+    volume: 0.75
   worldTracks:
-  - clip: {fileID: 8300000, guid: 4a8a1e4e0c70a0a4c89ce669b34f858a, type: 3}
-    volume: 1
   - clip: {fileID: 8300000, guid: 2eecfeff535c0c444933a1182e301ddb, type: 3}
-    volume: 1
+    volume: 0.3
+  - clip: {fileID: 8300000, guid: 2eecfeff535c0c444933a1182e301ddb, type: 3}
+    volume: 0.3
   - clip: {fileID: 8300000, guid: 74b38453cb457144b8087c6ef1544ace, type: 3}
-    volume: 1
+    volume: 0.55
   - clip: {fileID: 8300000, guid: af87a5e50123bc34998bac3b81292031, type: 3}
-    volume: 1
+    volume: 0.7
   sxs:
   - name: 
     variation: 0

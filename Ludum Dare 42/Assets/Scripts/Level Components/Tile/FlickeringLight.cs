@@ -12,9 +12,6 @@ public class FlickeringLight : Tile {
 
 	// Use this for initialization
 	private new void Start() {
-		base.Start();
-		sr = this.gameObject.GetComponent<SpriteRenderer>();
-
 		UnityEvent ue = GM.Instance.currentLevelManager.player.OnSuccessfulStep;
 		ue.AddListener(incr);
 	}

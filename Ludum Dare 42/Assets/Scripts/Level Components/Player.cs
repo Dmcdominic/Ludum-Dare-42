@@ -55,16 +55,22 @@ public class Player : MonoBehaviour {
 		MoveType moveType = jumpTwoActivated ? MoveType.jumpTwoTiles : MoveType.normal;
 		int distance = jumpTwoActivated ? 2 : 1;
 
+		// Player input for movement
 		float horizontalInput = Input.GetAxis("Horizontal");
 		float verticalInput = Input.GetAxis("Vertical");
-		if (horizontalInput > 0) {
-			tryMove(moveType, new Vector2Int(distance, 0));
-		} else if (horizontalInput < 0) {
-			tryMove(moveType, new Vector2Int(-distance, 0));
-		} else if (verticalInput > 0) {
-			tryMove(moveType, new Vector2Int(0, distance));
-		} else if (verticalInput < 0) {
-			tryMove(moveType, new Vector2Int(0, -distance));
+
+		if (Mathf.Abs(horizontalInput) > Mathf.Abs(verticalInput)) {
+			if (horizontalInput > 0) {
+				tryMove(moveType, new Vector2Int(distance, 0));
+			} else if (horizontalInput < 0) {
+				tryMove(moveType, new Vector2Int(-distance, 0));
+			}
+		} else {
+			if (verticalInput > 0) {
+				tryMove(moveType, new Vector2Int(0, distance));
+			} else if (verticalInput < 0) {
+				tryMove(moveType, new Vector2Int(0, -distance));
+			}
 		}
 	}
 
