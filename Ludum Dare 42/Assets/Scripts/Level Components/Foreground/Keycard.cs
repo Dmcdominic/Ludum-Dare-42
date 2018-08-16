@@ -21,7 +21,7 @@ public class Keycard : ForegroundObject {
 
 	private new void Start() {
 		updateVisualColors(color);
-        a_s = this.gameObject.GetComponentInParent<AudioSource>();
+        a_s = this.gameObject.GetComponentsInParent<AudioSource>()[0];
         if (a_s)
         {
             Debug.Log("Found AS!");
@@ -70,7 +70,7 @@ public class Keycard : ForegroundObject {
 		LevelManager.getFloor().updateFgGridForAllPos(null, truePos, additionalCoords, false);
 
 		//a_s.volume = 1.0f;
-        //a_s.PlayOneShot(clip);
+        a_s.Play();
         //Debug.Log(a_s.isPlaying);
         //Debug.Log("Interaction w/ keycard!");
         //Debug.Log(a_s.clip.name);

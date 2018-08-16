@@ -4,7 +4,10 @@ using UnityEngine;
 
 public class PushableShort : ForegroundObject {
 
-	public override bool IsSteppable(MoveType moveType, Vector2Int incomingDisplacement) {
+    [HideInInspector]
+    public AudioSource a_s;
+
+    public override bool IsSteppable(MoveType moveType, Vector2Int incomingDisplacement) {
 		return CanBePushedInto(incomingDisplacement);
 	}
 
@@ -23,7 +26,9 @@ public class PushableShort : ForegroundObject {
 		if (allTilesAreHoles(floor, targetPos)) {
 			// TODO - animation of object falling into hole
 			floor.updateFgGridForAllPos(null, basePos, additionalCoords, false);
-			gameObject.SetActive(false);
+            a_s = this.gameObject.GetComponentsInParent<AudioSource>()[1];
+            a_s.Play();
+            gameObject.SetActive(false);
 			return;
 		} else {
 			// TODO - movement animation?
