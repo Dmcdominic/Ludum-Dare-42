@@ -86,10 +86,10 @@ public class GM : MonoBehaviour {
 	private void Start() {
 		refreshGamestate();
         //mm = GetComponentInParent<MusicManager>();
-        if (mm)
-        {
-            Debug.Log("MM exists!");
-        }
+        //if (mm)
+        //{
+        //    Debug.Log("MM exists!");
+        //}
 	}
 
 	public void refreshGamestate() {
@@ -113,6 +113,10 @@ public class GM : MonoBehaviour {
 
 	// Project management utility
 	void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+		if (scene.name == "MainMenu" && PauseManager.Instance) {
+			PauseManager.Instance.hideAllIngame();
+		}
+
 		if (mode != LoadSceneMode.Single || getGameState() == GameState.Transitioning) {
 			return;
 		}
@@ -168,7 +172,6 @@ public class GM : MonoBehaviour {
 
 	// Called when you reach the exit and beat the level
 	public static void onBeatLevel() {
-		
 		int currentWorld = Instance.currentLevelManager.worldIndex;
 		int currentLevel = Instance.currentLevelManager.levelIndex;
 
@@ -233,7 +236,6 @@ public class GM : MonoBehaviour {
 
 	// Ingame canvas and UI management
 	public void setGamestate(GameState newGameState) {
-		//Debug.Log("Setting to gameState: " + newGameState);
 		if (ingameCanvas) {
 			if (newGameState == GameState.Inactive) {
 				ingameCanvas.gameObject.SetActive(false);

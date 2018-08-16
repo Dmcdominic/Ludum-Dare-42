@@ -89,10 +89,10 @@ public class MusicManager : MonoBehaviour {
 		}*/
 
         //a_s = this.GetComponent<AudioSource>();
-        if (a_s)
-        {
-            Debug.Log("Found audiosource!");
-        }
+        //if (a_s)
+        //{
+        //    Debug.Log("Found audiosource!");
+        //}
 	}
 
     private void Start()
