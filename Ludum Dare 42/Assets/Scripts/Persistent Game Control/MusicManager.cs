@@ -40,6 +40,8 @@ public class MusicManager : MonoBehaviour {
     public AudioClip world1track;
     public AudioClip world2track;
     public AudioClip world3track;
+    public AudioClip youWinTrack;
+    public AudioClip badEndingTrack;
 
     private float pitch;
 	//public GameObject source;
@@ -147,7 +149,11 @@ public class MusicManager : MonoBehaviour {
     public void ChangeToFinalMusic()
     {
         // world3track.Stop();
-        a_s.Stop();
+        a_s.clip = youWinTrack;
+        if (!a_s.isPlaying)
+        {
+            a_s.Play();
+        }
     }
 
 

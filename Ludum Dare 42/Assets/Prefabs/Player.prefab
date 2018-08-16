@@ -202,6 +202,7 @@ MonoBehaviour:
   jumpTwoActivated: 0
   coffeeJumpSound: {fileID: 8300000, guid: a9d27dd4f3a5af24797c2966adc93b98, type: 3}
   footstepSound: {fileID: 8300000, guid: 8621b184468512e41bc896d4783b28fc, type: 3}
+  errorsound: {fileID: 8300000, guid: 251d0ab5982790744870b7181e868306, type: 3}
   player_as: {fileID: 0}
   OnSuccessfulStep:
     m_PersistentCalls:

@@ -27,10 +27,14 @@ public class Player : MonoBehaviour {
 
     public AudioClip coffeeJumpSound;
     public AudioClip footstepSound;
+    public AudioClip errorsound;
     public AudioSource player_as;
 
     //Event fires when a successful step (one or two) is taken
     public UnityEvent OnSuccessfulStep = new UnityEvent();
+
+    System.Timers.Timer errortimer = new System.Timers.Timer(750);
+    bool canErrorSoundPlay = true;
     
 	// Initialization
 	private void Awake() {
@@ -39,7 +43,19 @@ public class Player : MonoBehaviour {
 		placeAtPosition(new Vector2Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y)));
         player_as = this.GetComponent<AudioSource>();
         player_as.clip = footstepSound;
+        errortimer.Elapsed += new System.Timers.ElapsedEventHandler(this.EnableErrorSound);
+        //errortimer.Start = DisableErrorSound;
 	}
+
+    void DisableErrorSound()
+    {
+        canErrorSoundPlay = false;
+    }
+
+    void EnableErrorSound(object sender, System.Timers.ElapsedEventArgs e)
+    {
+        canErrorSoundPlay = true;
+    }
 
 	// Player input management
 	void Update () {
@@ -75,10 +91,25 @@ public class Player : MonoBehaviour {
 		switch (moveType) {
 			case MoveType.normal:
 				if (canMoveNormal(displacement, targetPos)) {
-					move(moveType, displacement, targetPos);
+                    player_as.clip = footstepSound;
+                    move(moveType, displacement, targetPos);
                     OnSuccessfulStep.Invoke();
 					return true;
 				}
+                else
+                {
+                    if (!player_as.isPlaying)
+                    {
+                        if (canErrorSoundPlay)
+                        {
+                            player_as.clip = errorsound;
+                            player_as.Play();
+                            DisableErrorSound();
+                            errortimer.AutoReset = false;
+                            errortimer.Start();
+                        }
+                    }
+                }
 				break;
 			case MoveType.jumpTwoTiles:
 				Vector2Int jumpOverPos = posRounded + new Vector2Int(displacement.x / 2, displacement.y / 2);
@@ -88,7 +119,21 @@ public class Player : MonoBehaviour {
                     OnSuccessfulStep.Invoke();
 					return true;
 				}
-				break;
+                else
+                {
+                    if (!player_as.isPlaying)
+                    {
+                        if (canErrorSoundPlay)
+                        {
+                            player_as.clip = errorsound;
+                            player_as.Play();
+                            DisableErrorSound();
+                            errortimer.AutoReset = false;
+                            errortimer.Start();
+                        }
+                    }
+                }
+                break;
 		}
 
 		// TODO - play "invalid move" sound effect?

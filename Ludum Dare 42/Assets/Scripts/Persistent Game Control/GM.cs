@@ -160,6 +160,13 @@ public class GM : MonoBehaviour {
 			Instance.currentScene = SceneType.Other;
 			Instance.setGamestate(GameState.Transitioning);
 			loadSceneWithTransition(nextSceneIndex);
+            Debug.Log(world + " " + level);
+            if(world == 4)
+            {
+                toFinalCutscene.Invoke();
+                Debug.Log("Switching to final cutscene!");
+                mm.ChangeToFinalMusic();
+            }
 		} else {
 			Debug.LogError("Scene of build index: " + nextSceneIndex + " not found.");
 		}
@@ -207,6 +214,14 @@ public class GM : MonoBehaviour {
                     }
                     break;
                 case 3:
+                    if (Instance.currentLevelManager.levelIndex == 7)
+                    {
+                        toFinalCutscene.Invoke();
+                        Debug.Log("Switching to final cutscene!");
+                        mm.ChangeToFinalMusic();
+                    }
+                    break;
+                case 4:
                     if (Instance.currentLevelManager.levelIndex == 7)
                     {
                         toFinalCutscene.Invoke();
