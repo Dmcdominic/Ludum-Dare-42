@@ -21,9 +21,21 @@ public class Floor {
 	public List<LockedDoor> lockedDoors;
 	public Dictionary<KeycardColor, int> keycardTotals;
 
+	// Employee list
+	public List<Employee> employees;
+
 
 	// Constructor
 	public Floor(GameObject tilesParent, GameObject foregroundParent) {
+		lockedDoors = new List<LockedDoor>();
+
+		keycardTotals = new Dictionary<KeycardColor, int>();
+		foreach (KeycardColor color in System.Enum.GetValues(typeof(KeycardColor))) {
+			keycardTotals.Add(color, 0);
+		}
+
+		employees = new List<Employee>();
+
 		initGrids(tilesParent, foregroundParent);
 		populateTileGrid(tilesParent);
 		populateForegroundGrid(foregroundParent);
@@ -32,12 +44,6 @@ public class Floor {
 	private void initGrids(GameObject tilesParent, GameObject foregroundParent) {
 		Tile[] tiles = tilesParent.GetComponentsInChildren<Tile>();
 		ForegroundObject[] fgObjects = foregroundParent.GetComponentsInChildren<ForegroundObject>();
-
-		lockedDoors = new List<LockedDoor>();
-		keycardTotals = new Dictionary<KeycardColor, int>();
-		foreach (KeycardColor color in System.Enum.GetValues(typeof(KeycardColor))) {
-			keycardTotals.Add(color, 0);
-		}
 
 		if (tiles.Length == 0) {
 			Debug.LogError("Please add some tiles to the level, or remove the level management framework.");

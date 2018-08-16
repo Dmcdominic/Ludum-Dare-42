@@ -9,6 +9,7 @@ public class MusicManager : MonoBehaviour {
 	// Audio clips
 	public musicTrack mainMenuTrack;
 	public List<musicTrack> worldTracks;
+	public musicTrack endscreenTrack;
 
 	[SerializeField]
 	public sx[] sxs;
@@ -58,10 +59,12 @@ public class MusicManager : MonoBehaviour {
 	// When each scene is loaded, the correct track should be played
 	void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
 		int nextTrackIndex = GM.getWorldFromScene(scene);
-		if (nextTrackIndex < 0) {
-			changeMusicTrack(mainMenuTrack);
-		} else {
+		if (nextTrackIndex >= 0) {
 			changeToWorldTrack(nextTrackIndex);
+		} else if (nextTrackIndex == -1) {
+			changeMusicTrack(mainMenuTrack);
+		} else if (nextTrackIndex == -2) {
+			changeMusicTrack(endscreenTrack);
 		}
 	}
 

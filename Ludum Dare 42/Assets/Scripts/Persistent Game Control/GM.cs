@@ -158,8 +158,8 @@ public class GM : MonoBehaviour {
 		int currentWorld = Instance.currentLevelManager.worldIndex;
 		int currentLevel = Instance.currentLevelManager.levelIndex;
 
-		int absoluteLvlIndex = getLvlIndexFromWorld(currentWorld, currentLevel);
-		SaveManager.Instance.saveLevelProgress(absoluteLvlIndex);
+		//int absoluteLvlIndex = getLvlIndexFromWorld(currentWorld, currentLevel);
+		//SaveManager.Instance.saveLevelProgress(absoluteLvlIndex);
 
 		if (currentLevel == Instance.worldLevelTotals[currentWorld] - 1) {
 			// TODO - special loading screen between worlds?
@@ -179,14 +179,20 @@ public class GM : MonoBehaviour {
 		return index;
 	}
 
+	// Returns the world index of a certain scene if it is a level scene.
+	// Returns -1 for Init and Main Menu scene.
+	// Returns -2 for the end game screen.
+	// Returns -3 otherwise.
 	public static int getWorldFromScene(Scene scene) {
 		int index = scene.buildIndex;
 
+		// init or main menu scenes
 		int counter = levelScenesIndexOffset;
 		if (index < counter) {
 			return -1;
 		}
 
+		// Level scenes
 		for (int i = 0; i < Instance.worldLevelTotals.Count; i++) {
 			counter += Instance.worldLevelTotals[i];
 			if (index < counter) {
@@ -194,9 +200,17 @@ public class GM : MonoBehaviour {
 			}
 		}
 
-		return -1;
+		// End game scene - "You're Hired!"
+		counter += 1;
+		if (index < counter) {
+			return -2;
+		}
+
+		// Other
+		return -3;
 	}
 
+	// Get the highest level reached according t
 	public static int getHighestLevel() {
 		return SaveManager.saveData.levelProgress;
 	}
