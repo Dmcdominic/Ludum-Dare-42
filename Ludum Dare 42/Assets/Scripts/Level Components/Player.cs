@@ -9,8 +9,6 @@ public class Player : MonoBehaviour {
 
 	// Settings
 	private static readonly float moveTime = 0.35f;
-	private float timer = 0f;
-	private bool controlEnabled = true;
 
 	// References
 	[SerializeField]
@@ -21,6 +19,12 @@ public class Player : MonoBehaviour {
 	// Properties
 	[HideInInspector]
 	public Vector2Int truePos;
+
+	// Input control
+	private float timer = 0f;
+	private bool controlEnabled = true;
+	private axisDir prevHorizontalAxisDir = axisDir.none;
+	private axisDir prevVerticalAxisDir = axisDir.none;
 
 	[HideInInspector]
 	public bool jumpTwoActivated = false;
@@ -39,37 +43,80 @@ public class Player : MonoBehaviour {
 
 	// Player input management
 	void Update () {
+		float horizontalInput = Input.GetAxisRaw("Horizontal");
+		float verticalInput = Input.GetAxisRaw("Vertical");
+		//Debug.Log("Horizontal axis: " + horizontalInput);
+		//Debug.Log("Vertical axis: " + verticalInput);
+
+		// Distinct keypress/axis input check
+		if (getAxisDir(horizontalInput) != prevHorizontalAxisDir) {
+			prevHorizontalAxisDir = axisDir.none;
+		}
+		if (getAxisDir(verticalInput) != prevVerticalAxisDir) {
+			prevVerticalAxisDir = axisDir.none;
+		}
+
+		// Movement delay management, for animation time
 		if (timer > 0) {
 			timer -= Time.deltaTime;
 			return;
-		} else if (GM.Instance.getGameState() != GameState.Playing) {
-			return;
-		} else if (!controlEnabled) {
+		}
+
+		// Check if player movement should be allowed at all
+		if (GM.Instance.getGameState() != GameState.Playing || !controlEnabled) {
 			return;
 		}
 
+		// Determine the type of move and displacement magnitude
 		MoveType moveType = jumpTwoActivated ? MoveType.jumpTwoTiles : MoveType.normal;
 		int distance = jumpTwoActivated ? 2 : 1;
 
-		// Player input for movement
-		float horizontalInput = Input.GetAxis("Horizontal");
-		float verticalInput = Input.GetAxis("Vertical");
-
-		if (Mathf.Abs(horizontalInput) > Mathf.Abs(verticalInput)) {
+		// Attempt to move along the axis with the larger input
+		if (Mathf.Abs(horizontalInput) > Mathf.Abs(verticalInput) && prevHorizontalAxisDir == axisDir.none) {
 			if (horizontalInput > 0) {
 				tryMove(moveType, new Vector2Int(distance, 0));
+				prevHorizontalAxisDir = axisDir.pos;
 			} else if (horizontalInput < 0) {
 				tryMove(moveType, new Vector2Int(-distance, 0));
+				prevHorizontalAxisDir = axisDir.neg;
 			}
-		} else {
+		} else if (Mathf.Abs(horizontalInput) < Mathf.Abs(verticalInput) && prevVerticalAxisDir == axisDir.none) {
 			if (verticalInput > 0) {
 				tryMove(moveType, new Vector2Int(0, distance));
+				prevVerticalAxisDir = axisDir.pos;
 			} else if (verticalInput < 0) {
 				tryMove(moveType, new Vector2Int(0, -distance));
+				prevVerticalAxisDir = axisDir.neg;
 			}
 		}
+
+
+		//if (Mathf.Abs(horizontalInput) > Mathf.Abs(verticalInput)) {
+		//	if (horizontalInput > 0) {
+		//		tryMove(moveType, new Vector2Int(distance, 0));
+		//	} else if (horizontalInput < 0) {
+		//		tryMove(moveType, new Vector2Int(-distance, 0));
+		//	}
+		//} else {
+		//	if (verticalInput > 0) {
+		//		tryMove(moveType, new Vector2Int(0, distance));
+		//	} else if (verticalInput < 0) {
+		//		tryMove(moveType, new Vector2Int(0, -distance));
+		//	}
+		//}
 	}
 
+	// Axis direction input utility
+	private enum axisDir { neg, none, pos };
+	private axisDir getAxisDir(float input) {
+		if (input < 0) {
+			return axisDir.neg;
+		} else if (input > 0) {
+			return axisDir.pos;
+		} else {
+			return axisDir.none;
+		}
+	}
 
 	// Player movement
 	private bool tryMove(MoveType moveType, Vector2Int displacement) {
