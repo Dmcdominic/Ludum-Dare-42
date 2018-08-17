@@ -4,9 +4,6 @@ using UnityEngine;
 
 public class PushableTall : ForegroundObject {
 
-    [HideInInspector]
-    public AudioSource a_s;
-
 	public override bool IsSteppable(MoveType moveType, Vector2Int incomingDisplacement) {
 		return CanBePushedInto(incomingDisplacement);
 	}
@@ -69,10 +66,8 @@ public class PushableTall : ForegroundObject {
 	private void createSafeTileAt(Floor floor, Vector2Int truePos) {
 		Tile currentTile = floor.getTile(truePos);
 		Destroy(currentTile.gameObject);
-        a_s = this.gameObject.GetComponentsInParent<AudioSource>()[1];
-        a_s.Play();
 
-        SafeTile safeTile = Instantiate(PrefabManager.Instance.safeTile);
+		SafeTile safeTile = Instantiate(PrefabManager.Instance.safeTile);
 		safeTile.transform.position = Floor.Vect2IntToPos3d(truePos);
 		floor.updateTile(truePos, safeTile);
 	}
