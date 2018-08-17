@@ -22,44 +22,36 @@ public class GM : MonoBehaviour {
 	[HideInInspector]
 	private GameState gameState;
 
-    [HideInInspector]
-    public LevelManager _currentLevelManager;
-    public LevelManager currentLevelManager {
-        get
-        {
-            if (!_currentLevelManager)
-            {
-                _currentLevelManager = GameObject.FindObjectOfType<LevelManager>();
-            }
-            return _currentLevelManager;
-        }
-    }
+	[HideInInspector]
+	public LevelManager _currentLevelManager;
+	public LevelManager currentLevelManager {
+		get {
+			if (!_currentLevelManager) {
+				_currentLevelManager = GameObject.FindObjectOfType<LevelManager>();
+			}
+			return _currentLevelManager;
+		}
+	}
 
 	[HideInInspector]
 	public IngameCanvas ingameCanvas;
 
-    //World change trigger
-    public static UnityEvent toWorldOne = new UnityEvent();
-    public static UnityEvent toWorldTwo = new UnityEvent();
-    public static UnityEvent toWorldThree = new UnityEvent();
-    public static UnityEvent toFinalCutscene = new UnityEvent();
+	public MusicManager mm;
 
-    public static MusicManager mm;
-
-    // Singleton management
-    private static GM _instance;
-    public static GM Instance {
-        get {
-            if (_instance == null) {
-                _instance = GameObject.FindObjectOfType<GM>();
+	// Singleton management
+	private static GM _instance;
+	public static GM Instance {
+		get {
+			if (_instance == null) {
+				_instance = GameObject.FindObjectOfType<GM>();
 				if (_instance == null) {
 					Debug.LogError("No GM found in the scene");
 				}
-            }
-            return _instance;
-        }
-    }
-	
+			}
+			return _instance;
+		}
+	}
+
 	private void Awake() {
 		if (_instance != null && _instance != this) {
 			Destroy(this.gameObject);
@@ -77,19 +69,10 @@ public class GM : MonoBehaviour {
 		if (ingameCanvas == null) {
 			ingameCanvas = GameObject.FindObjectOfType<IngameCanvas>();
 		}
-        if (mm == null)
-        {
-            mm = GameObject.FindObjectOfType<MusicManager>();
-        }
 	}
 
 	private void Start() {
 		refreshGamestate();
-        //mm = GetComponentInParent<MusicManager>();
-        //if (mm)
-        //{
-        //    Debug.Log("MM exists!");
-        //}
 	}
 
 	public void refreshGamestate() {
@@ -106,7 +89,6 @@ public class GM : MonoBehaviour {
 			default:
 				currentScene = SceneType.Other;
 				setGamestate(GameState.Playing);
-
 				break;
 		}
 	}
@@ -133,7 +115,7 @@ public class GM : MonoBehaviour {
 			default:
 				currentScene = SceneType.Other;
 				setGamestate(GameState.Playing);
-                break;
+				break;
 		}
 	}
 
@@ -155,7 +137,7 @@ public class GM : MonoBehaviour {
 
 	public static void changeToLevelScene(int world, int level) {
 		int nextSceneIndex = getLvlIndexFromWorld(world, level);
-		
+
 		if (nextSceneIndex < SceneManager.sceneCountInBuildSettings) {
 			Instance.currentScene = SceneType.Other;
 			Instance.setGamestate(GameState.Transitioning);
@@ -172,55 +154,22 @@ public class GM : MonoBehaviour {
 
 	// Called when you reach the exit and beat the level
 	public static void onBeatLevel() {
+		//TODO - save level progress
 		int currentWorld = Instance.currentLevelManager.worldIndex;
 		int currentLevel = Instance.currentLevelManager.levelIndex;
 
-		int absoluteLvlIndex = getLvlIndexFromWorld(currentWorld, currentLevel);
-		SaveManager.Instance.saveLevelProgress(absoluteLvlIndex);
+		//int absoluteLvlIndex = getLvlIndexFromWorld(currentWorld, currentLevel);
+		//SaveManager.Instance.saveLevelProgress(absoluteLvlIndex);
 
 		if (currentLevel == Instance.worldLevelTotals[currentWorld] - 1) {
+			// TODO - special loading screen between worlds?
 			changeToLevelScene(currentWorld + 1, 0);
-            switch (Instance.currentLevelManager.worldIndex)
-            {
-                case 0:
-                    if (Instance.currentLevelManager.levelIndex == 4)
-                    {
-                        toWorldOne.Invoke();
-                        Debug.Log("Switching to world " + Instance.currentLevelManager.worldIndex + "!");
-                        mm.ChangeToMusicOne();
-                    }
-                    break;
-                case 1:
-                    if (Instance.currentLevelManager.levelIndex == 7)
-                    {
-                        toWorldTwo.Invoke();
-                        Debug.Log("Switching to world " + Instance.currentLevelManager.worldIndex + "!");
-                        mm.ChangeToMusicTwo();
-                    }
-                    break;
-                case 2:
-                    if (Instance.currentLevelManager.levelIndex == 7)
-                    {
-                        toWorldThree.Invoke();
-                        Debug.Log("Switching to world " + Instance.currentLevelManager.worldIndex + "!");
-                        mm.ChangeToMusicThree();
-                    }
-                    break;
-                case 3:
-                    if (Instance.currentLevelManager.levelIndex == 7)
-                    {
-                        toFinalCutscene.Invoke();
-                        Debug.Log("Switching to final cutscene!");
-                        mm.ChangeToFinalMusic();
-                    }
-                    break;
-            }
-        } else {
-			// TODO - Loading screen?
+		} else {
 			changeToLevelScene(currentWorld, currentLevel + 1);
 		}
 	}
 
+	// Util functions for determining between lvl index, world, and scene index
 	public static int getLvlIndexFromWorld(int world, int level) {
 		int index = levelScenesIndexOffset;
 		for (int i = 0; i < world; i++) {
@@ -230,6 +179,38 @@ public class GM : MonoBehaviour {
 		return index;
 	}
 
+	// Returns the world index of a certain scene if it is a level scene.
+	// Returns -1 for Init and Main Menu scene.
+	// Returns -2 for the end game screen.
+	// Returns -3 otherwise.
+	public static int getWorldFromScene(Scene scene) {
+		int index = scene.buildIndex;
+
+		// init or main menu scenes
+		int counter = levelScenesIndexOffset;
+		if (index < counter) {
+			return -1;
+		}
+
+		// Level scenes
+		for (int i = 0; i < Instance.worldLevelTotals.Count; i++) {
+			counter += Instance.worldLevelTotals[i];
+			if (index < counter) {
+				return i;
+			}
+		}
+
+		// End game scene - "You're Hired!"
+		counter += 1;
+		if (index < counter) {
+			return -2;
+		}
+
+		// Other
+		return -3;
+	}
+
+	// Get the highest level reached according t
 	public static int getHighestLevel() {
 		return SaveManager.saveData.levelProgress;
 	}
@@ -243,7 +224,7 @@ public class GM : MonoBehaviour {
 				ingameCanvas.gameObject.SetActive(true);
 			}
 		}
-		
+
 		gameState = newGameState;
 	}
 

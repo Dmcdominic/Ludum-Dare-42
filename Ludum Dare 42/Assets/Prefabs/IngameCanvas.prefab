@@ -45,7 +45,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1170671515865010
 GameObject:
   m_ObjectHideFlags: 1
@@ -443,7 +443,7 @@ GameObject:
   m_Icon: {fileID: 0}
   m_NavMeshLayer: 0
   m_StaticEditorFlags: 0
-  m_IsActive: 1
+  m_IsActive: 0
 --- !u!1 &1774504598552450
 GameObject:
   m_ObjectHideFlags: 0
@@ -1162,6 +1162,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 91e27eeb82a050f4a9890a28af76c276, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
+  HUD: {fileID: 1774504598552450}
   redKeycard: {fileID: 1883700798570292}
   redCounter: {fileID: 114663179426504162}
   greenKeycard: {fileID: 1265338833080560}

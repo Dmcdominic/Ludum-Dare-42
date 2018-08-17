@@ -5,12 +5,14 @@ using UnityEngine;
 public class ChangeableTile : Tile {
 
     public int stepsRemaining;
+
     public List<Sprite> whiteTile;
     public List<Sprite> orangeTile;
     public List<Sprite> redTile;
     public Sprite hole;
 	public List<Sprite> holeShaded;
-    private bool trueHoleStatus = false;
+
+	private bool trueHoleStatus = false;
 
 	//[SerializeField]
 	//private Animator animator;
@@ -21,7 +23,6 @@ public class ChangeableTile : Tile {
     private new void Awake() {
 		base.Awake();
 		if (stepsRemaining == 0) {
-            Vector2Int truePos = Floor.pos3dToVect2Int(this.transform.position);
             trueHoleStatus = true;
         }
     }
@@ -32,37 +33,29 @@ public class ChangeableTile : Tile {
 		LevelManager.getFloor().updateTile(truePos, this);
 	}
 
-	public override bool isSteppable()
-	{
-		if (stepsRemaining == 0 || trueHoleStatus)
-		{
+	public override bool isSteppable() {
+		if (stepsRemaining == 0 || trueHoleStatus) {
 			return false;
 		}
 		return true;
 	}
 
-    public override bool isSteppableForNPC()
-    {
+    public override bool isSteppableForNPC() {
         return true;
     }
 
-    public override void OnStep()
-    {
+    public override void OnStep() {
         stepsRemaining--;
-        if(stepsRemaining == 1)
-        {
+        if(stepsRemaining == 1) {
             sr.sprite = orangeTile[GM.Instance.currentLevelManager.worldIndex];
         }
-        else if(stepsRemaining == 0)
-        {
+        else if(stepsRemaining == 0) {
             sr.sprite = redTile[GM.Instance.currentLevelManager.worldIndex];
-        }
+		}
     }
 
-    public override void OnLeave()
-    {
-        if(stepsRemaining == 0)
-        {
+    public override void OnLeave() {
+        if(stepsRemaining == 0) {
 			trueHoleStatus = true;
 			sr.sprite = hole;
 			Vector2Int truePos = Floor.pos3dToVect2Int(this.transform.position);
@@ -117,8 +110,7 @@ public class ChangeableTile : Tile {
 		}
 	}
 
-    public override bool isHole()
-    {
+    public override bool isHole() {
         return trueHoleStatus;
     }
 

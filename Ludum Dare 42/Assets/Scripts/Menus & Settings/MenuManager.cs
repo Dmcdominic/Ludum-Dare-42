@@ -127,12 +127,10 @@ public class MenuManager : MonoBehaviour {
         buttonSelected = false;
     }
 
-
     // Functions for buttons to call
 	public void NewGame() {
-		// TODO - Reset level progress
+		SaveManager.Instance.resetProgress();
 		LoadLevel(0, 0);
-        mm.ChangeToTutorialMusic();
 	}
 
 	public void LoadLevel(int worldIndex, int levelIndex) {

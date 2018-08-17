@@ -3,161 +3,170 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[HideInInspector]
+public enum Direction { Up, Down, Left, Right };
+
 public class Employee : MonoBehaviour {
-    [HideInInspector]
-    public UnityEvent ue;
-    public Direction dir;
-    private SpriteRenderer spr;
-    private Player player;
+	public Direction dir;
+	private SpriteRenderer sr;
 
-    public Sprite up;
-    public Sprite down;
-    public Sprite left;
-    public Sprite right;
+	public Sprite up;
+	public Sprite down;
+	public Sprite left;
+	public Sprite right;
 
-    [HideInInspector]
-    public enum Direction {Up, Down, Left, Right};
+	// References
+	private Animator animator;
+
+	// Properties
+	[HideInInspector]
+	public Vector2Int truePos;
+
+
+	// Initialization
+	private void Awake() {
+		sr = this.gameObject.GetComponent<SpriteRenderer>();
+
+		// Round the position to whole numbers
+		Vector3 pos = transform.position;
+		placeAtPosition(new Vector2Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y)));
+	}
 
 	// Use this for initialization
-	void Start () {
-        player = GM.Instance.currentLevelManager.player;
-        // Round the player's position to whole numbers
-        Vector3 pos = transform.position;
-        placeAtPosition(new Vector2Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y)));
-        ue = player.OnSuccessfulStep;
-        spr = this.gameObject.GetComponent<SpriteRenderer>();
-        ue.AddListener(MoveDir);
-    }
+	void Start() {
+		Player player = GM.Instance.currentLevelManager.player;
+		UnityEvent ue = player.StartSuccessfulStep;
+		ue.AddListener(MoveDir);
 
-    // References
-    private Animator animator;
+		// TODO - use the floor employee list
+		LevelManager.getFloor().employees.Add(this);
+	}
 
-    // Properties
-    [HideInInspector]
-    public Vector2Int posRounded;
+	// Reverse the currently facing direction
+	void SwitchDir(Direction d) {
+		switch (d) {
+			case Direction.Down:
+				dir = Direction.Up;
+				sr.sprite = up;
+				break;
+			case Direction.Up:
+				dir = Direction.Down;
+				sr.sprite = down;
+				break;
+			case Direction.Left:
+				dir = Direction.Right;
+				sr.sprite = right;
+				break;
+			case Direction.Right:
+				dir = Direction.Left;
+				sr.sprite = left;
+				break;
+		}
 
-    //Event fires when a successful step (one or two) is taken
-    [HideInInspector]
-    public UnityEvent OnSuccessfulStep = new UnityEvent();
+	}
 
-    // Initialization
-    private void Awake()
-    {
-        
-        
-    }
+	// Try to move one unit in the current direction.
+	// Will turn to face the opposite direction if the move fails.
+	private void MoveDir() {
+		tryMove(getNextMoveVector());
+	}
 
-    void SwitchDir(Direction d)
-    {
-        switch (d)
-        {
-            case Direction.Down:
-                dir = Direction.Up;
-                spr.sprite = up;
-                break;
-            case Direction.Up:
-                dir = Direction.Down;
-                spr.sprite = down;
-                break;
-            case Direction.Left:
-                dir = Direction.Right;
-                spr.sprite = right;
-                break;
-            case Direction.Right:
-                dir = Direction.Left;
-                spr.sprite = left;
-                break;
-        }
-        
-    }
+	private bool tryMove(Vector2Int displacement) {
+		Vector2Int targetPos = truePos + displacement;
 
-    void MoveDir()
-    {
-        int distance = 1;
-        switch (dir)
-        {
-            case Direction.Up:
-                tryMove(new Vector2Int(0, distance));
-                break;
-            case Direction.Down:
-                tryMove(new Vector2Int(0, -distance));
-                break;
-            case Direction.Left:
-                tryMove(new Vector2Int(-distance, 0));
-                break;
-            case Direction.Right:
-                tryMove(new Vector2Int(distance, 0));
-                break;
-        }
-    }
-    // Player input management
-    void Update()
-    {
-        
-    }
+		if (canMoveNormal(displacement, targetPos)) {
+			move(displacement, targetPos);
+			return true;
+		}
 
+		// TODO - play "invalid move" sound effect?
+		SwitchDir(dir);
+		return false;
+	}
 
-    // Player movement
-    private bool tryMove(Vector2Int displacement)
-    {
-        Vector2Int targetPos = posRounded + displacement;
-        
-        if (canMoveNormal(displacement, targetPos))
-        {
-            move(displacement, targetPos);
-            OnSuccessfulStep.Invoke();
-            return true;
-        }
+	public bool canMoveNormal(Vector2Int displacement, Vector2Int targetPos) {
+		Tile tile = LevelManager.getTile(targetPos);
+		ForegroundObject foregroundObj = LevelManager.getForegroundObject(targetPos);
+		if (foregroundObj) {
+			return false;
+		}
+		return (tile != null && (tile.isSteppableForNPC() || tile.isHole()));
+	}
 
-        // TODO - play "invalid move" sound effect?
-        SwitchDir(dir);
-        return false;
-    }
+	public void move(Vector2Int displacement, Vector2Int targetPosition) {
+		Tile prevTile = LevelManager.getTile(truePos);
+		prevTile.OnLeave();
+		Tile nextTile = LevelManager.getTile(targetPosition);
+		nextTile.OnStep();
+		if (nextTile.isHole()) {
+			Destroy(this.gameObject);
+		}
+		normalMoveAnim(displacement, targetPosition);
+	}
 
-    public bool canMoveNormal(Vector2Int displacement, Vector2Int targetPos)
-    {
-        Tile tile = LevelManager.getTile(targetPos);
-        ForegroundObject foregroundObj = LevelManager.getForegroundObject(targetPos);
-        if (foregroundObj)
-        {
-            return false;
-        }
-        return (tile != null && (tile.isSteppableForNPC() || tile.isHole()));
-    }
+	public void placeAtPosition(Vector2Int position) {
+		transform.position = new Vector3(position.x, position.y, transform.position.z);
+		truePos = position;
+	}
 
-    public void move(Vector2Int displacement, Vector2Int targetPosition)
-    {
-        Tile prevTile = LevelManager.getTile(posRounded);
-        prevTile.OnLeave();
-        Tile nextTile = LevelManager.getTile(targetPosition);
-        nextTile.OnStep();
-        if (nextTile.isHole())
-        {
-            Destroy(this.gameObject);
-        }
-        normalMoveAnim(displacement, targetPosition);      
-    }
+	// Animation management
+	private void normalMoveAnim(Vector2Int displacement, Vector2Int targetPosition) {
+		// TODO - add animation
+		// For now:
+		this.transform.position += new Vector3(displacement.x, displacement.y, 0);
+		truePos = targetPosition;
+	}
 
-    public void placeAtPosition(Vector2Int position)
-    {
-        transform.position = new Vector3(position.x, position.y, transform.position.z);
-        posRounded = position;
-    }
+	// Get the displacement vector of the next move that will be attempted
+	public Vector2Int getNextMoveVector() {
+		int distance = 1;
+		switch (dir) {
+			case Direction.Up:
+				return new Vector2Int(0, distance);
+			case Direction.Down:
+				return new Vector2Int(0, -distance);
+			case Direction.Left:
+				return new Vector2Int(-distance, 0);
+			case Direction.Right:
+				return new Vector2Int(distance, 0);
+			default:
+				Debug.LogError("Invalid direction: " + dir);
+				return Vector2Int.zero;
+		}
+	}
 
+	// Returns the position that this employee will move to on the next step event
+	public Vector2Int getNextTruePos() {
+		Vector2Int displacement = getNextMoveVector();
+		Vector2Int targetPos = truePos + displacement;
 
-    // Animation management
-    private void normalMoveAnim(Vector2Int displacement, Vector2Int targetPosition)
-    {
-        // TODO - add animation
-        // For now:
-        this.transform.position += new Vector3(displacement.x, displacement.y, 0);
-        posRounded = targetPosition;
-    }
+		if (canMoveNormal(displacement, targetPos)) {
+			return targetPos;
+		} else {
+			return truePos;
+		}
+	}
 
-    //public void onAnimationEnd() {
-    //	Debug.Log(animator.GetCurrentAnimatorStateInfo(0).IsName("TODO"));
+	// Predicate to check if the given position will be occupied by any employees on the next step event
+	public static bool willEmployeeMoveInto(Vector2Int targetPos) {
+		foreach (Employee employee in LevelManager.getFloor().employees) {
+			if (employee != null && employee.getNextTruePos() == targetPos) {
+				return true;
+			}
+		}
 
-    //	//isAnimating = false;
-    //}
+		return false;
+	}
+
+	// Predicate to check if any employees will be making the opposite move, i.e. stepping across the player
+	public static bool willEmployeeSwapWith(Vector2Int playerCurrentPos, Vector2Int playerTargetPos) {
+		foreach (Employee employee in LevelManager.getFloor().employees) {
+			if (employee != null && employee.getNextTruePos() == playerCurrentPos && employee.truePos == playerTargetPos) {
+				return true;
+			}
+		}
+
+		return false;
+	}
 
 }

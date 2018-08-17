@@ -4,58 +4,32 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 
-[System.Serializable]
-public struct sx {
-	[SerializeField]
-	public string name;
-
-	[SerializeField]
-	public float variation;
-
-	[SerializeField]
-	public float mid;
-
-	[SerializeField]
-	public AudioClip clip;
-
-	[Range(0, 3)]
-	public float volume;
-
-	[HideInInspector]
-	public AudioSource source;
-}
-
 public class MusicManager : MonoBehaviour {
 
-	public AudioClip mainMenuTrack;
-	public List<AudioClip> worldTracks;
+	// Audio clips
+	public musicTrack mainMenuTrack;
+	public List<musicTrack> worldTracks;
+	public musicTrack endscreenTrack;
 
 	[SerializeField]
 	public sx[] sxs;
 
-	
-	public AudioSource a_s;
 
-    public AudioClip world0track;
-    public AudioClip world1track;
-    public AudioClip world2track;
-    public AudioClip world3track;
+	// References
+	public AudioSource music_as;
+	public AudioSource sfx_proto_as;
 
-    private float pitch;
-	//public GameObject source;
-	public float max_music_volume;
-	public float max_effects_volume;
+	// Properties
+	private float pitch;
+	[HideInInspector]
+	public float global_music_volume = 1;
+	[HideInInspector]
+	public float global_effects_volume = 1;
 	public static float global_pitch = 1;
 
-    public UnityEvent to1;
-    public UnityEvent to2;
-    public UnityEvent to3;
-    public UnityEvent toLast;
 
-    //public int worldIndex;
-
-    // Singleton instance setup
-    private static MusicManager _instance;
+	// Singleton instance setup
+	private static MusicManager _instance;
 	public static MusicManager Instance { get { return _instance; } }
 
 	private void Awake() {
@@ -69,98 +43,51 @@ public class MusicManager : MonoBehaviour {
 		if (transform.parent == null) {
 			DontDestroyOnLoad(this);
 		}
-	
+
+		SceneManager.sceneLoaded += OnSceneLoaded;
+
 		if (SettingsManager.Instance) {
 			SettingsManager.Instance.applyToMusicManager();
 		}
 
-		a_s = GetComponent<AudioSource>();
-		a_s.clip = mainMenuTrack;
-		
-		a_s.volume = max_music_volume;
-		a_s.Play();
-
-        //worldIndex = GM.Instance.currentLevelManager.worldIndex;
-
-        /*for (int i = 0; i < sxs.Length; i++) {
-			GameObject g = Instantiate(source, transform);
+		for (int i = 0; i < sxs.Length; i++) {
+			GameObject g = Instantiate(sfx_proto_as.gameObject, transform);
 			g.name = sxs[i].name;
 			sxs[i].source = g.GetComponent<AudioSource>();
-		}*/
-
-        //a_s = this.GetComponent<AudioSource>();
-        //if (a_s)
-        //{
-        //    Debug.Log("Found audiosource!");
-        //}
+		}
 	}
 
-    private void Start()
-    {
-        
-    }
-
-    void Update() {
-		a_s.volume = max_music_volume;
-		a_s.pitch = global_pitch;
-		if (!a_s.isPlaying) a_s.Play();
+	// When each scene is loaded, the correct track should be played
+	void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
+		int nextTrackIndex = GM.getWorldFromScene(scene);
+		if (nextTrackIndex >= 0) {
+			changeToWorldTrack(nextTrackIndex);
+		} else if (nextTrackIndex == -1) {
+			changeMusicTrack(mainMenuTrack);
+		} else if (nextTrackIndex == -2) {
+			changeMusicTrack(endscreenTrack);
+		}
 	}
 
-    public void ChangeToTutorialMusic()
-    {
-        a_s.clip = world0track;
-        if (!a_s.isPlaying)
-        {
-            a_s.Play();
-        }
-    }
-    public void ChangeToMusicOne()
-    {
-        //world0track.Stop();
-        //world1track.Play();
-        a_s.clip = world1track;
-        if(!a_s.isPlaying)
-        {
-            a_s.Play();
-        }
-    }
-    public void ChangeToMusicTwo()
-    {
-        // world1track.Stop();
-        //world2track.Play();
-        a_s.clip = world2track;
-        if (!a_s.isPlaying)
-        {
-            a_s.Play();
-        }
-    }
-    public void ChangeToMusicThree()
-    {
-        //world2track.Stop();
-        //world3track.Play();
-        a_s.clip = world3track;
-        if (!a_s.isPlaying)
-        {
-            a_s.Play();
-        }
-    }
-    public void ChangeToFinalMusic()
-    {
-        // world3track.Stop();
-        a_s.Stop();
-    }
+	// You should go through this method in order to change the track at any time
+	public void changeMusicTrack(musicTrack track) {
+		music_as.clip = track.clip;
+		
+		music_as.volume = global_music_volume * track.volume;
 
-
-    /*public void shot() {
-		play_sound(0);
+		if (!music_as.isPlaying) {
+			music_as.Play();
+		}
 	}
 
-	public void die() {
-		play_sound(1);
+	public void changeToWorldTrack(int worldIndex) {
+		if (worldIndex >= 0 && worldIndex < worldTracks.Count) {
+			changeMusicTrack(worldTracks[worldIndex]);
+		}
 	}
-    */
 
-    public static void play_by_name(string name) {
+	// Play SFX
+	public static void play_by_name(string name) {
 		for (int i = 0; i < _instance.sxs.Length; i++) {
 			if (_instance.sxs[i].name == name)
 				play_sound(i);
@@ -169,7 +96,37 @@ public class MusicManager : MonoBehaviour {
 
 	public static void play_sound(int id) {
 		_instance.sxs[id].source.pitch = ((Random.value - .5f) * _instance.sxs[id].variation + _instance.sxs[id].mid) * global_pitch;
-		_instance.sxs[id].source.PlayOneShot(_instance.sxs[id].clip, _instance.sxs[id].volume * _instance.max_effects_volume);
+		_instance.sxs[id].source.PlayOneShot(_instance.sxs[id].clip, _instance.sxs[id].volume * _instance.global_effects_volume);
 	}
 
+	// Update music volume
+	public static void updateMusicVolume(float newGlobalVolume) {
+		// TODO - update the volume from the SettingsManager 
+	}
+
+}
+
+// Struct for music AudioClips
+[System.Serializable]
+public struct musicTrack {
+	[SerializeField]
+	public AudioClip clip;
+
+	[Range(0, 3)]
+	public float volume;
+}
+
+// Struct for SoundFX AudioClips
+[System.Serializable]
+public struct sx {
+	public string name;
+	public float variation;
+	public float mid;
+	public AudioClip clip;
+
+	[Range(0, 3)]
+	public float volume;
+
+	[HideInInspector]
+	public AudioSource source;
 }
