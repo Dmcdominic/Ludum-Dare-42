@@ -21,7 +21,7 @@ public class Keycard : ForegroundObject {
 
 	private new void Start() {
 		updateVisualColors(color);
-        a_s = this.gameObject.GetComponentInParent<AudioSource>();
+        //a_s = this.gameObject.GetComponent<AudioSource>();
         if (a_s)
         {
             Debug.Log("Found AS!");
