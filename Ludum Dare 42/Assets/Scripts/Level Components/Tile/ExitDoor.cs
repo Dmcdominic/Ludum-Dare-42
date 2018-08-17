@@ -5,8 +5,6 @@ using UnityEngine.Events;
 
 public class ExitDoor : Tile {
 
-    public AudioSource a_s;
-
     public override bool isSteppable() {
 		return true;
 	}
@@ -17,8 +15,6 @@ public class ExitDoor : Tile {
     }
 
     public override void OnStep() {
-        a_s = this.gameObject.GetComponentInParent<AudioSource>();
-        a_s.Play();
         GM.onBeatLevel();
 	}
 

@@ -721,8 +721,6 @@ MonoBehaviour:
   world1track: {fileID: 8300000, guid: 95957d0375df53e4da12e27ec1e5e75b, type: 3}
   world2track: {fileID: 8300000, guid: 74b38453cb457144b8087c6ef1544ace, type: 3}
   world3track: {fileID: 8300000, guid: af87a5e50123bc34998bac3b81292031, type: 3}
-  youWinTrack: {fileID: 8300000, guid: 779640da48cf5fd4f806dc19a13aab50, type: 3}
-  badEndingTrack: {fileID: 8300000, guid: 0f64c42bb2013d54c8f390aabafcadef, type: 3}
   max_music_volume: 0
   max_effects_volume: 0
   to1:
@@ -756,7 +754,7 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 50141cc30b37e37489824fdb6cfc0535, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  worldLevelTotals: 05000000080000000800000007000000
+  worldLevelTotals: 05000000080000000800000008000000
   currentScene: 0
   _currentLevelManager: {fileID: 0}
   ingameCanvas: {fileID: 0}
