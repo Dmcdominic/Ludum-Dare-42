@@ -7,10 +7,9 @@ public enum PowerupType { Coffee };
 public class Powerup : ForegroundObject {
 
 	public PowerupType type;
-    public AudioSource a_s;
 
 	private new void Start() {
-        a_s = GetComponentsInParent<AudioSource>()[2];
+		// Do nothing
 	}
 
 	public override bool IsSteppable(MoveType moveType, Vector2Int incomingDisplacement) {
@@ -19,7 +18,6 @@ public class Powerup : ForegroundObject {
 
 	public override void OnInteraction(MoveType moveType, Vector2Int incomingDisplacement) {
 		LevelManager.applyPowerup(type);
-        a_s.Play();
         Destroy(this.gameObject);
 		//TODO: Add interact / fadeout animation if desired
 	}
