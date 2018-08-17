@@ -16,7 +16,8 @@ public class MusicManager : MonoBehaviour {
 
 
 	// References
-	public AudioSource a_s;
+	public AudioSource music_as;
+	public AudioSource sfx_proto_as;
 
 	// Properties
 	private float pitch;
@@ -49,11 +50,11 @@ public class MusicManager : MonoBehaviour {
 			SettingsManager.Instance.applyToMusicManager();
 		}
 
-		/*for (int i = 0; i < sxs.Length; i++) {
-			GameObject g = Instantiate(source, transform);
+		for (int i = 0; i < sxs.Length; i++) {
+			GameObject g = Instantiate(sfx_proto_as.gameObject, transform);
 			g.name = sxs[i].name;
 			sxs[i].source = g.GetComponent<AudioSource>();
-		}*/
+		}
 	}
 
 	// When each scene is loaded, the correct track should be played
@@ -70,12 +71,12 @@ public class MusicManager : MonoBehaviour {
 
 	// You should go through this method in order to change the track at any time
 	public void changeMusicTrack(musicTrack track) {
-		a_s.clip = track.clip;
+		music_as.clip = track.clip;
 		
-		a_s.volume = global_music_volume * track.volume;
+		music_as.volume = global_music_volume * track.volume;
 
-		if (!a_s.isPlaying) {
-			a_s.Play();
+		if (!music_as.isPlaying) {
+			music_as.Play();
 		}
 	}
 
@@ -118,16 +119,9 @@ public struct musicTrack {
 // Struct for SoundFX AudioClips
 [System.Serializable]
 public struct sx {
-	[SerializeField]
 	public string name;
-
-	[SerializeField]
 	public float variation;
-
-	[SerializeField]
 	public float mid;
-
-	[SerializeField]
 	public AudioClip clip;
 
 	[Range(0, 3)]

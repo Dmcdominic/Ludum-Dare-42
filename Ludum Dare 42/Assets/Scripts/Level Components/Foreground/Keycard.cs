@@ -11,26 +11,12 @@ public class Keycard : ForegroundObject {
 	public Sprite keycardBlue;
 	public Sprite keycardYellow;
 
-    public AudioClip clip;
-
-    public AudioSource a_s;
-
 	[SerializeField]
 	private ParticleSystem ps;
 
 
 	private new void Start() {
 		updateVisualColors(color);
-        //if (a_s)
-        //{
-        //    Debug.Log("Found AS!");
-        //}
-        //clip = a_s.clip;
-        //if (clip)
-        //{
-        //    Debug.Log("Found clip!");
-        //}
-        //a_s.Play();
 	}
 
 	private void updateVisualColors(KeycardColor color) {
@@ -68,11 +54,7 @@ public class Keycard : ForegroundObject {
 		Vector2Int truePos = (Floor.pos3dToVect2Int(transform.position));
 		LevelManager.getFloor().updateFgGridForAllPos(null, truePos, additionalCoords, false);
 
-		//a_s.volume = 1.0f;
-        //a_s.PlayOneShot(clip);
-        //Debug.Log(a_s.isPlaying);
-        //Debug.Log("Interaction w/ keycard!");
-        //Debug.Log(a_s.clip.name);
+		MusicManager.play_by_name("keycard_pickup");
 
 		// TODO - Add interact / fadeout animation if desired
 		// For now:

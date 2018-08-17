@@ -3,98 +3,79 @@ using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.Events;
 
+[HideInInspector]
+public enum Direction { Up, Down, Left, Right };
+
 public class Employee : MonoBehaviour {
-	[HideInInspector]
-	public UnityEvent ue;
 	public Direction dir;
-	private SpriteRenderer spr;
-	private Player player;
+	private SpriteRenderer sr;
 
 	public Sprite up;
 	public Sprite down;
 	public Sprite left;
 	public Sprite right;
 
-	[HideInInspector]
-	public enum Direction { Up, Down, Left, Right };
-
 	// References
 	private Animator animator;
 
 	// Properties
 	[HideInInspector]
-	public Vector2Int posRounded;
+	public Vector2Int truePos;
 
-	//Event fires when a successful step (one or two) is taken
-	[HideInInspector]
-	public UnityEvent OnSuccessfulStep = new UnityEvent();
 
 	// Initialization
 	private void Awake() {
-		spr = this.gameObject.GetComponent<SpriteRenderer>();
+		sr = this.gameObject.GetComponent<SpriteRenderer>();
 
-		// Round the player's position to whole numbers
+		// Round the position to whole numbers
 		Vector3 pos = transform.position;
 		placeAtPosition(new Vector2Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y)));
 	}
 
 	// Use this for initialization
 	void Start() {
-		player = GM.Instance.currentLevelManager.player;
-		ue = player.OnSuccessfulStep;
+		Player player = GM.Instance.currentLevelManager.player;
+		UnityEvent ue = player.StartSuccessfulStep;
 		ue.AddListener(MoveDir);
 
 		// TODO - use the floor employee list
-		//LevelManager.getFloor().employees.Add(this);
+		LevelManager.getFloor().employees.Add(this);
 	}
 
+	// Reverse the currently facing direction
 	void SwitchDir(Direction d) {
 		switch (d) {
 			case Direction.Down:
 				dir = Direction.Up;
-				spr.sprite = up;
+				sr.sprite = up;
 				break;
 			case Direction.Up:
 				dir = Direction.Down;
-				spr.sprite = down;
+				sr.sprite = down;
 				break;
 			case Direction.Left:
 				dir = Direction.Right;
-				spr.sprite = right;
+				sr.sprite = right;
 				break;
 			case Direction.Right:
 				dir = Direction.Left;
-				spr.sprite = left;
+				sr.sprite = left;
 				break;
 		}
 
 	}
 
-	void MoveDir() {
-		int distance = 1;
-		switch (dir) {
-			case Direction.Up:
-				tryMove(new Vector2Int(0, distance));
-				break;
-			case Direction.Down:
-				tryMove(new Vector2Int(0, -distance));
-				break;
-			case Direction.Left:
-				tryMove(new Vector2Int(-distance, 0));
-				break;
-			case Direction.Right:
-				tryMove(new Vector2Int(distance, 0));
-				break;
-		}
+	// Try to move one unit in the current direction.
+	// Will turn to face the opposite direction if the move fails.
+	private void MoveDir() {
+		tryMove(getNextMoveVector());
 	}
 
-	// Player movement
 	private bool tryMove(Vector2Int displacement) {
-		Vector2Int targetPos = posRounded + displacement;
+		Vector2Int targetPos = truePos + displacement;
 
 		if (canMoveNormal(displacement, targetPos)) {
 			move(displacement, targetPos);
-			OnSuccessfulStep.Invoke();
 			return true;
 		}
 
@@ -113,7 +94,7 @@ public class Employee : MonoBehaviour {
 	}
 
 	public void move(Vector2Int displacement, Vector2Int targetPosition) {
-		Tile prevTile = LevelManager.getTile(posRounded);
+		Tile prevTile = LevelManager.getTile(truePos);
 		prevTile.OnLeave();
 		Tile nextTile = LevelManager.getTile(targetPosition);
 		nextTile.OnStep();
@@ -125,7 +106,7 @@ public class Employee : MonoBehaviour {
 
 	public void placeAtPosition(Vector2Int position) {
 		transform.position = new Vector3(position.x, position.y, transform.position.z);
-		posRounded = position;
+		truePos = position;
 	}
 
 	// Animation management
@@ -133,7 +114,59 @@ public class Employee : MonoBehaviour {
 		// TODO - add animation
 		// For now:
 		this.transform.position += new Vector3(displacement.x, displacement.y, 0);
-		posRounded = targetPosition;
+		truePos = targetPosition;
+	}
+
+	// Get the displacement vector of the next move that will be attempted
+	public Vector2Int getNextMoveVector() {
+		int distance = 1;
+		switch (dir) {
+			case Direction.Up:
+				return new Vector2Int(0, distance);
+			case Direction.Down:
+				return new Vector2Int(0, -distance);
+			case Direction.Left:
+				return new Vector2Int(-distance, 0);
+			case Direction.Right:
+				return new Vector2Int(distance, 0);
+			default:
+				Debug.LogError("Invalid direction: " + dir);
+				return Vector2Int.zero;
+		}
+	}
+
+	// Returns the position that this employee will move to on the next step event
+	public Vector2Int getNextTruePos() {
+		Vector2Int displacement = getNextMoveVector();
+		Vector2Int targetPos = truePos + displacement;
+
+		if (canMoveNormal(displacement, targetPos)) {
+			return targetPos;
+		} else {
+			return truePos;
+		}
+	}
+
+	// Predicate to check if the given position will be occupied by any employees on the next step event
+	public static bool willEmployeeMoveInto(Vector2Int targetPos) {
+		foreach (Employee employee in LevelManager.getFloor().employees) {
+			if (employee != null && employee.getNextTruePos() == targetPos) {
+				return true;
+			}
+		}
+
+		return false;
+	}
+
+	// Predicate to check if any employees will be making the opposite move, i.e. stepping across the player
+	public static bool willEmployeeSwapWith(Vector2Int playerCurrentPos, Vector2Int playerTargetPos) {
+		foreach (Employee employee in LevelManager.getFloor().employees) {
+			if (employee != null && employee.getNextTruePos() == playerCurrentPos && employee.truePos == playerTargetPos) {
+				return true;
+			}
+		}
+
+		return false;
 	}
 
 }

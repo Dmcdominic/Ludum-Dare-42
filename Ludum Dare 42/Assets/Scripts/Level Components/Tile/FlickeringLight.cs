@@ -12,7 +12,7 @@ public class FlickeringLight : Tile {
 
 	// Use this for initialization
 	private new void Start() {
-		UnityEvent ue = GM.Instance.currentLevelManager.player.OnSuccessfulStep;
+		UnityEvent ue = GM.Instance.currentLevelManager.player.StartSuccessfulStep;
 		ue.AddListener(incr);
 	}
 
