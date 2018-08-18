@@ -8,7 +8,7 @@ public enum MoveType { normal, jumpTwoTiles };
 public class Player : MonoBehaviour {
 
 	// Settings
-	private static readonly float moveTime = 0.35f;
+	private static readonly float invalidMoveSFXDelay = 0.1f;
 
 	// References
 	[SerializeField]
@@ -30,7 +30,7 @@ public class Player : MonoBehaviour {
 	public bool jumpTwoActivated = false;
 	
 
-	//Event fires when a successful step (one or two) is taken
+	//Event fires when a successful step (of any move type) is taken
 	public UnityEvent StartSuccessfulStep = new UnityEvent();
     public UnityEvent OnSuccessfulStep = new UnityEvent();
     
@@ -90,6 +90,7 @@ public class Player : MonoBehaviour {
 			}
 		}
 
+		// Previous movement system:
 
 		//if (Mathf.Abs(horizontalInput) > Mathf.Abs(verticalInput)) {
 		//	if (horizontalInput > 0) {
@@ -120,6 +121,8 @@ public class Player : MonoBehaviour {
 
 	// Player movement
 	private bool tryMove(MoveType moveType, Vector2Int displacement) {
+		timer = walkingRight.length;
+
 		Vector2Int targetPos = truePos + displacement;
 		switch (moveType) {
 			case MoveType.normal:
@@ -127,17 +130,21 @@ public class Player : MonoBehaviour {
 					move(moveType, displacement, targetPos);
 					return true;
 				}
-				break;
+				// Invalid normal move anim and sfx
+				invalidNormalMoveAnim(displacement);
+				MusicManager.play_with_delay("invalid_footstep", invalidMoveSFXDelay);
+				return false;
 			case MoveType.jumpTwoTiles:
 				Vector2Int jumpOverPos = truePos + new Vector2Int(displacement.x / 2, displacement.y / 2);
 				if (canMoveJumpTwoTiles(displacement, jumpOverPos, targetPos)) {
 					move(moveType, displacement, targetPos);
 					return true;
 				}
-				break;
+				// Invalid coffee jumpp anim and sfx
+				invalidJumpTwoTilesAnim(displacement);
+				MusicManager.play_with_delay("invalid_footstep", invalidMoveSFXDelay);
+				return false;
 		}
-
-		// TODO - play "invalid move" sound effect?
 		
 		return false;
 	}
@@ -173,7 +180,6 @@ public class Player : MonoBehaviour {
 	// Moves the player using the given moveType, with the given displacement to the target position
 	public void move(MoveType moveType, Vector2Int displacement, Vector2Int targetPosition) {
 		StartSuccessfulStep.Invoke();
-		timer = moveTime;
 
 		Tile prevTile = LevelManager.getTile(truePos);
 		prevTile.OnLeave();
@@ -187,20 +193,31 @@ public class Player : MonoBehaviour {
 
 		switch (moveType) {
 			case (MoveType.normal):
-				normalMoveAnim(displacement, targetPosition);
+				normalMoveAnim(displacement);
+				placeByDisplacement(displacement);
 				MusicManager.play_by_name("footstep");
 				break;
 			case (MoveType.jumpTwoTiles):
-				jumpTwoTilesAnim(displacement, targetPosition);
+				jumpTwoTilesAnim(displacement);
 				MusicManager.play_by_name("coffee_jump");
+				placeByDisplacement(displacement);
 				break;
 		}
 		
 		OnSuccessfulStep.Invoke();
 	}
 
+	// Move the player to a certain position and update their truePos
+	private void placeAtPosition(Vector2Int position) {
+		transform.position = new Vector3(position.x, position.y, transform.position.z);
+		truePos = position;
+	}
+	private void placeByDisplacement(Vector2Int displacement) {
+		placeAtPosition(truePos + displacement);
+	}
+
 	// Animation management
-	private void normalMoveAnim(Vector2Int displacement, Vector2Int targetPosition) {
+	private void normalMoveAnim(Vector2Int displacement) {
 		controlEnabled = false;
 		StartCoroutine(enableControlDelayed());
 
@@ -213,23 +230,51 @@ public class Player : MonoBehaviour {
 		} else if (displacement.x < 0) {
 			animator.Play("Walking Left");
 		}
-
-		placeByDisplacement(displacement);
 	}
 
-	private void jumpTwoTilesAnim(Vector2Int displacement, Vector2Int targetPosition) {
-		// TODO - add animation
-		// For now:
-		placeByDisplacement(displacement);
+	private void invalidNormalMoveAnim(Vector2Int displacement) {
+		controlEnabled = false;
+		StartCoroutine(enableControlDelayed());
+
+		if (displacement.y > 0) {
+			animator.Play("Invalid Walking Up");
+		} else if (displacement.x > 0) {
+			animator.Play("Invalid Walking Right");
+		} else if (displacement.y < 0) {
+			animator.Play("Invalid Walking Down");
+		} else if (displacement.x < 0) {
+			animator.Play("Invalid Walking Left");
+		}
 	}
 
-	// Move the player to a certain position and update their truePos
-	private void placeAtPosition(Vector2Int position) {
-		transform.position = new Vector3(position.x, position.y, transform.position.z);
-		truePos = position;
+	private void jumpTwoTilesAnim(Vector2Int displacement) {
+		controlEnabled = false;
+		StartCoroutine(enableControlDelayed());
+
+		if (displacement.y > 0) {
+			animator.Play("Jumping Up");
+		} else if (displacement.x > 0) {
+			animator.Play("Jumping Right");
+		} else if (displacement.y < 0) {
+			animator.Play("Jumping Down");
+		} else if (displacement.x < 0) {
+			animator.Play("Jumping Left");
+		}
 	}
-	private void placeByDisplacement(Vector2Int displacement) {
-		placeAtPosition(truePos + displacement);
+
+	private void invalidJumpTwoTilesAnim(Vector2Int displacement) {
+		controlEnabled = false;
+		StartCoroutine(enableControlDelayed());
+
+		if (displacement.y > 0) {
+			animator.Play("Invalid Jumping Up");
+		} else if (displacement.x > 0) {
+			animator.Play("Invalid Jumping Right");
+		} else if (displacement.y < 0) {
+			animator.Play("Invalid Jumping Down");
+		} else if (displacement.x < 0) {
+			animator.Play("Invalid Jumping Left");
+		}
 	}
 
 	// Re-enable player input after the movement animation delay

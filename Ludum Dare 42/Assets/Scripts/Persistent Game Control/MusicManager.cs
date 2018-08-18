@@ -94,9 +94,24 @@ public class MusicManager : MonoBehaviour {
 		}
 	}
 
-	public static void play_sound(int id) {
-		_instance.sxs[id].source.pitch = ((Random.value - .5f) * _instance.sxs[id].variation + _instance.sxs[id].mid) * global_pitch;
-		_instance.sxs[id].source.PlayOneShot(_instance.sxs[id].clip, _instance.sxs[id].volume * _instance.global_effects_volume);
+	public static void play_with_delay(string name, float delay) {
+		for (int i = 0; i < _instance.sxs.Length; i++) {
+			if (_instance.sxs[i].name == name)
+				play_sound_delayed(i, delay);
+		}
+	}
+
+	private static void play_sound(int id) {
+		AudioSource source = _instance.sxs[id].source;
+		source.pitch = ((Random.value - .5f) * _instance.sxs[id].variation + _instance.sxs[id].mid) * global_pitch;
+		source.PlayOneShot(_instance.sxs[id].clip, _instance.sxs[id].volume * _instance.global_effects_volume);
+	}
+	private static void play_sound_delayed(int id, float delay) {
+		AudioSource source = _instance.sxs[id].source;
+		source.clip = _instance.sxs[id].clip;
+		source.pitch = ((Random.value - .5f) * _instance.sxs[id].variation + _instance.sxs[id].mid) * global_pitch;
+		source.volume = _instance.sxs[id].volume * _instance.global_effects_volume;
+		source.PlayDelayed(delay);
 	}
 
 	// Update music volume

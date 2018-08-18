@@ -764,17 +764,23 @@ MonoBehaviour:
     clip: {fileID: 8300000, guid: ffdaed087df57124c85d09d95751d064, type: 3}
     volume: 0.5
     source: {fileID: 0}
+  - name: coffee_jump
+    variation: 0.5
+    mid: 1
+    clip: {fileID: 8300000, guid: a9d27dd4f3a5af24797c2966adc93b98, type: 3}
+    volume: 0.55
+    source: {fileID: 0}
   - name: footstep
     variation: 0.25
     mid: 1
     clip: {fileID: 8300000, guid: 8621b184468512e41bc896d4783b28fc, type: 3}
     volume: 0.55
     source: {fileID: 0}
-  - name: coffee_jump
-    variation: 0.5
+  - name: invalid_footstep
+    variation: 0
     mid: 1
-    clip: {fileID: 8300000, guid: a9d27dd4f3a5af24797c2966adc93b98, type: 3}
-    volume: 0.55
+    clip: {fileID: 8300000, guid: 251d0ab5982790744870b7181e868306, type: 3}
+    volume: 0.45
     source: {fileID: 0}
   music_as: {fileID: 82118889423991966}
   sfx_proto_as: {fileID: 82286400812247938}
