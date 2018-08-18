@@ -4,7 +4,13 @@ using UnityEngine;
 
 public class Pushable : ForegroundObject {
 
+	// Editor settings
 	public bool tall;
+
+	// References
+	[SerializeField]
+	private Animator animator;
+
 
 	public override bool IsSteppable(MoveType moveType, Vector2Int incomingDisplacement) {
 		return moveType == MoveType.normal && CanBePushedInto(incomingDisplacement);
@@ -36,7 +42,8 @@ public class Pushable : ForegroundObject {
 			}
 			return;
 		} else {
-			// TODO - movement animation?
+			// Move the object to the correct position, and play the animation
+			playPushedAnim(incomingDisplacement);
 			transform.position = new Vector3(targetPos.x, targetPos.y, transform.position.z);
 			floor.updateFgGridForAllPos(null, basePos, additionalCoords, false);
 			floor.updateFgGridForAllPos(this, targetPos, additionalCoords, false);
@@ -117,4 +124,22 @@ public class Pushable : ForegroundObject {
 	public override bool CanBeJumpedOver() {
 		return true;
 	}
+
+	private void playPushedAnim(Vector2Int displacement) {
+		sr.sortingLayerName = "Player";
+		sr.sortingOrder = 1;
+		StartCoroutine(returnToSortingLayer());
+
+		string animName = "Pushed" + AnimUtil.getDirectionPostfix(displacement);
+		animator.Play(animName);
+	}
+
+	// Set the sprite renderer's sorting layer back to foreground
+	IEnumerator returnToSortingLayer() {
+		yield return new WaitForSeconds(Player.moveAnimTime);
+		sr.sortingLayerName = "Foreground";
+		sr.sortingOrder = 0;
+		yield return null;
+	}
+
 }

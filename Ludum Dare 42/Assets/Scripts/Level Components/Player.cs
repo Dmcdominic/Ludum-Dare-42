@@ -15,6 +15,7 @@ public class Player : MonoBehaviour {
 	private Animator animator;
 	[SerializeField]
 	private AnimationClip walkingRight;
+	public static float moveAnimTime;
 
 	// Properties
 	[HideInInspector]
@@ -39,6 +40,9 @@ public class Player : MonoBehaviour {
 		// Round the player's position to whole numbers
 		Vector3 pos = transform.position;
 		placeAtPosition(new Vector2Int(Mathf.RoundToInt(pos.x), Mathf.RoundToInt(pos.y)));
+
+		// Set the moveAnimTime, for global reference
+		moveAnimTime = walkingRight.length;
 	}
 
 	// Player input management
@@ -131,7 +135,7 @@ public class Player : MonoBehaviour {
 					return true;
 				}
 				// Invalid normal move anim and sfx
-				invalidNormalMoveAnim(displacement);
+				playerMoveAnim("Invalid Walking", displacement);
 				MusicManager.play_with_delay("invalid_footstep", invalidMoveSFXDelay);
 				return false;
 			case MoveType.jumpTwoTiles:
@@ -141,7 +145,7 @@ public class Player : MonoBehaviour {
 					return true;
 				}
 				// Invalid coffee jumpp anim and sfx
-				invalidJumpTwoTilesAnim(displacement);
+				playerMoveAnim("Invalid Jumping", displacement);
 				MusicManager.play_with_delay("invalid_footstep", invalidMoveSFXDelay);
 				return false;
 		}
@@ -193,12 +197,16 @@ public class Player : MonoBehaviour {
 
 		switch (moveType) {
 			case (MoveType.normal):
-				normalMoveAnim(displacement);
+				if (foregroundObject is Pushable) {
+					playerMoveAnim("Pushing", displacement);
+				} else {
+					playerMoveAnim("Walking", displacement);
+				}
 				placeByDisplacement(displacement);
 				MusicManager.play_by_name("footstep");
 				break;
 			case (MoveType.jumpTwoTiles):
-				jumpTwoTilesAnim(displacement);
+				playerMoveAnim("Jumping", displacement);
 				MusicManager.play_by_name("coffee_jump");
 				placeByDisplacement(displacement);
 				break;
@@ -217,64 +225,12 @@ public class Player : MonoBehaviour {
 	}
 
 	// Animation management
-	private void normalMoveAnim(Vector2Int displacement) {
+	private void playerMoveAnim(string animNamePrefix, Vector2Int displacement) {
 		controlEnabled = false;
 		StartCoroutine(enableControlDelayed());
 
-		if (displacement.y > 0) {
-			animator.Play("Walking Up");
-		} else if (displacement.x > 0) {
-			animator.Play("Walking Right");
-		} else if (displacement.y < 0) {
-			animator.Play("Walking Down");
-		} else if (displacement.x < 0) {
-			animator.Play("Walking Left");
-		}
-	}
-
-	private void invalidNormalMoveAnim(Vector2Int displacement) {
-		controlEnabled = false;
-		StartCoroutine(enableControlDelayed());
-
-		if (displacement.y > 0) {
-			animator.Play("Invalid Walking Up");
-		} else if (displacement.x > 0) {
-			animator.Play("Invalid Walking Right");
-		} else if (displacement.y < 0) {
-			animator.Play("Invalid Walking Down");
-		} else if (displacement.x < 0) {
-			animator.Play("Invalid Walking Left");
-		}
-	}
-
-	private void jumpTwoTilesAnim(Vector2Int displacement) {
-		controlEnabled = false;
-		StartCoroutine(enableControlDelayed());
-
-		if (displacement.y > 0) {
-			animator.Play("Jumping Up");
-		} else if (displacement.x > 0) {
-			animator.Play("Jumping Right");
-		} else if (displacement.y < 0) {
-			animator.Play("Jumping Down");
-		} else if (displacement.x < 0) {
-			animator.Play("Jumping Left");
-		}
-	}
-
-	private void invalidJumpTwoTilesAnim(Vector2Int displacement) {
-		controlEnabled = false;
-		StartCoroutine(enableControlDelayed());
-
-		if (displacement.y > 0) {
-			animator.Play("Invalid Jumping Up");
-		} else if (displacement.x > 0) {
-			animator.Play("Invalid Jumping Right");
-		} else if (displacement.y < 0) {
-			animator.Play("Invalid Jumping Down");
-		} else if (displacement.x < 0) {
-			animator.Play("Invalid Jumping Left");
-		}
+		string animName = animNamePrefix + AnimUtil.getDirectionPostfix(displacement);
+		animator.Play(animName);
 	}
 
 	// Re-enable player input after the movement animation delay
