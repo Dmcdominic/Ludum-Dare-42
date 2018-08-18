@@ -10,6 +10,7 @@ public class Pushable : ForegroundObject {
 	// References
 	[SerializeField]
 	private Animator animator;
+	private Coroutine sortingLayerCoroutine;
 
 
 	public override bool IsSteppable(MoveType moveType, Vector2Int incomingDisplacement) {
@@ -126,17 +127,23 @@ public class Pushable : ForegroundObject {
 	}
 
 	private void playPushedAnim(Vector2Int displacement) {
-		sr.sortingLayerName = "Player";
-		sr.sortingOrder = 1;
-		StartCoroutine(returnToSortingLayer());
-
 		string animName = "Pushed" + AnimUtil.getDirectionPostfix(displacement);
 		animator.Play(animName);
+
+		if (displacement.y < 0) {
+			sr.sortingLayerName = "Player";
+			sr.sortingOrder = 1;
+			if (sortingLayerCoroutine != null) {
+				StopCoroutine(sortingLayerCoroutine);
+			}
+			sortingLayerCoroutine = StartCoroutine(returnToSortingLayer());
+		}
 	}
 
 	// Set the sprite renderer's sorting layer back to foreground
 	IEnumerator returnToSortingLayer() {
 		yield return new WaitForSeconds(Player.moveAnimTime);
+		yield return new WaitForEndOfFrame();
 		sr.sortingLayerName = "Foreground";
 		sr.sortingOrder = 0;
 		yield return null;
