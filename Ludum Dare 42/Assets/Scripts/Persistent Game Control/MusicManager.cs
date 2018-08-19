@@ -21,16 +21,27 @@ public class MusicManager : MonoBehaviour {
 
 	// Properties
 	private float pitch;
+	private float trackVolume;
 	[HideInInspector]
-	public float global_music_volume = 1;
+	public float global_music_volume;
 	[HideInInspector]
-	public float global_effects_volume = 1;
+	public float global_effects_volume;
 	public static float global_pitch = 1;
 
 
 	// Singleton instance setup
 	private static MusicManager _instance;
-	public static MusicManager Instance { get { return _instance; } }
+	public static MusicManager Instance {
+		get {
+			if (_instance == null) {
+				_instance = GameObject.FindObjectOfType<MusicManager>();
+				if (_instance == null) {
+					Debug.LogError("No MusicManager found in the scene");
+				}
+			}
+			return _instance;
+		}
+	}
 
 	private void Awake() {
 		if (_instance != null && _instance != this) {
@@ -45,10 +56,6 @@ public class MusicManager : MonoBehaviour {
 		}
 
 		SceneManager.sceneLoaded += OnSceneLoaded;
-
-		if (SettingsManager.Instance) {
-			SettingsManager.Instance.applyToMusicManager();
-		}
 
 		for (int i = 0; i < sxs.Length; i++) {
 			GameObject g = Instantiate(sfx_proto_as.gameObject, transform);
@@ -72,8 +79,9 @@ public class MusicManager : MonoBehaviour {
 	// You should go through this method in order to change the track at any time
 	public void changeMusicTrack(musicTrack track) {
 		music_as.clip = track.clip;
-		
-		music_as.volume = global_music_volume * track.volume;
+
+		trackVolume = track.volume;
+		music_as.volume = global_music_volume * trackVolume;
 
 		if (!music_as.isPlaying) {
 			music_as.Play();
@@ -114,9 +122,15 @@ public class MusicManager : MonoBehaviour {
 		source.PlayDelayed(delay);
 	}
 
-	// Update music volume
-	public static void updateMusicVolume(float newGlobalVolume) {
-		// TODO - update the volume from the SettingsManager 
+	// Update music and sfx volumes, and immediately apply changes to all audio sources
+	public static void updateVolumes(float musicVolume, float sfxVolume) {
+		Instance.global_music_volume = musicVolume;
+		Instance.global_effects_volume = sfxVolume;
+
+		Instance.music_as.volume = Instance.global_music_volume * Instance.trackVolume;
+		for (int i = 0; i < _instance.sxs.Length; i++) {
+			Instance.sxs[i].source.volume = Instance.sxs[i].volume * Instance.global_effects_volume;
+		}
 	}
 
 }

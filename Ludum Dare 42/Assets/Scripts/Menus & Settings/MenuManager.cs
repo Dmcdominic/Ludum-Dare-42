@@ -7,11 +7,18 @@ using UnityEngine.UI;
 
 public class MenuManager : MonoBehaviour {
 
+	// Settings
+	public static Color selectableHighlight;
+
+	// Editor fields
+	public bool overrideDefaultHighlights = false;
+
     public GameObject defaultSelect;
     public GameObject defaultUpSelect;
 
     public Button backButton;
 
+	// Properties
     public static float backTimer;
 
     private bool buttonSelected;
@@ -28,19 +35,23 @@ public class MenuManager : MonoBehaviour {
 
     private EventSystem eventSystem;
 
-    public MusicManager mm;
 
+	private void Start() {
+		// Set all UI selectables to have the desired highlight color
+		if (!overrideDefaultHighlights) {
+			// Set the color here, if provided by some static instance object
+			selectableHighlight = PrefabManager.Instance.getColorHex(KeycardColor.Blue);
+			Selectable[] selectables = GetComponentsInChildren<Selectable>();
+			foreach (Selectable selectable in selectables) {
+				ColorBlock colorBlock = selectable.colors;
+				colorBlock.highlightedColor = selectableHighlight;
+				selectable.colors = colorBlock;
+			}
+		}
+	}
 
-    void OnEnable() {
+	void OnEnable() {
         resetDelay();
-    }
-
-    private void Awake()
-    {
-        if (mm == null)
-        {
-            mm = GameObject.FindObjectOfType<MusicManager>();
-        }
     }
 
     void Update(){

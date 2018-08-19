@@ -44,25 +44,24 @@ public class SettingsManager : MonoBehaviour {
 			gameSettings.localMusicVolume = 1.0f;
 			gameSettings.localSFXVolume = 1.0f;
 		}
+	}
 
+	private void Start() {
 		UpdateFinalVolumes();
 	}
 
 	void UpdateFinalVolumes() {
-		//gameSettings.musicVolume = gameSettings.masterVolume * gameSettings.localMusicVolume;
-		//gameSettings.SFXVolume = gameSettings.masterVolume * gameSettings.localSFXVolume;
-		gameSettings.musicVolume = 1;
-		gameSettings.SFXVolume = 1;
+		gameSettings.musicVolume = gameSettings.masterVolume * gameSettings.localMusicVolume;
+		gameSettings.SFXVolume = gameSettings.masterVolume * gameSettings.localSFXVolume;
+		//gameSettings.musicVolume = 1;
+		//gameSettings.SFXVolume = 1;
 
 		SaveSettings();
 		applyToMusicManager();
 	}
 
 	public void applyToMusicManager() {
-		if (MusicManager.Instance) {
-			MusicManager.Instance.global_music_volume = gameSettings.musicVolume;
-			MusicManager.Instance.global_effects_volume = gameSettings.SFXVolume;
-		}
+		MusicManager.updateVolumes(gameSettings.musicVolume, gameSettings.SFXVolume);
 	}
 
 	public static void changeMasterVolume(float newVolume) {

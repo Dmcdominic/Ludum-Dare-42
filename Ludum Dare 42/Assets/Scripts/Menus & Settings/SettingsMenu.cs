@@ -54,5 +54,6 @@ public class SettingsMenu : MonoBehaviour {
 
 	public void OnSFXVolumeChange() {
 		SettingsManager.changeSFXVolume(SFXVolumeSlider.value);
+		MusicManager.play_by_name("keycard_pickup");
 	}
 }

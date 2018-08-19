@@ -36,7 +36,6 @@ public class GM : MonoBehaviour {
 	[HideInInspector]
 	public IngameCanvas ingameCanvas;
 
-	public MusicManager mm;
 
 	// Singleton management
 	private static GM _instance;

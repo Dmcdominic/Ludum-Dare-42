@@ -768,13 +768,13 @@ MonoBehaviour:
     variation: 0.5
     mid: 1
     clip: {fileID: 8300000, guid: a9d27dd4f3a5af24797c2966adc93b98, type: 3}
-    volume: 0.55
+    volume: 0.53
     source: {fileID: 0}
   - name: footstep
     variation: 0.25
     mid: 1
     clip: {fileID: 8300000, guid: 8621b184468512e41bc896d4783b28fc, type: 3}
-    volume: 0.55
+    volume: 0.58
     source: {fileID: 0}
   - name: invalid_footstep
     variation: 0
@@ -801,7 +801,6 @@ MonoBehaviour:
   currentScene: 0
   _currentLevelManager: {fileID: 0}
   ingameCanvas: {fileID: 0}
-  mm: {fileID: 114854193348212260}
 --- !u!222 &222055298605307370
 CanvasRenderer:
   m_ObjectHideFlags: 1
