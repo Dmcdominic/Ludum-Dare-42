@@ -780,7 +780,7 @@ MonoBehaviour:
     variation: 0
     mid: 1
     clip: {fileID: 8300000, guid: 251d0ab5982790744870b7181e868306, type: 3}
-    volume: 0.45
+    volume: 0.41
     source: {fileID: 0}
   music_as: {fileID: 82118889423991966}
   sfx_proto_as: {fileID: 82286400812247938}
