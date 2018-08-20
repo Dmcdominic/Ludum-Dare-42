@@ -60,17 +60,17 @@ public class SaveManager : MonoBehaviour {
 	private static void Save(int level) {
 		saveData.levelProgress = level;
 
-		BinaryFormatter bf = new BinaryFormatter();
-		FileStream file;
+		//BinaryFormatter bf = new BinaryFormatter();
+		//FileStream file;
 
-		if (!File.Exists(path())) {
-			file = File.Create(path());
-		} else {
-			file = File.Open(path(), FileMode.Open);
-		}
+		//if (!File.Exists(path())) {
+		//	file = File.Create(path());
+		//} else {
+		//	file = File.Open(path(), FileMode.Open);
+		//}
 
-		bf.Serialize(file, saveData);
-		file.Close();
+		//bf.Serialize(file, saveData);
+		//file.Close();
 	}
 
 	// Load level progress
