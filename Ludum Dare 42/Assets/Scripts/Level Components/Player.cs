@@ -240,4 +240,8 @@ public class Player : MonoBehaviour {
 		yield return null;
 	}
 
+	public void disableControl() {
+		controlEnabled = false;
+	}
+
 }

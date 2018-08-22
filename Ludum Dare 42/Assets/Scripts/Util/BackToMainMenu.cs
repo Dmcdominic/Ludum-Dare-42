@@ -18,6 +18,6 @@ public class BackToMainMenu : MonoBehaviour {
 
 	public void returnToMainMenu() {
 		IngameCanvas.Instance.gameObject.SetActive(true);
-		GM.changeScene(SceneType.MainMenu);
+		GM.changeToMainMenu();
 	}
 }

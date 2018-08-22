@@ -61,7 +61,7 @@ public class SettingsManager : MonoBehaviour {
 	}
 
 	public void applyToMusicManager() {
-		MusicManager.updateVolumes(gameSettings.musicVolume, gameSettings.SFXVolume);
+		MusicManager.Instance.updateGlobalVolumes(gameSettings.musicVolume, gameSettings.SFXVolume);
 	}
 
 	public static void changeMasterVolume(float newVolume) {

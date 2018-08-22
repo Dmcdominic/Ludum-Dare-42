@@ -9,7 +9,7 @@ public class StartMenuHandler : MonoBehaviour {
 	//public GameObject MainMenuScreen;
 
 	// Properties
-	private bool initialAnimDone = false;
+	private static bool initialAnimDone = false;
 
 
 	private void Awake() {

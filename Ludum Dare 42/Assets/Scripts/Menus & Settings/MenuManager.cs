@@ -150,7 +150,8 @@ public class MenuManager : MonoBehaviour {
 
     public void LoadMainMenu() {
 		PauseManager.Instance.resume();
-		GM.changeScene(SceneType.MainMenu);
+		LevelManager.getPlayer().disableControl();
+		GM.changeToMainMenu();
     }
 
 	public void LoadLevelWorld0(int level) {

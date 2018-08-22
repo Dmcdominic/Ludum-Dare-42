@@ -20,13 +20,13 @@ public class MusicManager : MonoBehaviour {
 	public AudioSource sfx_proto_as;
 
 	// Properties
-	private float pitch;
-	private float trackVolume;
-	[HideInInspector]
-	public float global_music_volume;
-	[HideInInspector]
-	public float global_effects_volume;
-	public static float global_pitch = 1;
+	private musicTrack currentTrack;
+
+	private float global_music_volume = 1;
+	private float global_effects_volume = 1;
+	private float global_pitch = 1;
+
+	private float transition_volume_mult = 1;
 
 
 	// Singleton instance setup
@@ -66,71 +66,107 @@ public class MusicManager : MonoBehaviour {
 
 	// When each scene is loaded, the correct track should be played
 	void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-		int nextTrackIndex = GM.getWorldFromScene(scene);
-		if (nextTrackIndex >= 0) {
-			changeToWorldTrack(nextTrackIndex);
-		} else if (nextTrackIndex == -1) {
-			changeMusicTrack(mainMenuTrack);
-		} else if (nextTrackIndex == -2) {
-			changeMusicTrack(endscreenTrack);
-		}
+		musicTrack nextTrack = getTrackForSceneIndex(scene.buildIndex);
+		changeMusicTrack(nextTrack);
 	}
+
+	// Returns the track that should be played for a certain scene
+	public musicTrack getTrackForSceneIndex(int buildIndex) {
+		int nextTrackIndex = GM.getWorldFromSceneIndex(buildIndex);
+		if (nextTrackIndex >= 0) {
+			return getWorldTrack(nextTrackIndex);
+		} else if (nextTrackIndex == -1) {
+			return mainMenuTrack;
+		} else if (nextTrackIndex == -2) {
+			return endscreenTrack;
+		}
+		Debug.LogError("No track found for scene buildIndex: " + buildIndex);
+		return mainMenuTrack;
+	}
+
+	// Helper function for getTrackForScene.
+	// Returns the track for a certain world.
+	private musicTrack getWorldTrack(int worldIndex) {
+		if (worldIndex >= 0 && worldIndex < worldTracks.Count) {
+			return worldTracks[worldIndex];
+		}
+		Debug.LogError("No track found for world: " + worldIndex);
+		return worldTracks[0];
+	}
+
 
 	// You should go through this method in order to change the track at any time
 	public void changeMusicTrack(musicTrack track) {
+		currentTrack = track;
 		music_as.clip = track.clip;
 
-		trackVolume = track.volume;
-		music_as.volume = global_music_volume * trackVolume;
+		refreshVolumes();
 
 		if (!music_as.isPlaying) {
 			music_as.Play();
 		}
 	}
 
-	public void changeToWorldTrack(int worldIndex) {
-		if (worldIndex >= 0 && worldIndex < worldTracks.Count) {
-			changeMusicTrack(worldTracks[worldIndex]);
-		}
-	}
 
 	// Play SFX
 	public static void play_by_name(string name) {
-		for (int i = 0; i < _instance.sxs.Length; i++) {
-			if (_instance.sxs[i].name == name)
+		for (int i = 0; i < Instance.sxs.Length; i++) {
+			if (Instance.sxs[i].name == name)
 				play_sound(i);
 		}
 	}
 
 	public static void play_with_delay(string name, float delay) {
-		for (int i = 0; i < _instance.sxs.Length; i++) {
-			if (_instance.sxs[i].name == name)
+		for (int i = 0; i < Instance.sxs.Length; i++) {
+			if (Instance.sxs[i].name == name)
 				play_sound_delayed(i, delay);
 		}
 	}
 
 	private static void play_sound(int id) {
-		AudioSource source = _instance.sxs[id].source;
-		source.pitch = ((Random.value - .5f) * _instance.sxs[id].variation + _instance.sxs[id].mid) * global_pitch;
-		source.PlayOneShot(_instance.sxs[id].clip, _instance.sxs[id].volume * _instance.global_effects_volume);
+		AudioSource source = Instance.sxs[id].source;
+		source.pitch = ((Random.value - .5f) * Instance.sxs[id].variation + Instance.sxs[id].mid) * Instance.global_pitch;
+		source.PlayOneShot(Instance.sxs[id].clip, Instance.sxs[id].volume * Instance.global_effects_volume);
 	}
 	private static void play_sound_delayed(int id, float delay) {
-		AudioSource source = _instance.sxs[id].source;
-		source.clip = _instance.sxs[id].clip;
-		source.pitch = ((Random.value - .5f) * _instance.sxs[id].variation + _instance.sxs[id].mid) * global_pitch;
-		source.volume = _instance.sxs[id].volume * _instance.global_effects_volume;
+		AudioSource source = Instance.sxs[id].source;
+		source.clip = Instance.sxs[id].clip;
+		source.pitch = ((Random.value - .5f) * Instance.sxs[id].variation + Instance.sxs[id].mid) * Instance.global_pitch;
+		source.volume = Instance.sxs[id].volume * Instance.global_effects_volume;
 		source.PlayDelayed(delay);
 	}
 
 	// Update music and sfx volumes, and immediately apply changes to all audio sources
-	public static void updateVolumes(float musicVolume, float sfxVolume) {
-		Instance.global_music_volume = musicVolume;
-		Instance.global_effects_volume = sfxVolume;
+	public void updateGlobalVolumes(float musicVolume, float sfxVolume) {
+		global_music_volume = musicVolume;
+		global_effects_volume = sfxVolume;
+		refreshVolumes();
+	}
 
-		Instance.music_as.volume = Instance.global_music_volume * Instance.trackVolume;
-		for (int i = 0; i < _instance.sxs.Length; i++) {
-			Instance.sxs[i].source.volume = Instance.sxs[i].volume * Instance.global_effects_volume;
+	// update the transition volume multiplier, and immediately apply changes to all audio sources
+	public void updateTransitionVolumeMult(float transitionVolumeMult) {
+		if (transitionVolumeMult < 0) {
+			transitionVolumeMult = 0;
 		}
+		transition_volume_mult = transitionVolumeMult;
+		refreshVolumes();
+	}
+
+	// Re-calculates and applies the true volume for the music audiosource and all sfx audiosources
+	private void refreshVolumes() {
+		music_as.volume = global_music_volume * currentTrack.volume * transition_volume_mult;
+		for (int i = 0; i < Instance.sxs.Length; i++) {
+			sxs[i].source.volume = sxs[i].volume * global_effects_volume * transition_volume_mult;
+		}
+	}
+
+	// Util
+	public musicTrack getCurrentTrack() {
+		return currentTrack;
+	}
+
+	public float getTransitionVolumeMult() {
+		return transition_volume_mult;
 	}
 
 }

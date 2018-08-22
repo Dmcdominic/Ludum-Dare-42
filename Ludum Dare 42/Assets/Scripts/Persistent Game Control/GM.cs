@@ -118,19 +118,13 @@ public class GM : MonoBehaviour {
 		}
 	}
 
-	public static void changeScene(SceneType scene) {
-		Instance.currentScene = scene;
-		switch (scene) {
-			case (SceneType.Init):
-				Instance.currentScene = SceneType.Init;
-				Instance.setGamestate(GameState.Transitioning);
-				SceneManager.LoadScene(0);
-				break;
-			case (SceneType.MainMenu):
-				Instance.currentScene = SceneType.MainMenu;
-				Instance.setGamestate(GameState.Transitioning);
-				SceneManager.LoadScene(1);
-				break;
+	public static void changeToMainMenu(bool withTransition = true) {
+		Instance.currentScene = SceneType.MainMenu;
+		Instance.setGamestate(GameState.Transitioning);
+		if (withTransition) {
+			loadSceneWithTransition(1);
+		} else {
+			SceneManager.LoadScene(1);
 		}
 	}
 
@@ -182,11 +176,10 @@ public class GM : MonoBehaviour {
 	// Returns -1 for Init and Main Menu scene.
 	// Returns -2 for the end game screen.
 	// Returns -3 otherwise.
-	public static int getWorldFromScene(Scene scene) {
-		int index = scene.buildIndex;
+	public static int getWorldFromSceneIndex(int index) {
+		int counter = levelScenesIndexOffset;
 
 		// init or main menu scenes
-		int counter = levelScenesIndexOffset;
 		if (index < counter) {
 			return -1;
 		}
