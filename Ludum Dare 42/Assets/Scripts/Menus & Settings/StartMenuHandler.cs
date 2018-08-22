@@ -6,10 +6,10 @@ public class StartMenuHandler : MonoBehaviour {
 
 	// Editor fields
 	public Animator animator;
-	public GameObject MainMenuScreen;
+	//public GameObject MainMenuScreen;
 
 	// Properties
-	public static bool initialAnimDone = false;
+	private bool initialAnimDone = false;
 
 
 	private void Awake() {
@@ -22,9 +22,13 @@ public class StartMenuHandler : MonoBehaviour {
 
 	// Update is called once per frame
 	private void Update() {
-		if (Input.anyKeyDown) {
-			//this.gameObject.SetActive(false);
-			MainMenuScreen.SetActive(true);
+		//if (Input.anyKeyDown) {
+		//	MainMenuScreen.SetActive(true);
+		//}
+
+		float pauseInput = Input.GetAxisRaw("Pause");
+		if (pauseInput > 0) {
+			skipToMenu();
 		}
 	}
 
@@ -35,7 +39,10 @@ public class StartMenuHandler : MonoBehaviour {
 
 	private void playMainAnim() {
 		animator.Play("Pan Down");
-		//animator.Play("Businessmen");
+	}
+
+	private void skipToMenu() {
+		animator.Play("Businessmen");
 	}
 
 }

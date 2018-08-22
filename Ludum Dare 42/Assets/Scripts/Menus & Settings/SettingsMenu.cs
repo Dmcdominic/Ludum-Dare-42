@@ -5,12 +5,19 @@ using UnityEngine.UI;
 
 public class SettingsMenu : MonoBehaviour {
 
+	// Settings
+	public static float soundFXTriggerDelay = 0.4f;
+
+	// Editor fields
 	public Slider MasterVolumeSlider;
 	public Slider MusicVolumeSlider;
 	public Slider SFXVolumeSlider;
 
 	public Toggle FullscreenToggle;
 	//public Toggle CameraShakeToggle;
+
+	// Properties
+	private float soundFXTriggerTimer = 0;
 
 
 	// Initialize listeners
@@ -21,6 +28,12 @@ public class SettingsMenu : MonoBehaviour {
 		MasterVolumeSlider.onValueChanged.AddListener (delegate {OnMasterVolumeChange ();} );
 		MusicVolumeSlider.onValueChanged.AddListener (delegate {OnMusicVolumeChange ();} );
 		SFXVolumeSlider.onValueChanged.AddListener (delegate {OnSFXVolumeChange ();} );
+	}
+
+	private void Update() {
+		if (soundFXTriggerTimer > 0) {
+			soundFXTriggerTimer -= Time.unscaledDeltaTime;
+		}
 	}
 
 	// Set each toggle and slider to their current settings values
@@ -54,6 +67,9 @@ public class SettingsMenu : MonoBehaviour {
 
 	public void OnSFXVolumeChange() {
 		SettingsManager.changeSFXVolume(SFXVolumeSlider.value);
-		MusicManager.play_by_name("keycard_pickup");
+		if (soundFXTriggerTimer <= 0) {
+			MusicManager.play_by_name("keycard_pickup");
+			soundFXTriggerTimer = soundFXTriggerDelay;
+		}
 	}
 }
