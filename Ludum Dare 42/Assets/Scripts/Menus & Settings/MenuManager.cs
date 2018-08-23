@@ -141,11 +141,7 @@ public class MenuManager : MonoBehaviour {
     // Functions for buttons to call
 	public void NewGame() {
 		SaveManager.Instance.resetProgress();
-		LoadLevel(0, 0);
-	}
-
-	public void LoadLevel(int worldIndex, int levelIndex) {
-		GM.changeToLevelScene(worldIndex, levelIndex);
+		LoadLevelWorld0(0);
 	}
 
     public void LoadMainMenu() {
@@ -155,16 +151,16 @@ public class MenuManager : MonoBehaviour {
     }
 
 	public void LoadLevelWorld0(int level) {
-		GM.changeToLevelScene(0, level);
+		GM.changeToLevelSceneDirect(0, level);
 	}
 	public void LoadLevelWorld1(int level) {
-		GM.changeToLevelScene(1, level);
+		GM.changeToLevelSceneDirect(1, level);
 	}
 	public void LoadLevelWorld2(int level) {
-		GM.changeToLevelScene(2, level);
+		GM.changeToLevelSceneDirect(2, level);
 	}
 	public void LoadLevelWorld3(int level) {
-		GM.changeToLevelScene(3, level);
+		GM.changeToLevelSceneDirect(3, level);
 	}
 
 	public void Quit() {

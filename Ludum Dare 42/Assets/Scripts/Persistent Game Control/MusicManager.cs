@@ -9,6 +9,7 @@ public class MusicManager : MonoBehaviour {
 	// Audio clips
 	public musicTrack mainMenuTrack;
 	public List<musicTrack> worldTracks;
+	public musicTrack elevatorTrack;
 	public musicTrack endscreenTrack;
 
 	[SerializeField]
@@ -76,8 +77,12 @@ public class MusicManager : MonoBehaviour {
 		if (nextTrackIndex >= 0) {
 			return getWorldTrack(nextTrackIndex);
 		} else if (nextTrackIndex == -1) {
-			return mainMenuTrack;
+			return new musicTrack();
 		} else if (nextTrackIndex == -2) {
+			return mainMenuTrack;
+		} else if (nextTrackIndex == -3) {
+			return elevatorTrack;
+		} else if (nextTrackIndex == -4) {
 			return endscreenTrack;
 		}
 		Debug.LogError("No track found for scene buildIndex: " + buildIndex);

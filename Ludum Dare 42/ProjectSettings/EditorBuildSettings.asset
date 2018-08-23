@@ -12,6 +12,9 @@ EditorBuildSettings:
     path: Assets/Scenes/MainMenu.unity
     guid: 7d6261c3405cdf040bd99e20324bef16
   - enabled: 1
+    path: Assets/Scenes/Elevator.unity
+    guid: 08fdeae0936b89d4a91ef29f6a142434
+  - enabled: 1
     path: Assets/Scenes/Tutorial World/T-1.unity
     guid: e40fdfdd1e974c7439f0b361e7c9d054
   - enabled: 1

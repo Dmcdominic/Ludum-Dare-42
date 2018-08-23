@@ -4,21 +4,17 @@ using UnityEngine;
 using UnityEngine.SceneManagement;
 using UnityEngine.Events;
 
-public enum SceneType { Init, MainMenu, Other };
 public enum GameState { Playing, Paused, Inactive, Transitioning };
 
 public class GM : MonoBehaviour {
 
 	// Settings
-	private static readonly int levelScenesIndexOffset = 2;
+	private static readonly int levelScenesIndexOffset = 3;
 
 	// Properties
 	public List<int> worldLevelTotals;
 
 	// References
-	[HideInInspector]
-	public SceneType currentScene;
-
 	[HideInInspector]
 	private GameState gameState;
 
@@ -70,31 +66,9 @@ public class GM : MonoBehaviour {
 		}
 	}
 
-	private void Start() {
-		refreshGamestate();
-	}
-
-	public void refreshGamestate() {
-		switch (SceneManager.GetActiveScene().name) {
-			case "Init":
-				currentScene = SceneType.Init;
-				setGamestate(GameState.Inactive);
-				loadSceneWithTransition(1);
-				break;
-			case "MainMenu":
-				currentScene = SceneType.MainMenu;
-				setGamestate(GameState.Inactive);
-				break;
-			default:
-				currentScene = SceneType.Other;
-				setGamestate(GameState.Playing);
-				break;
-		}
-	}
-
 	// Project management utility
 	void OnSceneLoaded(Scene scene, LoadSceneMode mode) {
-		if (scene.name == "MainMenu" && PauseManager.Instance) {
+		if ((scene.name == "MainMenu" || scene.name == "Elevator") && PauseManager.Instance) {
 			PauseManager.Instance.hideAllIngame();
 		}
 
@@ -102,24 +76,10 @@ public class GM : MonoBehaviour {
 			return;
 		}
 
-		switch (scene.name) {
-			case "Init":
-				currentScene = SceneType.Init;
-				setGamestate(GameState.Inactive);
-				break;
-			case "MainMenu":
-				currentScene = SceneType.MainMenu;
-				setGamestate(GameState.Inactive);
-				break;
-			default:
-				currentScene = SceneType.Other;
-				setGamestate(GameState.Playing);
-				break;
-		}
+		refreshGamestate();
 	}
 
 	public static void changeToMainMenu(bool withTransition = true) {
-		Instance.currentScene = SceneType.MainMenu;
 		Instance.setGamestate(GameState.Transitioning);
 		if (withTransition) {
 			loadSceneWithTransition(1);
@@ -128,11 +88,28 @@ public class GM : MonoBehaviour {
 		}
 	}
 
-	public static void changeToLevelScene(int world, int level) {
+	public void refreshGamestate() {
+		switch (SceneManager.GetActiveScene().name) {
+			case "Init":
+				setGamestate(GameState.Inactive);
+				loadSceneWithTransition(1);
+				break;
+			case "MainMenu":
+				setGamestate(GameState.Inactive);
+				break;
+			case "Elevator":
+				setGamestate(GameState.Transitioning);
+				break;
+			default:
+				setGamestate(GameState.Playing);
+				break;
+		}
+	}
+
+	public static void changeToLevelSceneDirect(int world, int level) {
 		int nextSceneIndex = getLvlIndexFromWorld(world, level);
 
 		if (nextSceneIndex < SceneManager.sceneCountInBuildSettings) {
-			Instance.currentScene = SceneType.Other;
 			Instance.setGamestate(GameState.Transitioning);
 			loadSceneWithTransition(nextSceneIndex);
 		} else {
@@ -155,10 +132,11 @@ public class GM : MonoBehaviour {
 		//SaveManager.Instance.saveLevelProgress(absoluteLvlIndex);
 
 		if (currentLevel == Instance.worldLevelTotals[currentWorld] - 1) {
-			// TODO - special loading screen between worlds?
-			changeToLevelScene(currentWorld + 1, 0);
+			ElevatorTransition.nextWorldIndex = currentWorld + 1;
+			ElevatorTransition.nextLevelIndex = 0;
+			loadSceneWithTransition(2);
 		} else {
-			changeToLevelScene(currentWorld, currentLevel + 1);
+			changeToLevelSceneDirect(currentWorld, currentLevel + 1);
 		}
 	}
 
@@ -173,16 +151,22 @@ public class GM : MonoBehaviour {
 	}
 
 	// Returns the world index of a certain scene if it is a level scene.
-	// Returns -1 for Init and Main Menu scene.
-	// Returns -2 for the end game screen.
-	// Returns -3 otherwise.
+	// Returns -1 for Init scene.
+	// Returns -2 for Main Menu scene.
+	// Returns -3 for elevator transition.
+	// Returns -4 for the end game screen.
+	// Returns -5 otherwise.
 	public static int getWorldFromSceneIndex(int index) {
-		int counter = levelScenesIndexOffset;
-
 		// init or main menu scenes
-		if (index < counter) {
+		if (index == 0) {
 			return -1;
+		} else if (index == 1) {
+			return -2;
+		} else if (index == 2) {
+			return -3;
 		}
+
+		int counter = levelScenesIndexOffset;
 
 		// Level scenes
 		for (int i = 0; i < Instance.worldLevelTotals.Count; i++) {
@@ -195,11 +179,11 @@ public class GM : MonoBehaviour {
 		// End game scene - "You're Hired!"
 		counter += 1;
 		if (index < counter) {
-			return -2;
+			return -4;
 		}
 
 		// Other
-		return -3;
+		return -5;
 	}
 
 	// Get the highest level reached according t
@@ -209,6 +193,12 @@ public class GM : MonoBehaviour {
 
 	// Ingame canvas and UI management
 	public void setGamestate(GameState newGameState) {
+		gameState = newGameState;
+
+		if (newGameState == GameState.Transitioning) {
+			return;
+		}
+
 		if (ingameCanvas) {
 			if (newGameState == GameState.Inactive) {
 				ingameCanvas.gameObject.SetActive(false);
@@ -216,8 +206,6 @@ public class GM : MonoBehaviour {
 				ingameCanvas.gameObject.SetActive(true);
 			}
 		}
-
-		gameState = newGameState;
 	}
 
 	public GameState getGameState() {
@@ -227,7 +215,6 @@ public class GM : MonoBehaviour {
 	// Load scene with transition
 	private static void loadSceneWithTransition(int sceneIndex) {
 		FadeOverlayManager.Instance.fadeToBlack(sceneIndex);
-		//SceneManager.LoadScene(sceneIndex);
 	}
 
 }
