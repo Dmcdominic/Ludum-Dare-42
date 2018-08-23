@@ -57,6 +57,11 @@ MonoBehaviour:
   - {fileID: 21300000, guid: 5935b012faebaab4ab7018dc42eec117, type: 3}
   - {fileID: 21300000, guid: 1632c1c2f3b49a048b91887bbfa2f55f, type: 3}
   - {fileID: 21300000, guid: 8ec2effc0b420da4ca96430c22717cb9, type: 3}
+  elevatorSprites:
+  - {fileID: 21300000, guid: 73c6f3597b27b2747a47810abfc589de, type: 3}
+  - {fileID: 21300000, guid: 46fa242e338f72147a0376453679b8e2, type: 3}
+  - {fileID: 21300000, guid: 9eea2496a3fddc547b1459751076bff5, type: 3}
+  - {fileID: 21300000, guid: 73c6f3597b27b2747a47810abfc589de, type: 3}
 --- !u!212 &212779778621692924
 SpriteRenderer:
   m_ObjectHideFlags: 1

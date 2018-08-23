@@ -5,7 +5,23 @@ using UnityEngine.Events;
 
 public class ExitDoor : Tile {
 
-    public override bool isSteppable() {
+	public List<Sprite> elevatorSprites;
+
+	protected override void Start() {
+		int worldIndex = GM.Instance.currentLevelManager.worldIndex;
+		int levelIndex = GM.Instance.currentLevelManager.levelIndex;
+		if (GM.isFinalLvlInWorld(worldIndex, levelIndex)) {
+			if (worldIndex >= elevatorSprites.Count) {
+				Debug.LogError("Missing some elevatorSprites.");
+			} else if (sr) {
+				sr.sprite = elevatorSprites[worldIndex];
+			}
+		} else {
+			base.Start();
+		}
+	}
+
+	public override bool isSteppable() {
 		return true;
 	}
 

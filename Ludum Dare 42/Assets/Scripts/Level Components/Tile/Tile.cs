@@ -14,16 +14,16 @@ public abstract class Tile : MonoBehaviour {
 	protected SpriteRenderer sr;
 
 
-	protected void Awake() {
+	protected virtual void Awake() {
 		sr = GetComponentInChildren<SpriteRenderer>();
 	}
 
-	protected void Start() {
+	protected virtual void Start() {
 		int worldIndex = GM.Instance.currentLevelManager.worldIndex;
 		if (worldIndex >= worldSprites.Count) {
 			Debug.LogError("Missing some worldsprites on: " + this.GetType());
 		} else if (sr) {
-			sr.sprite = worldSprites[GM.Instance.currentLevelManager.worldIndex];
+			sr.sprite = worldSprites[worldIndex];
 		}
 	}
 

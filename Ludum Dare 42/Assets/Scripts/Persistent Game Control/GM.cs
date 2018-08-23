@@ -131,7 +131,7 @@ public class GM : MonoBehaviour {
 		//int absoluteLvlIndex = getLvlIndexFromWorld(currentWorld, currentLevel);
 		//SaveManager.Instance.saveLevelProgress(absoluteLvlIndex);
 
-		if (currentLevel == Instance.worldLevelTotals[currentWorld] - 1) {
+		if (isFinalLvlInWorld(currentWorld, currentLevel)) {
 			ElevatorTransition.nextWorldIndex = currentWorld + 1;
 			ElevatorTransition.nextLevelIndex = 0;
 			loadSceneWithTransition(2);
@@ -184,6 +184,10 @@ public class GM : MonoBehaviour {
 
 		// Other
 		return -5;
+	}
+
+	public static bool isFinalLvlInWorld(int worldIndex, int levelIndex) {
+		return levelIndex == Instance.worldLevelTotals[worldIndex] - 1;
 	}
 
 	// Get the highest level reached according t
