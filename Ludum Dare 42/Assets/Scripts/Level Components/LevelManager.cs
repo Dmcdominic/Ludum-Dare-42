@@ -51,6 +51,7 @@ public class LevelManager : MonoBehaviour {
 				IngameCanvas.Instance.initKeycard(color);
 			}
 		}
+		IngameCanvas.Instance.updateLvlText(worldIndex, levelIndex);
 
 		// TODO - position camera to view the whole floor? Or is that just being done level by level
 	}

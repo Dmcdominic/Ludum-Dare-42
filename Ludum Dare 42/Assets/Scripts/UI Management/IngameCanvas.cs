@@ -24,6 +24,9 @@ public class IngameCanvas : MonoBehaviour {
 	// Powerups
 	public GameObject coffee;
 
+	// Level text
+	public Text lvlText;
+
 	// Singleton management
 	private static IngameCanvas _instance;
 	public static IngameCanvas Instance { get { return _instance; } }
@@ -103,4 +106,12 @@ public class IngameCanvas : MonoBehaviour {
 	public void resetPowerupDisplays() {
 		coffee.SetActive(false);
 	}
+
+	// Level text display
+	public void updateLvlText(int world, int level) {
+		int wOneIndexed = world + 1;
+		int lOneIndexed = level + 1;
+		lvlText.text = "Level " + wOneIndexed + "-" + lOneIndexed;
+	}
+
 }

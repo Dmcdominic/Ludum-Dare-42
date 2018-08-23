@@ -4,13 +4,6 @@ using UnityEngine;
 
 public class ResetButton : MonoBehaviour {
 
-	public void resetLevel() {
-		if (GM.Instance.getGameState() != GameState.Playing) {
-			return;
-		}
-		GM.resetCurrentLevel();
-	}
-
 	private void Update() {
 		//Debug.Log(GM.Instance.getGameState());
 
@@ -21,4 +14,12 @@ public class ResetButton : MonoBehaviour {
 			resetLevel();
 		}
 	}
+
+	public void resetLevel() {
+		if (GM.Instance.getGameState() != GameState.Playing) {
+			return;
+		}
+		GM.resetCurrentLevel();
+	}
+
 }
