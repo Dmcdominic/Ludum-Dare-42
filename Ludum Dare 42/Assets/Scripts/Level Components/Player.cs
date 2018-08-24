@@ -28,7 +28,7 @@ public class Player : MonoBehaviour {
 
 	//Event fires when a successful step (one or two) is taken
 	public UnityEvent StartSuccessfulStep = new UnityEvent();
-    public UnityEvent OnSuccessfulStep = new UnityEvent();
+    public UnityEvent CompleteSuccessfulStep = new UnityEvent();
     
 	// Initialization
 	private void Awake() {
@@ -148,8 +148,8 @@ public class Player : MonoBehaviour {
 				MusicManager.play_by_name("coffee_jump");
 				break;
 		}
-		
-		OnSuccessfulStep.Invoke();
+
+		CompleteSuccessfulStep.Invoke();
 	}
 
 	// Animation management

@@ -16,7 +16,7 @@ public class Employee : MonoBehaviour {
 	public Sprite right;
 
 	// References
-	private Animator animator;
+	//private Animator animator;
 
 	// Properties
 	[HideInInspector]
@@ -35,8 +35,8 @@ public class Employee : MonoBehaviour {
 	// Use this for initialization
 	void Start() {
 		Player player = GM.Instance.currentLevelManager.player;
-		UnityEvent ue = player.StartSuccessfulStep;
-		ue.AddListener(MoveDir);
+		UnityEvent PlayerCSS = player.CompleteSuccessfulStep;
+		PlayerCSS.AddListener(MoveDir);
 
 		// TODO - use the floor employee list
 		LevelManager.getFloor().employees.Add(this);
@@ -86,11 +86,15 @@ public class Employee : MonoBehaviour {
 
 	public bool canMoveNormal(Vector2Int displacement, Vector2Int targetPos) {
 		Tile tile = LevelManager.getTile(targetPos);
+
 		ForegroundObject foregroundObj = LevelManager.getForegroundObject(targetPos);
 		if (foregroundObj) {
 			return false;
 		}
-		return (tile != null && (tile.isSteppableForNPC() || tile.isHole()));
+
+		Vector2Int playerTruPos = GM.Instance.currentLevelManager.player.truePos;
+
+		return (tile != null && (tile.isSteppableForNPC() || tile.isHole()) && playerTruPos != targetPos);
 	}
 
 	public void move(Vector2Int displacement, Vector2Int targetPosition) {
