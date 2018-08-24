@@ -77,7 +77,7 @@ public class MusicManager : MonoBehaviour {
 		if (nextTrackIndex >= 0) {
 			return getWorldTrack(nextTrackIndex);
 		} else if (nextTrackIndex == -1) {
-			return new musicTrack();
+			return new musicTrack(null, 0);
 		} else if (nextTrackIndex == -2) {
 			return mainMenuTrack;
 		} else if (nextTrackIndex == -3) {
@@ -179,6 +179,11 @@ public class MusicManager : MonoBehaviour {
 // Struct for music AudioClips
 [System.Serializable]
 public struct musicTrack {
+	public musicTrack(AudioClip clip, float volume) {
+		this.clip = clip;
+		this.volume = volume;
+	}
+
 	[SerializeField]
 	public AudioClip clip;
 

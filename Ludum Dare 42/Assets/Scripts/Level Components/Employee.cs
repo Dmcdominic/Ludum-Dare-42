@@ -7,16 +7,17 @@ using UnityEngine.Events;
 public enum Direction { Up, Down, Left, Right };
 
 public class Employee : MonoBehaviour {
+	// Editor settings
 	public Direction dir;
-	private SpriteRenderer sr;
-
+	
 	public Sprite up;
 	public Sprite down;
-	public Sprite left;
 	public Sprite right;
 
 	// References
+	[SerializeField]
 	private Animator animator;
+	private SpriteRenderer sr;
 
 	// Properties
 	[HideInInspector]
@@ -25,7 +26,7 @@ public class Employee : MonoBehaviour {
 
 	// Initialization
 	private void Awake() {
-		sr = this.gameObject.GetComponent<SpriteRenderer>();
+		sr = GetComponentInChildren<SpriteRenderer>();
 
 		// Round the position to whole numbers
 		Vector3 pos = transform.position;
@@ -38,31 +39,47 @@ public class Employee : MonoBehaviour {
 		UnityEvent ue = player.StartSuccessfulStep;
 		ue.AddListener(MoveDir);
 
-		// TODO - use the floor employee list
 		LevelManager.getFloor().employees.Add(this);
+
+		updateSprite();
 	}
 
 	// Reverse the currently facing direction
-	void SwitchDir(Direction d) {
+	private void SwitchDir(Direction d) {
 		switch (d) {
 			case Direction.Down:
 				dir = Direction.Up;
-				sr.sprite = up;
 				break;
 			case Direction.Up:
 				dir = Direction.Down;
-				sr.sprite = down;
 				break;
 			case Direction.Left:
 				dir = Direction.Right;
-				sr.sprite = right;
 				break;
 			case Direction.Right:
 				dir = Direction.Left;
-				sr.sprite = left;
 				break;
 		}
+		updateSprite();
+	}
 
+	private void updateSprite() {
+		switch(dir) {
+			case Direction.Down:
+				sr.sprite = up;
+				break;
+			case Direction.Up:
+				sr.sprite = down;
+				break;
+			case Direction.Left:
+				sr.sprite = right;
+				sr.flipX = true;
+				break;
+			case Direction.Right:
+				sr.sprite = right;
+				sr.flipX = false;
+				break;
+		}
 	}
 
 	// Try to move one unit in the current direction.
@@ -79,7 +96,6 @@ public class Employee : MonoBehaviour {
 			return true;
 		}
 
-		// TODO - play "invalid move" sound effect?
 		SwitchDir(dir);
 		return false;
 	}
@@ -98,10 +114,14 @@ public class Employee : MonoBehaviour {
 		prevTile.OnLeave();
 		Tile nextTile = LevelManager.getTile(targetPosition);
 		nextTile.OnStep();
+
+		placeAtPosition(targetPosition);
+		normalMoveAnim(displacement, targetPosition);
+
+		// What happens when an employee falls into a hole
 		if (nextTile.isHole()) {
 			Destroy(this.gameObject);
 		}
-		normalMoveAnim(displacement, targetPosition);
 	}
 
 	public void placeAtPosition(Vector2Int position) {
@@ -111,10 +131,8 @@ public class Employee : MonoBehaviour {
 
 	// Animation management
 	private void normalMoveAnim(Vector2Int displacement, Vector2Int targetPosition) {
-		// TODO - add animation
-		// For now:
-		this.transform.position += new Vector3(displacement.x, displacement.y, 0);
-		truePos = targetPosition;
+		string animName = "Walking" + AnimUtil.getDirectionPostfix(displacement);
+		animator.Play(animName);
 	}
 
 	// Get the displacement vector of the next move that will be attempted
