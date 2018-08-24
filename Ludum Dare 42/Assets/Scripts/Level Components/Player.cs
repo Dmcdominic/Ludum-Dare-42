@@ -33,7 +33,7 @@ public class Player : MonoBehaviour {
 
 	//Event fires when a successful step (of any move type) is taken
 	public UnityEvent StartSuccessfulStep = new UnityEvent();
-    public UnityEvent OnSuccessfulStep = new UnityEvent();
+    public UnityEvent CompleteSuccessfulStep = new UnityEvent();
     
 	// Initialization
 	private void Awake() {
@@ -212,7 +212,7 @@ public class Player : MonoBehaviour {
 				break;
 		}
 		
-		OnSuccessfulStep.Invoke();
+		CompleteSuccessfulStep.Invoke();
 	}
 
 	// Move the player to a certain position and update their truePos

@@ -1,6 +1,7 @@
 ﻿using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
+using UnityEngine.Events;
 
 public class ChangeableTile : Tile {
 
@@ -13,6 +14,7 @@ public class ChangeableTile : Tile {
 	public List<Sprite> holeShaded;
 
 	private bool trueHoleStatus = false;
+	private int preEventStepsRemaining;
 
 	//[SerializeField]
 	//private Animator animator;
@@ -31,6 +33,15 @@ public class ChangeableTile : Tile {
 		checkForSpriteUpdate();
 		Vector2Int truePos = Floor.pos3dToVect2Int(this.transform.position);
 		LevelManager.getFloor().updateTile(truePos, this);
+
+		// Subscribe to the player step start event
+		Player player = GM.Instance.currentLevelManager.player;
+		UnityEvent PlayerSSS = player.StartSuccessfulStep;
+		PlayerSSS.AddListener(beforePlayerStep);
+	}
+
+	private void beforePlayerStep() {
+		preEventStepsRemaining = stepsRemaining;
 	}
 
 	public override bool isSteppable() {
@@ -48,14 +59,14 @@ public class ChangeableTile : Tile {
         stepsRemaining--;
         if(stepsRemaining == 1) {
             sr.sprite = orangeTile[GM.Instance.currentLevelManager.worldIndex];
-        }
-        else if(stepsRemaining == 0) {
+        } else if(stepsRemaining == 0) {
             sr.sprite = redTile[GM.Instance.currentLevelManager.worldIndex];
 		}
     }
 
     public override void OnLeave() {
-        if(stepsRemaining == 0) {
+        //if(stepsRemaining == 0) {
+		if (preEventStepsRemaining == 0) {
 			trueHoleStatus = true;
 			sr.sprite = hole;
 			Vector2Int truePos = Floor.pos3dToVect2Int(this.transform.position);
