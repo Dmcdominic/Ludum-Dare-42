@@ -822,6 +822,7 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   safeTile: {fileID: 114218723129587490, guid: 9e74859443670f54895904a33b6d6583, type: 2}
+  hole: {fileID: 114049899880492052, guid: 6d70224bbd6295b4fbf22c9c12235910, type: 2}
   redHex: {r: 0.6745098, g: 0.19607843, b: 0.19607843, a: 1}
   greenHex: {r: 0.6, g: 0.8980392, b: 0.3137255, a: 1}
   blueHex: {r: 0.3882353, g: 0.60784316, b: 1, a: 1}

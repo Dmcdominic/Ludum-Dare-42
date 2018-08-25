@@ -1,14 +1,13 @@
 fileFormatVersion: 2
-guid: baffffe25ec87e040bf9513e5dac5285
+guid: 0a0b85482ce41fb47b476bdea02e1233
 TextureImporter:
   fileIDToRecycleName:
-    21300000: floor_collapse_0
-    21300002: floor_collapse_1
-    21300004: floor_collapse_2
-    21300006: floor_collapse_3
-    21300008: floor_collapse_4
-    21300010: floor_collapse_5
-    21300012: floor_collapse_6
+    21300000: floor_collapse_improved_0
+    21300002: floor_collapse_improved_1
+    21300004: floor_collapse_improved_2
+    21300006: floor_collapse_improved_3
+    21300008: floor_collapse_improved_4
+    21300010: floor_collapse_improved_5
   externalObjects: {}
   serializedVersion: 7
   mipmaps:
@@ -102,141 +101,121 @@ TextureImporter:
     serializedVersion: 2
     sprites:
     - serializedVersion: 2
-      name: floor_collapse_0
+      name: floor_collapse_improved_0
       rect:
         serializedVersion: 2
         x: 0
         y: 0
         width: 8
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0.75}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: af9c5a44838a85348baf9c0e88ffc0e4
+      spriteID: 6586f7da484a0914db55af5939313dd9
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: floor_collapse_1
+      name: floor_collapse_improved_1
       rect:
         serializedVersion: 2
         x: 8
         y: 0
         width: 8
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0.75}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: e488e320909aa3a4ca17fec98c83cc94
+      spriteID: 018142a1e1ba01e4ab22dd3dddc9182e
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: floor_collapse_2
+      name: floor_collapse_improved_2
       rect:
         serializedVersion: 2
         x: 16
         y: 0
         width: 8
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0.75}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: d7a1bb2917f87474580a842ae507d3f5
+      spriteID: 88f57f1935bf41c408445805d8af553b
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: floor_collapse_3
+      name: floor_collapse_improved_3
       rect:
         serializedVersion: 2
         x: 24
         y: 0
         width: 8
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0.75}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 0a45baa5365310b45bd2a16647280ef1
+      spriteID: 76909361643029d4f89b3852d303e7aa
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: floor_collapse_4
+      name: floor_collapse_improved_4
       rect:
         serializedVersion: 2
         x: 32
         y: 0
         width: 8
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0.75}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: f68c3848a8d10eb41a24a900f10067ec
+      spriteID: dec830d98ce184749a8db963a87ceb90
       vertices: []
       indices: 
       edges: []
       weights: []
     - serializedVersion: 2
-      name: floor_collapse_5
+      name: floor_collapse_improved_5
       rect:
         serializedVersion: 2
         x: 40
         y: 0
         width: 8
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
+        height: 16
+      alignment: 9
+      pivot: {x: 0.5, y: 0.75}
       border: {x: 0, y: 0, z: 0, w: 0}
       outline: []
       physicsShape: []
       tessellationDetail: 0
       bones: []
-      spriteID: 1402fd342a0a1e8459efe17873696e4c
-      vertices: []
-      indices: 
-      edges: []
-      weights: []
-    - serializedVersion: 2
-      name: floor_collapse_6
-      rect:
-        serializedVersion: 2
-        x: 48
-        y: 0
-        width: 8
-        height: 8
-      alignment: 0
-      pivot: {x: 0, y: 0}
-      border: {x: 0, y: 0, z: 0, w: 0}
-      outline: []
-      physicsShape: []
-      tessellationDetail: 0
-      bones: []
-      spriteID: 965f126acd73ff04d97a40e1c8a9d4a6
+      spriteID: c17ff6aff0ec4674691be74d810588e0
       vertices: []
       indices: 
       edges: []
@@ -244,7 +223,7 @@ TextureImporter:
     outline: []
     physicsShape: []
     bones: []
-    spriteID: 89d53b56ff21d1d4096d7c7dbf5889af
+    spriteID: d27363a8e2f22cb4f92fad831749052e
     vertices: []
     indices: 
     edges: []

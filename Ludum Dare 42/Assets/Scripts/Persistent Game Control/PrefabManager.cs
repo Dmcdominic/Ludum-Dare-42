@@ -6,6 +6,7 @@ public class PrefabManager : MonoBehaviour {
 
 	// Prefabs go here
 	public SafeTile safeTile;
+	public Hole hole;
 
 	public Color redHex;
 	public Color greenHex;

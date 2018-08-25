@@ -22,7 +22,9 @@ public class PauseManager : MonoBehaviour {
 
 	private void Awake() {
 		if (_instance != null && _instance != this) {
-			Destroy(this.gameObject);
+			// The pause manager is not recognizing itself for some reason, so
+			// we just have to prevent it from destroying itself.
+			//Destroy(this.gameObject);
 			return;
 		} else {
 			_instance = this;
