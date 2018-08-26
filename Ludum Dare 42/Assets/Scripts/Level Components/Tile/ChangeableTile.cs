@@ -87,10 +87,6 @@ public class ChangeableTile : Tile {
 		}
 	}
 
-    public override bool isHole() {
-        return false;
-    }
-
 	private void playTileFallAnim() {
 		sr.enabled = false;
 		animator.Play("Crumbling World" + GM.Instance.currentLevelManager.worldIndex);

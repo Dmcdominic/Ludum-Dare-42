@@ -46,15 +46,11 @@ public class Hole : Tile {
 	}
 
 	private void checkForSpriteUpdate(Tile aboveTile) {
-		if (aboveTile != null && aboveTile.isHole()) {
+		if (aboveTile != null && aboveTile is Hole) {
 			sr.sprite = hole;
 		} else {
 			sr.sprite = holeShaded[GM.Instance.currentLevelManager.worldIndex];
 		}
-	}
-
-	public override bool isHole() {
-		return true;
 	}
 
 }

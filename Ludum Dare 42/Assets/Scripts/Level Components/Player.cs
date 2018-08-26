@@ -125,7 +125,7 @@ public class Player : MonoBehaviour {
 
 	// Player movement
 	private bool tryMove(MoveType moveType, Vector2Int displacement) {
-		timer = walkingRight.length;
+		timer = moveAnimTime;
 
 		Vector2Int targetPos = truePos + displacement;
 		switch (moveType) {
@@ -235,7 +235,7 @@ public class Player : MonoBehaviour {
 
 	// Re-enable player input after the movement animation delay
 	IEnumerator enableControlDelayed() {
-		yield return new WaitForSeconds(walkingRight.length);
+		yield return new WaitForSeconds(moveAnimTime);
 		controlEnabled = true;
 		yield return null;
 	}

@@ -26,4 +26,16 @@ public class SafeTile : Tile {
 	public override bool CanBePushedOnto() {
 		return true;
 	}
+
+	public void hideForStepDuration() {
+		sr.enabled = false;
+		StartCoroutine(revealDelayed());
+	}
+
+	IEnumerator revealDelayed() {
+		yield return new WaitForSeconds(Player.moveAnimTime);
+		yield return new WaitForEndOfFrame();
+		sr.enabled = true;
+	}
+
 }

@@ -29,23 +29,20 @@ public class Pushable : ForegroundObject {
 			pushNextIfNotThis(floor, moveType, basePos + relativePos, incomingDisplacement);
 		}
 
+		transform.position = new Vector3(targetPos.x, targetPos.y, transform.position.z);
 		if (allTilesAreHoles(floor, targetPos)) {
 			floor.updateFgGridForAllPos(null, basePos, additionalCoords, false);
-			gameObject.SetActive(false);
 			if (tall) {
-				// TODO - animation of object filling in hole
 				createSafeTileAt(floor, targetPos);
 				foreach (Vector2Int relativePos in additionalCoords) {
 					createSafeTileAt(floor, targetPos + relativePos);
 				}
+				playFillInHoleAnim(incomingDisplacement);
 			} else {
-				// TODO - animation of object falling into hole
+				playFallInHoleAnim(incomingDisplacement);
 			}
-			return;
 		} else {
-			// Move the object to the correct position, and play the animation
 			playPushedAnim(incomingDisplacement);
-			transform.position = new Vector3(targetPos.x, targetPos.y, transform.position.z);
 			floor.updateFgGridForAllPos(null, basePos, additionalCoords, false);
 			floor.updateFgGridForAllPos(this, targetPos, additionalCoords, false);
 		}
@@ -97,13 +94,13 @@ public class Pushable : ForegroundObject {
 	// Returns true if all tiles are holes underneath the object, given its truePos
 	private bool allTilesAreHoles(Floor floor, Vector2Int truePos) {
 		Tile tile = floor.getTile(truePos);
-		if (tile == null || !tile.isHole()) {
+		if (tile == null || !(tile is Hole)) {
 			return false;
 		}
 
 		foreach (Vector2Int relativePos in additionalCoords) {
 			tile = floor.getTile(truePos + relativePos);
-			if (tile == null || !tile.isHole()) {
+			if (tile == null || !(tile is Hole)) {
 				return false;
 			}
 		}
@@ -114,11 +111,12 @@ public class Pushable : ForegroundObject {
 	// Creates a safe tile at the given true position
 	private void createSafeTileAt(Floor floor, Vector2Int truePos) {
 		Tile currentTile = floor.getTile(truePos);
-		Destroy(currentTile.gameObject);
+		Destroy(currentTile.gameObject, Player.moveAnimTime);
 
 		SafeTile safeTile = Instantiate(PrefabManager.Instance.safeTile);
 		safeTile.transform.position = Floor.Vect2IntToPos3d(truePos);
 		floor.updateTile(truePos, safeTile);
+		safeTile.hideForStepDuration();
 	}
 
 	// Pushables can be jumped over
@@ -126,6 +124,7 @@ public class Pushable : ForegroundObject {
 		return true;
 	}
 
+	// Animation management
 	private void playPushedAnim(Vector2Int displacement) {
 		string animName = "Pushed" + AnimUtil.getDirectionPostfix(displacement);
 		animator.Play(animName);
@@ -136,12 +135,12 @@ public class Pushable : ForegroundObject {
 			if (sortingLayerCoroutine != null) {
 				StopCoroutine(sortingLayerCoroutine);
 			}
-			sortingLayerCoroutine = StartCoroutine(returnToSortingLayer());
+			sortingLayerCoroutine = StartCoroutine(returnToSortingLayerDelayed());
 		}
 	}
 
-	// Set the sprite renderer's sorting layer back to foreground
-	IEnumerator returnToSortingLayer() {
+	// Set the sprite renderer's sorting layer back to foreground, after the standard move anim time
+	IEnumerator returnToSortingLayerDelayed() {
 		yield return new WaitForSeconds(Player.moveAnimTime);
 		yield return new WaitForEndOfFrame();
 		sr.sortingLayerName = "Foreground";
@@ -149,4 +148,21 @@ public class Pushable : ForegroundObject {
 		yield return null;
 	}
 
+	private void playFillInHoleAnim(Vector2Int displacement) {
+		playPushedAnim(displacement);
+		// Insert hole fill-in animation here
+		StartCoroutine(disableGameObjectDelayed());
+	}
+	private void playFallInHoleAnim(Vector2Int displacement) {
+		playPushedAnim(displacement);
+		// Insert falling-into-hole anim here
+		StartCoroutine(disableGameObjectDelayed());
+	}
+
+	// Disable the gameobject, after the standard move anim time
+	IEnumerator disableGameObjectDelayed() {
+		yield return new WaitForSeconds(Player.moveAnimTime);
+		yield return new WaitForEndOfFrame();
+		gameObject.SetActive(false);
+	}
 }

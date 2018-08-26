@@ -90,7 +90,7 @@ public class Employee : MonoBehaviour {
 
 		Vector2Int playerTruePos = GM.Instance.currentLevelManager.player.truePos;
 
-		return (tile != null && (tile.isSteppableForNPC() || tile.isHole()) && playerTruePos != targetPos);
+		return (tile != null && (tile.isSteppableForNPC() || tile is Hole) && playerTruePos != targetPos);
 	}
 
 	public void move(Vector2Int displacement, Vector2Int targetPosition) {
@@ -103,8 +103,9 @@ public class Employee : MonoBehaviour {
 		normalMoveAnim(displacement);
 
 		// What happens when an employee falls into a hole
-		if (nextTile.isHole()) {
-			Destroy(this.gameObject);
+		if (nextTile is Hole) {
+			LevelManager.getFloor().employees.Remove(this);
+			Destroy(this.gameObject, Player.moveAnimTime);
 		}
 	}
 
