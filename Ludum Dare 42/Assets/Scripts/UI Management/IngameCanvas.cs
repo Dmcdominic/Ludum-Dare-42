@@ -7,6 +7,8 @@ using UnityEngine.SceneManagement;
 public class IngameCanvas : MonoBehaviour {
 
 	public GameObject HUD;
+	public GameObject PauseMenu;
+	public GameObject OptionsMenu;
 
 	// Keycards
 	public GameObject redKeycard;
@@ -57,6 +59,12 @@ public class IngameCanvas : MonoBehaviour {
 		hideAllKeycards();
 		resetPowerupDisplays();
 		HUD.SetActive(true);
+	}
+
+	public void hideAllIngame() {
+		HUD.SetActive(false);
+		PauseMenu.SetActive(false);
+		OptionsMenu.SetActive(false);
 	}
 
 	// Keycard displays

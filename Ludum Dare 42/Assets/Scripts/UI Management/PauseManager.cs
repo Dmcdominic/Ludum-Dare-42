@@ -23,9 +23,12 @@ public class PauseManager : MonoBehaviour {
 	private void Awake() {
 		if (_instance != null && _instance != this) {
 			// The pause manager is not recognizing itself for some reason, so
-			// we just have to prevent it from destroying itself.
+			// we will just replace _instance with this, instead of destroying this one.
+
+			_instance = this;
+
 			//Destroy(this.gameObject);
-			return;
+			//return;
 		} else {
 			_instance = this;
 		}
@@ -90,18 +93,17 @@ public class PauseManager : MonoBehaviour {
 			Time.timeScale = previousTimeScale;
 		}
 
-		HUD.SetActive (true);
-		PauseMenu.SetActive (false);
-		OptionsMenu.SetActive (false);
+		// This was being problematic with the main menu button, so we switched to IngameCanvas references
+		IngameCanvas.Instance.HUD.SetActive (true);
+		IngameCanvas.Instance.PauseMenu.SetActive (false);
+		IngameCanvas.Instance.OptionsMenu.SetActive (false);
 
 		GM.Instance.setGamestate(GameState.Playing);
 	}
 
 	// Hide all ingame related UI
 	public void hideAllIngame() {
-		HUD.SetActive(false);
-		PauseMenu.SetActive(false);
-		OptionsMenu.SetActive(false);
+		IngameCanvas.Instance.hideAllIngame();
 	}
 	
 }

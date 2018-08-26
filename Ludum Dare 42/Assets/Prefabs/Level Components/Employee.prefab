@@ -101,9 +101,6 @@ MonoBehaviour:
   m_Name: 
   m_EditorClassIdentifier: 
   dir: 0
-  up: {fileID: 21300000, guid: fd2fb1f22781ba2428261f2f534abafe, type: 3}
-  down: {fileID: 21300000, guid: a90c06a0761d1c64d8e9b7f70d30af2f, type: 3}
-  right: {fileID: 21300000, guid: 4cb1481b5c9477545b416159d38c86e6, type: 3}
   animator: {fileID: 95962489069260082}
   truePos: {x: 0, y: 0}
 --- !u!212 &212280366341286162
@@ -138,9 +135,9 @@ SpriteRenderer:
   m_AutoUVMaxDistance: 0.5
   m_AutoUVMaxAngle: 89
   m_LightmapParameters: {fileID: 0}
-  m_SortingLayerID: 0
-  m_SortingLayer: 0
-  m_SortingOrder: 0
+  m_SortingLayerID: 317437593
+  m_SortingLayer: 1
+  m_SortingOrder: 10
   m_Sprite: {fileID: 21300000, guid: a90c06a0761d1c64d8e9b7f70d30af2f, type: 3}
   m_Color: {r: 1, g: 1, b: 1, a: 1}
   m_FlipX: 0
